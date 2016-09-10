@@ -1,0 +1,69 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+
+}
+
+header {
+    position: absolute;
+    top: 0;
+}
+
+section {
+    margin: 10px;
+}
+
+nav table {
+    background-color: #333333;
+    width: 100%;
+}
+
+nav table, nav tr {
+    height: 40px;
+}
+
+nav td {
+    border-left: 1px solid #c8c8c8;
+    border-right: 1px solid #c8c8c8;
+    height: inherit;
+    color: #eeeeee;
+    padding: 3px;
+    text-align: center;
+    width: 150px;
+    vertical-align: middle;
+}
+
+nav td a {
+    text-decoration: none;
+    color: #eeeeee;
+    font-size: 20px;
+}
+
+nav td img {
+    height: inherit;
+}
+
+nav td:hover {
+    background-color: #666666;
+}
+
+.active {
+    background-color: #3a7524;
+}
+
+.active:hover {
+    background-color: #6da857;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    left:0;
+    background-color: red;
+    height: 20px;
+    font-weight: bolder;
+    color: yellow;
+}
