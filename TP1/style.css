@@ -5,7 +5,7 @@ body {
 }
 
 a {
-
+    text-decoration: none;
 }
 
 footer {
@@ -61,7 +61,6 @@ td {
 }
 
 td a {
-    text-decoration: none;
     color: #eeeeee;
     font-size: 20px;
 }
