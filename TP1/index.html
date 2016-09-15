@@ -10,7 +10,7 @@
 
 <header>
     <nav>
-        <table>
+        <table class="fixed">
             <tr>
                 <td><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></td>
                 <td class="active"> <a href="./index.html">Accueil</a> </td>
@@ -20,20 +20,22 @@
         </table>
     </nav>
 </header>
-
+<main>
 <section>
     <h1>Accueil</h1>
-    <p>Ce site web en HTML statique, puis plus tard agrémenté de CSS et JavaScript, est un outil pour tester ses connaissances en ces trois langages. <br>
-        Il existe deux formes de questionnaires : </p>
-    <ul>
-        <li>Mode examen</li>
-        <li>Mode de test rapide</li>
-
-    </ul>
+    <div id="description">
+        <p>Ce site web en HTML statique, puis plus tard agrémenté de CSS et JavaScript, est un outil pour tester ses connaissances en ces trois langages. <br>
+            Il existe deux formes de questionnaires : </p>
+        <ul>
+            <li>Mode examen</li>
+            <li>Mode de test rapide</li>
+        </ul>
+        <p>Veuillez accéder au <a href="./tableau.html">Tableau de bord</a> pour les essayer.</p>
+    </div>
 </section>
-
+</main>
 <footer>
-    <table>
+    <table class="fixed">
         <tr>
             <td>Développeurs</td>
             <td>Gabriel Drolet (1686216)</td>

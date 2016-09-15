@@ -1,55 +1,48 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-<title>FaceQuiz - Instructions</title>
+    <title>FaceQuiz - Instructions</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li> <a href="./index.html">Accueil</a> </li>
-                <li> <a href="./tableau.html">Tableau de bord</a> </li>
-                <li> <a href="./instructions.html">Instructions</a> </li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <table class="fixed">
+            <tr>
+                <td><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></td>
+                <td> <a href="./index.html">Accueil</a> </td>
+                <td> <a href="./tableau.html">Tableau de bord</a> </td>
+                <td class="active"> <a href="./instructions.html">Instructions</a> </td>
+            </tr>
+        </table>
+    </nav>
+</header>
+<main>
+    <section>
+        <h1>Instructions</h1>
+        <div id="instructions">
+            <p>Commencez un test en choisissant un mode.<br>
+            Complétez le test en répondant aux questions.<br>
+            Observez vos résultats sur le tableau de bord.</p>
+            <p>Veuillez accéder au <a href="./tableau.html">Tableau de bord</a> pour commencer.</p>
+        </div>
+    </section>
+</main>
+<footer>
+    <table class="fixed">
+        <tr>
+            <td>Développeurs</td>
+            <td>Gabriel Drolet (1686216)</td>
+            <td>Guillaume Lavoie-Harvey (1688951)</td>
+        </tr>
+    </table>
+</footer>
 
-    <!-- stuff goes here -->
-    <div>
-        <ol>
-            <li>Click buttons</li>
-            <li>Answer questions</li>
-            <li>Score</li>
-            <li>?</li>
-            <li>Profit</li>
-            <li>?</li>
-            <li>Profit more</li>
-            <li>Don't do this step</li>
-            <li>Win</li>
-            <li>Stop reading this</li>
-            <li>You're too far now</li>
-            <li>Go back before it's too late</li>
-            <li>?</li>
-            <li>?</li>
-            <li>?</li>
-            <li>?</li>
-            <li>?</li>
-            <li>What are you still doing here</li>
-            <li>?</li>
-            <li>Free me from this hell</li>
-            <li>...</li>
-            <li><a href="https://www.youtube.com/watch?v=ULK2E_qxyAc" target="_blank">Don't click me</a></li>
-            <li>24.</li>
-        </ol>
-    </div>
-    
-    <footer>
-    Charles Tremblay (1687959) <br>
-    Gabriel Drolet (1686216) <br>
-    Guillaume Lavoie-Harvey (1688951) <br>
-    </footer>
+
+
 </body>
 
-</html> 
+</html>
