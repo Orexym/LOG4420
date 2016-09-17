@@ -8,14 +8,12 @@
 <body>
 <header>
     <nav>
-        <table class="fixed">
-            <tr>
-                <td><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></td>
-                <td> <a href="./index.html">Accueil</a> </td>
-                <td class="active"> <a href="./tableau.html">Tableau de bord</a> </td>
-                <td> <a href="./instructions.html">Instructions</a> </td>
-            </tr>
-        </table>
+        <div class="fixed">
+                <div><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></div>
+                <div> <a href="./index.html">Accueil</a> </div>
+                <div class="active"> <a href="./tableau.html">Tableau de bord</a> </div>
+                <div> <a href="./instructions.html">Instructions</a> </div>
+        </div>
     </nav>
 </header>
 <main>
@@ -23,28 +21,28 @@
         <h1>Tableau de bord</h1>
         <div id="modes">
             <div id="testRapide">
-            <h2>Mode de test rapide</h2>
-            <p><a href="./test_rapide.html">Commencer !</a></p>
-                </div>
+                <h2>Mode de test rapide</h2>
+                <p><a href="./test_rapide.html">Commencer !</a></p>
+            </div>
 
             <div id="examen">
-            <h2>Mode d'examen</h2>
-            <p><span class="subtext">Configuration: </span></p>
-            <p>
-                <label for="domaine">Domaine: </label>
-                <select id="domaine">
-                    <option value="html">HTML</option>
-                    <option value="css3">CSS3</option>
-                    <option value="js">JavaScript</option>
-                </select>
-            </p>
-            <p>
-                <label for="questions"> Nombre de questions : </label><input type="number" id="questions" name="questions" value="5" step="1" min="1" max="10">
-            </p>
-            <p>
-                <a href="./examen.html">Commencer !</a>
-            </p>
-                </div>
+                <h2>Mode d'examen</h2>
+                <p><span class="subtext">Configuration: </span></p>
+                <p>
+                    <label for="domaine">Domaine: </label>
+                    <select id="domaine">
+                        <option value="html">HTML</option>
+                        <option value="css3">CSS3</option>
+                        <option value="js">JavaScript</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="questions"> Nombre de questions : </label><input type="number" id="questions" name="questions" value="5" step="1" min="1" max="10">
+                </p>
+                <p>
+                    <a href="./examen.html">Commencer !</a>
+                </p>
+            </div>
         </div>
     </section>
     <section>
@@ -81,13 +79,11 @@
     </section>
 </main>
 <footer>
-    <table class="fixed">
-        <tr>
-            <td>Développeurs</td>
-            <td>Gabriel Drolet (1686216)</td>
-            <td>Guillaume Lavoie-Harvey (1688951)</td>
-        </tr>
-    </table>
+    <div class="fixed">
+            <div>Développeurs</div>
+            <div>Gabriel Drolet (1686216)</div>
+            <div>Guillaume Lavoie-Harvey (1688951)</div>
+    </div>
 </footer>
 </body>
 

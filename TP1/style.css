@@ -48,46 +48,49 @@ section h2 {
 section p {
 }
 
-table.fixed {
+div.fixed {
     background-color: #333333;
     width: 100%;
     border: 1px solid #c8c8c8;
+    display: flex;
+    justify-content: center;
 }
 
-table.fixed, table.fixed tr {
-    height: 40px;
+div.fixed {
+    height: 50px;
 }
 
-table.fixed td {
+div.fixed div {
     border-left: 1px solid #eeeeee;
     border-right: 1px solid #eeeeee;
     height: inherit;
     color: #eeeeee;
-    padding: 3px;
     text-align: center;
-    width: 150px;
-    vertical-align: middle;
+    width: 25%;
     font-size: 16px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
-table.fixed td a {
+div.fixed div a {
     color: #eeeeee;
     font-size: 20px;
 }
 
-table.fixed td img {
-    height: inherit;
+div.fixed div img {
+    object-fit: contain;
 }
 
-nav table.fixed td:hover {
+nav div.fixed div:hover {
     background-color: #666666;
 }
 
-nav table.fixed td.active {
+nav div.fixed div.active {
     background-color: #4da8cb;
 }
 
-nav table.fixed td.active:hover {
+nav div.fixed div.active:hover {
     background-color: #80dbfe;
 }
 
