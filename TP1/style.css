@@ -63,14 +63,16 @@ div.fixed {
 div.fixed div {
     border-left: 1px solid #eeeeee;
     border-right: 1px solid #eeeeee;
-    height: inherit;
+    height: 100%;
     color: #eeeeee;
     text-align: center;
-    width: 25%;
     font-size: 16px;
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 div.fixed div a {
@@ -79,7 +81,8 @@ div.fixed div a {
 }
 
 div.fixed div img {
-    object-fit: contain;
+    height: 50px;
+    width: 50px;
 }
 
 nav div.fixed div:hover {
