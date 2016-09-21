@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FaceQuiz - Tableau de bord</title>
+    <!--<link rel="stylesheet" type="text/css" href="style.css" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="fixed">
+            <div><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></div>
+            <div> <a href="./index.html">Accueil</a> </div>
+            <div class="active"> <a href="./tableau.html">Tableau de bord</a> </div>
+            <div> <a href="./instructions.html">Instructions</a> </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <section>
+        <h1>Tableau de bord</h1>
+        <div id="modes">
+            <div id="testRapide">
+                <h2>Mode de test rapide</h2>
+                <p><a href="./test_rapide.html">Commencer !</a></p>
+            </div>
+
+            <div id="examen">
+                <h2>Mode d'examen</h2>
+                <p><span class="subtext">Configuration: </span></p>
+                <p>
+                    <label for="domaine">Domaine: </label>
+                    <select id="domaine">
+                        <option value="html">HTML</option>
+                        <option value="css3">CSS3</option>
+                        <option value="js">JavaScript</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="questions"> Nombre de questions : </label><input type="number" id="questions" name="questions" value="5" step="1" min="1" max="10">
+                </p>
+                <p>
+                    <a href="./examen.html">Commencer !</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1>Statistiques</h1>
+        <div id="tableaux">
+            <table id="generalstats" class="statistiques">
+                <caption>Statistiques générales</caption>
+                <tr>
+                    <th>Nb tests reussis / effectues</th>
+                    <th>Moyenne examens</th>
+                </tr>
+                <tr>
+                    <td>1 / 99</td>
+                    <td>71%</td>
+                </tr>
+            </table>
+
+            <table id="exams" class="statistiques">
+                <caption>Résultats d'examen</caption>
+                <tr>
+                    <th>Date de l'examen</th>
+                    <th>Score</th>
+                </tr>
+                <tr>
+                    <td>52 janvier 1056</td>
+                    <td>2%</td>
+                </tr>
+                <tr>
+                    <td>1 janvier 0001</td>
+                    <td>140%</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</main>
+<footer>
+    <div class="fixed">
+        <div>Développeurs</div>
+        <div>Gabriel Drolet (1686216)</div>
+        <div>Guillaume Lavoie-Harvey (1688951)</div>
+    </div>
+</footer>
+</body>
+
+</html> 
