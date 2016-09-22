@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  section
+    h1 Question #{title}
+    form(method='post', action='./test.html?q=2')
+      p Domaine : HTML
+      h2 Quel est le symbole s&eacute;lecteur pour une classe?
+      p
+        input#ans1(type='radio', name='q1', value='point')
+        label(for='ans1') Le point
+        br
+        |  
+        input#ans2(type='radio', name='q1', value='diese')
+        label(for='ans2') Le di&egrave;se
+        br
+        |  
+        input#ans3(type='radio', name='q1', value='chevron')
+        label(for='ans3') Le chevron droit
+        br
+      |  
+      input(type='submit', name='submit', value='Prochaine question')
+    form(method='post', action='./tableau.html')
+      input(type='submit', value='Retour au tableau de bord')
+    #statistics
+      p Score courant : 0%

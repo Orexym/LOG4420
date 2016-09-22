@@ -1,8 +1,142 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    background-color: #333333;
 }
 
-a {
-  color: #00B7FF;
+a, a:visited, a:hover, a:focus, a:active {
+    text-decoration: underline;
+    color: #eeeeee;
+}
+
+caption {
+    text-align: left;
+    font-size: 12px;
+    padding-left: 5px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+section {
+    margin: 10px 10px 0px 10px;
+    border: 6px solid #eeeeee;
+    border-radius: 25px;
+    background-color: #333333;
+    color: #eeeeee;
+    overflow: hidden;
+}
+
+section div {
+    padding: 10px;
+}
+
+section h1 {
+    border-bottom: 6px solid #eeeeee;
+    background-color: #4da8cb;
+    margin: 0px;
+    padding: 5px 0px 5px 10px;
+}
+
+section h2 {
+    font-size: 18px;
+}
+
+section p {
+}
+
+div.fixed {
+    background-color: #333333;
+    width: 100%;
+    border: 1px solid #c8c8c8;
+    display: flex;
+    justify-content: center;
+}
+
+div.fixed {
+    height: 50px;
+}
+
+div.fixed div {
+    border-left: 1px solid #eeeeee;
+    border-right: 1px solid #eeeeee;
+    height: 100%;
+    color: #eeeeee;
+    text-align: center;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+div.fixed div a {
+    color: #eeeeee;
+    font-size: 20px;
+}
+
+div.fixed div img {
+    height: 50px;
+    width: 50px;
+}
+
+nav div.fixed div:hover {
+    background-color: #666666;
+}
+
+nav div.fixed div.active {
+    background-color: #4da8cb;
+}
+
+nav div.fixed div.active:hover {
+    background-color: #80dbfe;
+}
+
+div#tableaux, div#modes {
+    width: 100%;
+    padding: 10px;
+}
+
+table#generalstats {
+    margin-bottom: 20px;
+}
+
+table.statistiques {
+    border-collapse: collapse;
+    margin: 0 auto;
+    text-align: center;
+    width: 500px;
+}
+
+table.statistiques td {
+    border: 1px solid #eeeeee;
+    width: 50%;
+    padding: 2px;
+}
+
+table.statistiques th {
+    border: 1px solid #eeeeee;
+    border-bottom: 3px double #eeeeee;
+    width: 50%;
+    padding: 2px;
+}
+
+.subtext {
+
+}
+
+#marquee {
+    position: absolute;
+    bottom: 0;
+    left:0;
+    background-color: red;
+    height: 20px;
+    font-weight: bolder;
+    color: yellow;
+    width: 100%;
 }
