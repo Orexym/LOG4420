@@ -41,15 +41,20 @@ section h2 {
     font-size: 18px;
 }
 
-section p {
+section div#modes p {
+    text-align: left;
 }
 
-section p label {
+section div#modes p * {
+    margin: 0px 10px;
+    box-sizing: border-box;
+}
+
+section div#modes p label {
     float: left;
     display: block;
-    width: 150px;
+    width: 50%;
     text-align: right;
-    margin-right: 20px;
 }
 
 div.fixed {
@@ -58,10 +63,8 @@ div.fixed {
     border: 1px solid #c8c8c8;
     display: flex;
     justify-content: center;
-}
-
-div.fixed {
     height: 50px;
+    box-sizing: border-box;
 }
 
 div.fixed div {
@@ -102,8 +105,21 @@ nav div.fixed div.active:hover {
 }
 
 div#tableaux, div#modes {
-    width: 100%;
+    width: inherit;
     padding: 10px;
+}
+
+div#modes {
+    display: flex;
+    justify-content: space-between;
+}
+
+div#modes div {
+    border: 2px solid #eeeeee;
+    border-radius: 25px;
+    text-align: center;
+    box-sizing: content-box;
+    width: 50%;
 }
 
 table#generalstats {
@@ -190,8 +206,5 @@ input:active {
     color:#ffffff;
     font-family:Arial, serif;
     font-size:15px;
-    -moz-box-shadow:inset 0 -3px 7px 0 #29bbff;
-    -webkit-box-shadow:inset 0 -3px 7px 0 #29bbff;
-    box-shadow:inset 0 -3px 7px 0 #29bbff;
     text-shadow:0px 1px 0px #263666;
 }
