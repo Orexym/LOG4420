@@ -6,35 +6,35 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Accueil' });
 });
 
-router.get('/index.html', function(req, res, next) {
+router.get('/index', function(req, res, next) {
     res.render('index', { title: 'Accueil' });
 });
 
-router.get('/examen.html?q=:q', function(req, res, next) {
-    res.render('examen', { title: req.params.q });
+router.post('/examen', function(req, res, next) {
+    res.render('examen', { title: 'Question', qNumber: req.query.q, totalQuestions: req.query.totalQuestions });
 });
 
-router.get('/examen.html', function(req, res, next) {
-    res.render('examen', { title: '1' });
+router.get('/examen', function(req, res, next) {
+    res.render('examen', { title: 'Question', qNumber: 1, totalQuestions: req.query.questions });
 });
 
-router.post('/test.html', function(req, res, next) {
-    res.render('test_rapide', { title: req.query.q });
+router.post('/test', function(req, res, next) {
+    res.render('test_rapide', { title: 'Question', qNumber: req.query.q });
 });
 
-router.get('/test.html', function(req, res, next) {
-    res.render('test_rapide', { title: '1' });
+router.get('/test', function(req, res, next) {
+    res.render('test_rapide', { title: 'Question', qNumber: 1 });
 });
 
-router.get('/instructions.html', function(req, res, next) {
+router.get('/instructions', function(req, res, next) {
     res.render('instructions', { title: 'Instructions' });
 });
 
-router.get('/tableau.html', function(req, res, next) {
+router.get('/tableau', function(req, res, next) {
     res.render('tableau', { title: 'Tableau de bord' });
 });
 
-router.get('/resultats.html', function(req, res, next) {
+router.get('/resultats', function(req, res, next) {
     res.render('resultats', { title: 'Résultats' });
 });
 

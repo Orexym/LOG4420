@@ -5,26 +5,23 @@ block content
         h1 Tableau de bord
         #modes
             #testRapide
+              form(method='get', action='./test')
                 h2 Mode de test rapide
-                p
-                    a(href='./test.html') Commencer !
+                input(type='submit', name='submit', value='Commencer !')
             #examen
+              form(method='get', action='./examen')
                 h2 Mode d&apos;examen
                 p
-                    span.subtext Configuration:
-                p
-                    label(for='domaine') Domaine:
-                    |    
-                    select#domaine
-                        option(value='html') HTML
-                        option(value='css3') CSS3
-                        option(value='js') JavaScript
+                    label(for='domaine') Domaine :
+                    span.styled-select
+                      select#domaine
+                          option(value='html') HTML
+                          option(value='css3') CSS3
+                          option(value='js') JavaScript
                 p
                     label(for='questions') Nombre de questions :
-                    |    
                     input#questions(type='number', name='questions', value='5', step='1', min='1', max='10')
-                p
-                    a(href='./examen.html') Commencer !
+                input(type='submit', name='submit', value='Commencer !')
     section
         h1 Statistiques
         #tableaux
