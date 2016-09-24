@@ -109,6 +109,9 @@ div#tableaux, div#modes, div#instructions {
     padding: 10px;
     display: flex;
     justify-content: space-between;
+}
+
+div#instructions {
     align-items: center;
 }
 
