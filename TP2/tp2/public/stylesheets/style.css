@@ -104,14 +104,20 @@ nav div.fixed div.active:hover {
     background-color: #0688fa;
 }
 
-div#tableaux, div#modes {
+div#tableaux, div#modes, div#instructions {
     width: inherit;
     padding: 10px;
-}
-
-div#modes {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+div#instructions > * {
+    margin: 0px 5px;
+}
+
+div#instructions p {
+    flex-grow: 1;
 }
 
 div#modes div {
