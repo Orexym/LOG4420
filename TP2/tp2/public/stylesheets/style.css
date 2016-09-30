@@ -2,6 +2,7 @@ body {
     padding: 0;
     margin: 0;
     background-color: #333333;
+    min-width: 768px;
 }
 
 a, a:visited, a:hover, a:focus, a:active {
@@ -13,6 +14,12 @@ caption {
     text-align: left;
     font-size: 12px;
     padding-left: 5px;
+}
+
+main {
+    display: flex;
+    min-width: inherit;
+    flex-wrap: wrap;
 }
 
 footer {
@@ -28,6 +35,7 @@ section {
     background-color: #333333;
     color: #eeeeee;
     overflow: hidden;
+    flex-grow: 1;
 }
 
 section h1 {
@@ -41,20 +49,61 @@ section h2 {
     font-size: 18px;
 }
 
-section div#modes p {
+section.leftSideBlock {
+    min-width: inherit;
+}
+
+section.leftSideBlock div p {
     text-align: left;
 }
 
-section div#modes p * {
+section.leftSideBlock div p * {
     margin: 0px 10px;
     box-sizing: border-box;
 }
 
-section div#modes p label {
+section.leftSideBlock div p label {
     float: left;
     display: block;
-    width: 50%;
+    width: 45%;
     text-align: right;
+}
+
+section > div {
+    width: inherit;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#description > div {
+    flex-direction: column;
+}
+
+section#tableaux {
+    max-width: 400px;
+    float: right;
+}
+
+section#instructions > div {
+    align-items: center;
+}
+
+section#instructions > div > * {
+    margin: 0px 5px;
+}
+
+section#instructions > div p {
+    flex-grow: 1;
+}
+
+section#modes > div div {
+    border: 2px solid #eeeeee;
+    border-radius: 25px;
+    text-align: center;
+    box-sizing: content-box;
+    flex-grow: 1;
 }
 
 div.fixed {
@@ -104,42 +153,12 @@ nav div.fixed div.active:hover {
     background-color: #0688fa;
 }
 
-div#tableaux, div#modes, div#instructions {
-    width: inherit;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-div#instructions {
-    align-items: center;
-}
-
-div#instructions > * {
-    margin: 0px 5px;
-}
-
-div#instructions p {
-    flex-grow: 1;
-}
-
-div#modes div {
-    border: 2px solid #eeeeee;
-    border-radius: 25px;
-    text-align: center;
-    box-sizing: content-box;
-    width: 50%;
-}
-
-table#generalstats {
-    margin-bottom: 20px;
-}
-
 table.statistiques {
     border-collapse: collapse;
     margin: 0 auto;
     text-align: center;
-    width: 500px;
+    min-width: 365px;
+    margin-bottom: 20px;
 }
 
 table.statistiques td {
@@ -151,7 +170,7 @@ table.statistiques td {
 table.statistiques th {
     border: 1px solid #eeeeee;
     border-bottom: 3px double #eeeeee;
-    width: 56%;
+    width: 50%;
     padding: 2px;
 }
 
@@ -166,7 +185,7 @@ table.statistiques th {
     width: 100%;
 }
 
-input {
+input[type=submit], input[type=number] {
     box-shadow:inset 0 -3px 7px 0 #29bbff;
     background-color:#2dabf9;
     border-radius:3px;
@@ -179,6 +198,7 @@ input {
     padding:5px 11px;
     text-decoration:none;
     text-shadow:0px 1px 0px #263666;
+    width: 165px;
 }
 
 input[type=submit]:hover {
@@ -194,7 +214,7 @@ input:active {
     background: url("../images/select-icon.png") #2dabf9 no-repeat 96% 0;
     height: 29px;
     overflow: hidden;
-    width: 240px;
+    width: 165px;
     display: inline-block;
     border-radius: 3px;
     box-shadow:inset 0 -3px 7px 0 #29bbff;
@@ -205,7 +225,7 @@ input:active {
     border: none;
     height: 29px;
     padding: 5px;
-    width: 268px;
+    width: 183px;
     color:#ffffff;
     font-family:Arial, serif;
     font-size:15px;

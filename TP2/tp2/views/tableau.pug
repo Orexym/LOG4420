@@ -1,46 +1,46 @@
 extends layout
 
 block content
-    section
-        h1 Tableau de bord
-        #modes
-            #testRapide
-              form(method='get', action='./test')
-                h2 Mode de test rapide
-                input(type='submit', name='submit', value='Commencer !')
-            #examen
-              form(method='get', action='./examen')
-                h2 Mode d&apos;examen
-                p
-                    label(for='domaine') Domaine :
-                    span.styled-select
-                      select#domaine
-                          option(value='html') HTML
-                          option(value='css3') CSS3
-                          option(value='js') JavaScript
-                p
-                    label(for='questions') Nombre de questions :
-                    input#questions(type='number', name='questions', value='5', step='1', min='1', max='10')
-                input(type='submit', name='submit', value='Commencer !')
-    section
-        h1 Statistiques
-        #tableaux
-            table#generalstats.statistiques
-                caption Statistiques g&eacute;n&eacute;rales
-                tr
-                    th Nb tests reussis / effectues
-                    th Moyenne examens
-                tr
-                    td 1 / 99
-                    td 71%
-            table#exams.statistiques
-                caption R&eacute;sultats d&apos;examen
-                tr
-                    th Date de l&apos;examen
-                    th Score
-                tr
-                    td 52 janvier 1056
-                    td 2%
-                tr
-                    td 1 janvier 0001
-                    td 140%
+  section#modes.leftSideBlock
+    h1 Tableau de bord
+    div
+      #testRapide
+        h2 Mode de test rapide
+        form(method='get', action='./test')
+          input(type='submit', name='submit', value='Commencer !')
+      #examen
+        h2 Mode d&apos;examen
+        form(method='get', action='./examen')
+          p
+            label(for='domaine') Domaine :
+            span.styled-select
+              select#domaine
+                option(value='html') HTML
+                option(value='css3') CSS3
+                option(value='js') JavaScript
+          p
+            label(for='questions') Nombre de questions :
+            input#questions(type='number', name='questions', value='5', step='1', min='1', max='10')
+          input(type='submit', name='submit', value='Commencer !')
+  section#tableaux
+    h1 Statistiques
+    div
+      table#generalstats.statistiques
+        caption Statistiques g&eacute;n&eacute;rales
+        tr
+          th Nb tests reussis / effectues
+          th Moyenne examens
+        tr
+          td 1 / 99
+          td 71%
+      table#exams.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr
+          th Date de l&apos;examen
+          th Score
+        tr
+          td 52 janvier 1056
+          td 2%
+        tr
+          td 1 janvier 0001
+          td 140%

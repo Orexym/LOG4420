@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  section
+  section#question.leftSideBlock
     h1 #{title} #{qNumber}
-    form(method='post', action='./test?q=' + (parseInt(qNumber) + 1))
-      if parseInt(qNumber) % 2 == 0
-        p Domaine : CSS
-        h2 Quel est le symbole s&eacute;lecteur pour une classe?
-        p
+    div
+      form(method='post', action='./test?q=' + (parseInt(qNumber) + 1))
+        if parseInt(qNumber) % 2 == 0
+          p Domaine : CSS
+          h2 Quel est le symbole s&eacute;lecteur pour une classe?
           input#ans1(type='radio', name='q'+qNumber, value='point')
           label(for='ans1') Le point
           br
@@ -17,10 +17,9 @@ block content
           input#ans3(type='radio', name='q'+qNumber, value='chevron')
           label(for='ans3') Le chevron droit
           br
-      else
-        p Domaine : HTML
-        h2 Quelle balise n'est pas une balise officielle?
-        p
+        else
+          p Domaine : HTML
+          h2 Quelle balise n'est pas une balise officielle?
           input#ans1(type='radio', name='q'+qNumber, value='form')
           label(for='ans1') Form
           br
@@ -30,8 +29,19 @@ block content
           input#ans3(type='radio', name='q'+qNumber, value='blockquote')
           label(for='ans3') Blockquote
           br
-      input(type='submit', name='submit', value='Prochaine question')
-    form(method='get', action='./tableau')
-      input(type='submit', value='Retour au tableau de bord')
+        input(type='submit', name='submit', value='Prochaine question')
+      form(method='get', action='./tableau')
+        input(type='submit', value='Retour')
+  section#tableaux
+    h1 Statistiques
+    div
+      table#generalstats.statistiques
+        caption Statistiques g&eacute;n&eacute;rales
+        tr
+            th Nb tests reussis / effectues
+            th Moyenne examens
+        tr
+            td 1 / 99
+            td 71%
     #statistics
       p Score courant : 0%
