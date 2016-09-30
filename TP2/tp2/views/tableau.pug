@@ -44,3 +44,29 @@ block content
         tr
           td 1 janvier 0001
           td 140%
+      div
+        a.a2button(href='#popup1') D&eacute;tails
+      #popup1.overlay.clickable
+        a(href='#')
+        .popup
+          h2 Statistiques
+          .content
+            table#generalstats.statistiques
+              caption Statistiques g&eacute;n&eacute;rales
+              tr
+                th Nb tests reussis / effectues
+                th Moyenne examens
+              tr
+                td 1 / 99
+                td 71%
+            table#exams.statistiques
+              caption R&eacute;sultats d&apos;examen
+              tr
+                th Date de l&apos;examen
+                th Score
+              tr
+                td 52 janvier 1056
+                td 2%
+              tr
+                td 1 janvier 0001
+                td 140

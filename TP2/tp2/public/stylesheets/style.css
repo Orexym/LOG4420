@@ -73,7 +73,7 @@ section > div {
     width: inherit;
     padding: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -96,6 +96,10 @@ section#instructions > div > * {
 
 section#instructions > div p {
     flex-grow: 1;
+}
+
+section#question > div {
+    justify-content: space-between;
 }
 
 section#modes > div div {
@@ -230,4 +234,78 @@ input:active {
     font-family:Arial, serif;
     font-size:15px;
     text-shadow:0 1px 0 #263666;
+}
+
+.a2button {
+    box-shadow:inset 0 -3px 7px 0 #29bbff;
+    background-color:#2dabf9;
+    border-radius:3px;
+    border:1px solid #0b0e07;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial, serif;
+    font-size:15px;
+    padding:5px 11px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #263666;
+    width: 165px;
+    line-height: normal;
+    text-align: center;
+}
+
+.a2button:hover {
+    background-color:#0688fa;
+    text-decoration: none;
+}
+
+.clickable a {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background-color: #464646;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #eeeeee;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .content {
+    padding-top: 20px;
+    max-height: 30%;
+    overflow: auto;
+    color: #eeeeee;
+    background-color: #464646;
+    border-radius: 25px;
+    border: 4px solid #eeeeee;
 }
