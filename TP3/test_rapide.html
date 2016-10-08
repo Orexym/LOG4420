@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FaceQuiz - Test rapide</title>
+    <!--<link rel="stylesheet" type="text/css" href="style.css" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="fixed">
+            <div><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></div>
+            <div> <a href="./index.html">Accueil</a> </div>
+            <div> <a href="./tableau.html">Tableau de bord</a> </div>
+            <div> <a href="./instructions.html">Instructions</a> </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <section>
+        <h1>Question 1</h1>
+        <form method="post" action="./test_rapide_p2.html">
+            <p>Domaine : HTML</p>
+            <h2>Quel est le symbole sélecteur pour une classe?</h2>
+            <p>
+                <input type="radio" name="q1" id="ans1" value="point"><label for="ans1">Le point</label><br>
+                <input type="radio" name="q1" id="ans2" value="diese"><label for="ans2">Le dièse</label><br>
+                <input type="radio" name="q1" id="ans3" value="chevron"><label for="ans3">Le chevron droit</label><br>
+            </p>
+
+            <input type="submit" name="submit" value="Prochaine question">
+        </form>
+        <form method="post" action="./tableau.html">
+            <input type="submit" value="Retour au tableau de bord">
+        </form>
+        <div id="statistics">
+            <p>Score courant : 0%</p>
+        </div>
+    </section>
+</main>
+<footer>
+    <div class="fixed">
+        <div>Développeurs</div>
+        <div>Gabriel Drolet (1686216)</div>
+        <div>Guillaume Lavoie-Harvey (1688951)</div>
+    </div>
+</footer>
+
+</body>
+</html>

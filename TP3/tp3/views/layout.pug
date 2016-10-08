@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    title FaceQuiz - #{title}
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+  body
+    header
+      nav
+        .fixed
+          div
+            img#logo(src='./images/logo.png', alt='logo', title='Tux')
+          if title == 'Accueil'
+            .active
+              a(href='./index') Accueil
+          else
+            div
+              a(href='./index') Accueil
+          if title == 'Tableau de bord'
+            .active
+              a(href='./tableau') Tableau de bord
+          else
+            div
+             a(href='./tableau') Tableau de bord
+          if title == 'Instructions'
+            .active
+              a(href='./instructions') Instructions
+          else
+            div
+              a(href='./instructions') Instructions
+    main
+        block content
+    footer
+      .fixed
+        div D&eacute;veloppeurs
+        div Gabriel Drolet (1686216)
+        div Guillaume Lavoie-Harvey (1688951)

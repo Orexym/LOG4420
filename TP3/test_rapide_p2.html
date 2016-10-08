@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FaceQuiz - Test rapide</title>
+    <!--<link rel="stylesheet" type="text/css" href="style.css" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="fixed">
+            <div><img id="logo" src="./images/logo.png" alt="logo" title="Tux"></div>
+            <div> <a href="./index.html">Accueil</a> </div>
+            <div> <a href="./tableau.html">Tableau de bord</a> </div>
+            <div> <a href="./instructions.html">Instructions</a> </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <section>
+        <h1>Question 2</h1>
+        <form method="post" action="./tableau.html">
+            <p>Domaine : HTML</p>
+            <h2>Quelle balise n'est pas une balise officielle?</h2>
+            <p>
+                <input type="radio" name="q2" id="ans1" value="form"><label for="ans1">FORM</label><br>
+                <input type="radio" name="q2" id="ans2" value="marquee"><label for="ans2">MARQUEE</label><br>
+                <input type="radio" name="q2" id="ans3" value="blockquote"><label for="ans3">BLOCKQUOTE</label><br>
+            </p>
+
+            <input type="submit" name="submit" value="Retour au tableau de bord">
+        </form>
+        <div id="statistics">
+            <p>Score courant : 42%</p>
+        </div>
+    </section>
+</main>
+<footer>
+    <div class="fixed">
+        <div>Développeurs</div>
+        <div>Gabriel Drolet (1686216)</div>
+        <div>Guillaume Lavoie-Harvey (1688951)</div>
+    </div>
+</footer>
+
+</body>
+</html>

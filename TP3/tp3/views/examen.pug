@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  section#question.leftSideBlock
+    h1 #{title} #{qNumber} / #{totalQuestions}
+    div
+      form(method=(qNumber < totalQuestions ? 'post' : 'get'), action=(qNumber < totalQuestions ? './examen?totalQuestions='+totalQuestions+'&q=' + (parseInt(qNumber) + 1) : './resultats'))
+        if parseInt(qNumber) % 2 == 0
+          p Domaine : CSS
+          h2 Quel est le symbole s&eacute;lecteur pour une classe
+          input#ans1(type='radio', name='q'+qNumber, value='point')
+          label(for='ans1') Le point
+          br
+          input#ans2(type='radio', name='q'+qNumber, value='diese')
+          label(for='ans2') Le di&egrave;se
+          br
+          input#ans3(type='radio', name='q'+qNumber, value='chevron')
+          label(for='ans3') Le chevron droit
+          br
+        else
+          p Domaine : HTML
+          h2 Quelle balise n'est pas une balise officielle?
+          input#ans1(type='radio', name='q'+qNumber, value='form')
+          label(for='ans1') Form
+          br
+          input#ans2(type='radio', name='q'+qNumber, value='marquee')
+          label(for='ans2') Marquee
+          br
+          input#ans3(type='radio', name='q'+qNumber, value='blockquote')
+          label(for='ans3') Blockquote
+          br
+        input(type='submit', name='submit', value='Prochaine question')
+  section#tableaux
+    h1 Statistiques
+    div
+      table#exams.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr
+          th Date de l&apos;examen
+          th Score
+        tr
+          td 52 janvier 1056
+          td 2%
+        tr
+          td 1 janvier 0001
+          td 140%
+    #statistics
+      p Score courant : 0%
