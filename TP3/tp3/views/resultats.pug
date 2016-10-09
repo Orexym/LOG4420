@@ -3,13 +3,32 @@ extends layout
 block content
   script.
     $(document).ready(function() {
-      $("#finalScore").html(Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100));
+
+      var messages = [
+        'Score final inacceptable.',
+        'Score final &agrave; am&eacute;liorer.',
+        'Score final passable.',
+        'Score final excellent.',
+        'Score final parfait.'
+        ];
+      var step = 25;
+      var palier = -1;
+
+      var finalScore = Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100);
+      var temp = finalScore;
+      while(temp >= 0) { temp -= step; palier += 1; }
+
+      $("#finalScore").html(finalScore);
+      $("#message").html(messages[palier]);
+      localStorage.nbExamens = parseInt(localStorage.nbExamens) + 1;
+
     });
   section
     h1 R&eacute;sultats
     p Votre r&eacute;sultat final est &nbsp;
       span#finalScore
-      | %.
+      | %.&nbsp;
+      span#message
       br
       | Cliquez&nbsp;
       a(href='./tableau') ici

@@ -4,40 +4,54 @@ block content
   script.
     $(document).ready(function() {
 
-      // update score
-      $("#scoreCourant").html($("#scoreCourant").html() + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
-
       // get new question
-      $.get('/ajax/test', {}, function(result) {
-        // save data to localStorage
-        localStorage.question = JSON.stringify(result);
-        localStorage.count = parseInt(localStorage.count) + 1;
-        localStorage.domain = result.domain;
+      function newQuestion() {
 
-        // update view
-        $("#questionText").html(result.question);
-        $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
+        // update score
+        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
 
-        var i;
-        for(i = 0; i < result.ans.length; i++) {
-          $("#next").before("<input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
-          "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br>");
-        }
+        $.get('/ajax/test', {}, function(result) {
 
-      });
+          // reset view
+          $("#questionTitle").html("#{title}");
+          $(".answerElement").remove();
+
+          // save data to localStorage
+          localStorage.question = JSON.stringify(result);
+          localStorage.count = parseInt(localStorage.count) + 1;
+          localStorage.domain = result.domain;
+
+          // update view
+          $("#questionText").html(result.question);
+          $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
+
+          var i;
+          for(i = 0; i < result.ans.length; i++) {
+            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
+            "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br></span>");
+          }
+
+        });
+      }
 
       $("#test").submit(function( event ) {
+        event.preventDefault();
+
         var correctAnswer = JSON.parse(localStorage.question).trueAnswer;
         var attemptedAnswer = $('input[name=q'+localStorage.count+']:checked', '#test').val();
         if(correctAnswer == attemptedAnswer) {
           localStorage.score = parseInt(localStorage.score) + 1;
         }
+
+        newQuestion();
       });
+
+      newQuestion();
     });
   section#question.leftSideBlock
     h1#questionTitle #{title}
     div
-      form#test(method='post', action='./test')
+      form#test(method='post', action='')
         p#domain Domaine :
         h2#questionText #{title}
         input#next(type='submit', name='submit', value='Prochaine question')

@@ -3,49 +3,67 @@ extends layout
 block content
   script.
     $(document).ready(function() {
-
-      // update score
-      $("#scoreCourant").html($("#scoreCourant").html() + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
+      var examenFini = false;
 
       // get new question
-      $.get('/ajax/domain='+localStorage.domain, {}, function(result) {
-        // save data to localStorage
-        localStorage.question = JSON.stringify(result);
-        localStorage.count = parseInt(localStorage.count) + 1;
+      function newQuestion() {
 
-        // update view
-        $("#questionText").html(result.question);
-        $("#questionTitle").html($("#questionTitle").html() + " " + localStorage.count + " / " + localStorage.totalQuestions);
-        $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
-        if(localStorage.count == localStorage.totalQuestions) {
-          $("#next").val("Terminer");
-          $("#examen").attr('action', './resultats');
-        }
+        // update score
+        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
 
-        var i;
-        for(i = 0; i < result.ans.length; i++) {
-          $("#next").before("<input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
-          "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br>");
-        }
+        $.get('/ajax/domain='+localStorage.domain, {}, function(result) {
 
-      });
+          // reset view
+          $("#questionTitle").html("#{title}");
+          $(".answerElement").remove();
+
+          // save data to localStorage
+          localStorage.question = JSON.stringify(result);
+          localStorage.count = parseInt(localStorage.count) + 1;
+
+          // update view
+          $("#questionText").html(result.question);
+          $("#questionTitle").html($("#questionTitle").html() + " " + localStorage.count + " / " + localStorage.totalQuestions);
+          $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
+          if(localStorage.count == localStorage.totalQuestions) {
+            $("#next").val("Terminer");
+            $("#examen").attr('action', './resultats');
+            examenFini = true;
+          }
+
+          var i;
+          for(i = 0; i < result.ans.length; i++) {
+            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
+            "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br></span>");
+          }
+
+        });
+      }
 
       $("#examen").submit(function( event ) {
+        if(examenFini == false) {
+          event.preventDefault();
+        }
+
         var correctAnswer = JSON.parse(localStorage.question).trueAnswer;
         var attemptedAnswer = $('input[name=q'+localStorage.count+']:checked', '#examen').val();
         if(correctAnswer == attemptedAnswer) {
           localStorage.score = parseInt(localStorage.score) + 1;
         }
+
+        newQuestion();
+
       });
       $("#abandon").submit(function( event ) {
-        console.log("reset score");
         localStorage.score = 0;
       });
+
+      newQuestion();
     });
   section#question.leftSideBlock
     h1#questionTitle #{title}
     div
-      form#examen(method='post', action='./examen')
+      form#examen(method='post', action='')
         p#domain Domaine :
         h2#questionText #{title}
         input#next(type='submit', name='submit', value='Prochaine question')
@@ -66,4 +84,4 @@ block content
           td 1 janvier 0001
           td 140%
     #statistics
-      p#scoreCourant Score courant :&nbsp;
+      p#scoreCourant

@@ -101,7 +101,7 @@ section > div {
     flex-wrap: wrap;
 }
 
-section#description > div {
+section#description > div, section#tableaux > div {
     flex-direction: column;
 }
 
@@ -110,7 +110,7 @@ section#tableaux {
     float: right;
 }
 
-section#instructions > div {
+section#instructions > div, section#tableaux > div {
     align-items: center;
 }
 
@@ -207,7 +207,7 @@ table.statistiques th {
     width: 100%;
 }
 
-input[type=submit], input[type=number] {
+input[type=submit], input[type=number], input[type=button] {
     box-shadow:inset 0 -3px 7px 0 #29bbff;
     background-color:#2dabf9;
     border-radius:3px;
@@ -223,7 +223,7 @@ input[type=submit], input[type=number] {
     width: 165px;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover, input[type=button]:hover {
     background-color:#0688fa;
 }
 
@@ -267,9 +267,11 @@ input:active {
     padding:5px 11px;
     text-decoration:none;
     text-shadow:0px 1px 0px #263666;
-    width: 165px;
+    width: 141px;
+    height: 20px;
     line-height: normal;
     text-align: center;
+    margin-bottom: 5px;
 }
 
 .a2button:hover {
