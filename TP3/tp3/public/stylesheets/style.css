@@ -327,3 +327,8 @@ input:active {
     border-radius: 25px;
     border: 4px solid #eeeeee;
 }
+
+.special {
+    color: #ff0000;
+    font-style: italic;
+}

@@ -1,35 +1,46 @@
 extends layout
 
 block content
+  script.
+    $(document).ready(function() {
+
+      // update score
+      $("#scoreCourant").html($("#scoreCourant").html() + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
+
+      // get new question
+      $.get('/ajax/test', {}, function(result) {
+        // save data to localStorage
+        localStorage.question = JSON.stringify(result);
+        localStorage.count = parseInt(localStorage.count) + 1;
+        localStorage.domain = result.domain;
+
+        // update view
+        $("#questionText").html(result.question);
+        $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
+
+        var i;
+        for(i = 0; i < result.ans.length; i++) {
+          $("#next").before("<input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
+          "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br>");
+        }
+
+      });
+
+      $("#test").submit(function( event ) {
+        var correctAnswer = JSON.parse(localStorage.question).trueAnswer;
+        var attemptedAnswer = $('input[name=q'+localStorage.count+']:checked', '#test').val();
+        if(correctAnswer == attemptedAnswer) {
+          localStorage.score = parseInt(localStorage.score) + 1;
+        }
+      });
+    });
   section#question.leftSideBlock
-    h1 #{title} #{qNumber}
+    h1#questionTitle #{title}
     div
-      form(method='post', action='./test?q=' + (parseInt(qNumber) + 1))
-        if parseInt(qNumber) % 2 == 0
-          p Domaine : CSS
-          h2 Quel est le symbole s&eacute;lecteur pour une classe?
-          input#ans1(type='radio', name='q'+qNumber, value='point')
-          label(for='ans1') Le point
-          br
-          input#ans2(type='radio', name='q'+qNumber, value='diese')
-          label(for='ans2') Le di&egrave;se
-          br
-          input#ans3(type='radio', name='q'+qNumber, value='chevron')
-          label(for='ans3') Le chevron droit
-          br
-        else
-          p Domaine : HTML
-          h2 Quelle balise n'est pas une balise officielle?
-          input#ans1(type='radio', name='q'+qNumber, value='form')
-          label(for='ans1') Form
-          br
-          input#ans2(type='radio', name='q'+qNumber, value='marquee')
-          label(for='ans2') Marquee
-          br
-          input#ans3(type='radio', name='q'+qNumber, value='blockquote')
-          label(for='ans3') Blockquote
-          br
-        input(type='submit', name='submit', value='Prochaine question')
+      form#test(method='post', action='./test')
+        p#domain Domaine :
+        h2#questionText #{title}
+        input#next(type='submit', name='submit', value='Prochaine question')
       form(method='get', action='./tableau')
         input(type='submit', value='Retour')
   section#tableaux
@@ -44,4 +55,4 @@ block content
             td 1 / 99
             td 71%
     #statistics
-      p Score courant : 0%
+      p#scoreCourant Score courant :&nbsp;

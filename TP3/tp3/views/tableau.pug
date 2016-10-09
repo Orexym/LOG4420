@@ -3,24 +3,40 @@ extends layout
 block content
   section#modes.leftSideBlock
     h1 Tableau de bord
+    script.
+      $(document).ready(function() {
+        localStorage.clear();
+        $( "#test" ).submit(function( event ) {
+          localStorage.count = 0;
+          localStorage.score = 0;
+        });
+        $( "#examen" ).submit(function( event ) {
+          var domain = $("#domaine option:selected").val();
+          var nbQuestions = $("#questions").val();
+          localStorage.totalQuestions = nbQuestions;
+          localStorage.domain = domain;
+          localStorage.count = 0;
+          localStorage.score = 0;
+        });
+      });
     div
       #testRapide
         h2 Mode de test rapide
-        form(method='get', action='./test')
+        form(id='test', method='post', action='./test')
           input(type='submit', name='submit', value='Commencer !')
       #examen
         h2 Mode d&apos;examen
-        form(method='get', action='./examen')
+        form(id='examen', method='post', action='./examen')
           p
             label(for='domaine') Domaine :
             span.styled-select
-              select#domaine
-                option(value='html') HTML
-                option(value='css3') CSS3
+              select#domaine(name='domain')
+                option(value='html') HTML5
+                option(value='css') CSS3
                 option(value='js') JavaScript
           p
-            label(for='questions') Nombre de questions :
-            input#questions(type='number', name='questions', value='5', step='1', min='1', max='10')
+            label(for='totalQuestions') Nombre de questions :
+            input#questions(type='number', name='totalQuestions', value='5', step='1', min='1', max='10')
           input(type='submit', name='submit', value='Commencer !')
   section#tableaux
     h1 Statistiques

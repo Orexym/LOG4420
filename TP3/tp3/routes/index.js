@@ -11,19 +11,11 @@ router.get('/index', function(req, res, next) {
 });
 
 router.post('/examen', function(req, res, next) {
-    res.render('examen', { title: 'Question', qNumber: req.query.q, totalQuestions: req.query.totalQuestions });
-});
-
-router.get('/examen', function(req, res, next) {
-    res.render('examen', { title: 'Question', qNumber: 1, totalQuestions: req.query.questions });
+    res.render('examen', { title: 'Question' });
 });
 
 router.post('/test', function(req, res, next) {
-    res.render('test_rapide', { title: 'Question', qNumber: req.query.q });
-});
-
-router.get('/test', function(req, res, next) {
-    res.render('test_rapide', { title: 'Question', qNumber: 1 });
+    res.render('test_rapide', { title: 'Question' });
 });
 
 router.get('/instructions', function(req, res, next) {
@@ -34,7 +26,7 @@ router.get('/tableau', function(req, res, next) {
     res.render('tableau', { title: 'Tableau de bord' });
 });
 
-router.get('/resultats', function(req, res, next) {
+router.post('/resultats', function(req, res, next) {
     res.render('resultats', { title: 'Résultats' });
 });
 

@@ -1,12 +1,17 @@
 extends layout
 
 block content
+  script.
+    $(document).ready(function() {
+      $("#finalScore").html(Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100));
+    });
   section
     h1 R&eacute;sultats
-    p
-        | Votre r&eacute;sultat final est 0.
-        br
-        |  Cliquez 
-        a(href='./tableau') ici
-        |  pour retourner au tableau de bord.
+    p Votre r&eacute;sultat final est &nbsp;
+      span#finalScore
+      | %.
+      br
+      | Cliquez&nbsp;
+      a(href='./tableau') ici
+      |  pour retourner au tableau de bord.
 
