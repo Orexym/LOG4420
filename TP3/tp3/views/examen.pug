@@ -9,23 +9,23 @@ block content
       function newQuestion() {
 
         // update score
-        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
+        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100) || 0) + "%");
 
-        $.get('/ajax/domain='+localStorage.domain, {}, function(result) {
+        $.get('/ajax/domain='+sessionStorage.domain, {}, function(result) {
 
           // reset view
           $("#questionTitle").html("#{title}");
           $(".answerElement").remove();
 
-          // save data to localStorage
-          localStorage.question = JSON.stringify(result);
-          localStorage.count = parseInt(localStorage.count) + 1;
+          // save data to sessionStorage
+          sessionStorage.question = JSON.stringify(result);
+          sessionStorage.count = parseInt(sessionStorage.count) + 1;
 
           // update view
           $("#questionText").html(result.question);
-          $("#questionTitle").html($("#questionTitle").html() + " " + localStorage.count + " / " + localStorage.totalQuestions);
-          $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
-          if(localStorage.count == localStorage.totalQuestions) {
+          $("#questionTitle").html($("#questionTitle").html() + " " + sessionStorage.count + " / " + sessionStorage.totalQuestions);
+          $("#domain").html("Domaine : " + sessionStorage.domain.toUpperCase());
+          if(sessionStorage.count == sessionStorage.totalQuestions) {
             $("#next").val("Terminer");
             $("#examen").attr('action', './resultats');
             examenFini = true;
@@ -33,7 +33,7 @@ block content
 
           var i;
           for(i = 0; i < result.ans.length; i++) {
-            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
+            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+sessionStorage.count+"' value='"+result.ans[i].value+"' />" +
             "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br></span>");
           }
 
@@ -45,17 +45,17 @@ block content
           event.preventDefault();
         }
 
-        var correctAnswer = JSON.parse(localStorage.question).trueAnswer;
-        var attemptedAnswer = $('input[name=q'+localStorage.count+']:checked', '#examen').val();
+        var correctAnswer = JSON.parse(sessionStorage.question).trueAnswer;
+        var attemptedAnswer = $('input[name=q'+sessionStorage.count+']:checked', '#examen').val();
         if(correctAnswer == attemptedAnswer) {
-          localStorage.score = parseInt(localStorage.score) + 1;
+          sessionStorage.score = parseInt(sessionStorage.score) + 1;
         }
 
         newQuestion();
 
       });
       $("#abandon").submit(function( event ) {
-        localStorage.score = 0;
+        sessionStorage.score = 0;
       });
 
       newQuestion();

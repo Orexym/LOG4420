@@ -8,7 +8,7 @@ block content
       function newQuestion() {
 
         // update score
-        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100) || 0) + "%");
+        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100) || 0) + "%");
 
         $.get('/ajax/test', {}, function(result) {
 
@@ -16,18 +16,18 @@ block content
           $("#questionTitle").html("#{title}");
           $(".answerElement").remove();
 
-          // save data to localStorage
-          localStorage.question = JSON.stringify(result);
-          localStorage.count = parseInt(localStorage.count) + 1;
-          localStorage.domain = result.domain;
+          // save data to sessionStorage
+          sessionStorage.question = JSON.stringify(result);
+          sessionStorage.count = parseInt(sessionStorage.count) + 1;
+          sessionStorage.domain = result.domain;
 
           // update view
           $("#questionText").html(result.question);
-          $("#domain").html("Domaine : " + localStorage.domain.toUpperCase());
+          $("#domain").html("Domaine : " + sessionStorage.domain.toUpperCase());
 
           var i;
           for(i = 0; i < result.ans.length; i++) {
-            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+localStorage.count+"' value='"+result.ans[i].value+"' />" +
+            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+sessionStorage.count+"' value='"+result.ans[i].value+"' />" +
             "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br></span>");
           }
 
@@ -37,10 +37,10 @@ block content
       $("#test").submit(function( event ) {
         event.preventDefault();
 
-        var correctAnswer = JSON.parse(localStorage.question).trueAnswer;
-        var attemptedAnswer = $('input[name=q'+localStorage.count+']:checked', '#test').val();
+        var correctAnswer = JSON.parse(sessionStorage.question).trueAnswer;
+        var attemptedAnswer = $('input[name=q'+sessionStorage.count+']:checked', '#test').val();
         if(correctAnswer == attemptedAnswer) {
-          localStorage.score = parseInt(localStorage.score) + 1;
+          sessionStorage.score = parseInt(sessionStorage.score) + 1;
         }
 
         newQuestion();

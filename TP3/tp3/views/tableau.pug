@@ -5,22 +5,23 @@ block content
     h1 Tableau de bord
     script.
       $(document).ready(function() {
+        sessionStorage.clear();
 
         function refreshStats() {
           // insert stats in stats table
         }
 
         $( "#test" ).submit(function( event ) {
-          localStorage.count = 0;
-          localStorage.score = 0;
+          sessionStorage.count = 0;
+          sessionStorage.score = 0;
         });
         $( "#examen" ).submit(function( event ) {
           var domain = $("#domaine option:selected").val();
           var nbQuestions = $("#questions").val();
-          localStorage.totalQuestions = nbQuestions;
-          localStorage.domain = domain;
-          localStorage.count = 0;
-          localStorage.score = 0;
+          sessionStorage.totalQuestions = nbQuestions;
+          sessionStorage.domain = domain;
+          sessionStorage.count = 0;
+          sessionStorage.score = 0;
         });
         $( "#reset" ).click(function( event ) {
           localStorage.clear();

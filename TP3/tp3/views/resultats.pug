@@ -14,13 +14,25 @@ block content
       var step = 25;
       var palier = -1;
 
-      var finalScore = Math.round(parseInt(localStorage.score) / parseInt(localStorage.count) * 100);
+      // calcul du score + du message
+      var finalScore = Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100);
       var temp = finalScore;
       while(temp >= 0) { temp -= step; palier += 1; }
 
+      // update view
       $("#finalScore").html(finalScore);
       $("#message").html(messages[palier]);
-      localStorage.nbExamens = parseInt(localStorage.nbExamens) + 1;
+
+      // update stats
+      localStorage.nbExamens = parseInt((localStorage.nbExamens || 0)) + 1;
+      var examens = (localStorage.examens != undefined) ? JSON.parse(localStorage.examens) : [];
+      var newExam = {
+        "id" : localStorage.nbExamens,
+        "score" : sessionStorage.score,
+        "total" : sessionStorage.count
+      }
+      examens.push(newExam);
+      localStorage.examens = JSON.stringify(examens);
 
     });
   section
