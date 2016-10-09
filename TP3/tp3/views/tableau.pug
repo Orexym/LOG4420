@@ -19,7 +19,7 @@ block content
           var totalCount = 0;
           var examens = (localStorage.examens != undefined) ? JSON.parse(localStorage.examens) : [];
           for(var i = examens.length-1; i >= 0; i--) {
-            $(".examenList").html($(".examenList").html() + "<tr class='examenElement'><td>Examen" + examens[i].id + "</td>" +
+            $(".examenList").after("<tr class='examenElement'><td>Examen" + examens[i].id + "</td>" +
             "<td>(" + examens[i].domain.toUpperCase() + ")</td>"+
             "<td>" + (Math.round(parseInt(examens[i].score) / parseInt(examens[i].total) * 100) || 0) + "%</td></tr>");
 
@@ -80,19 +80,12 @@ block content
         tr
           td.testScore
           td.examScore
-      #table-wrapper
-        #table-scroll
-          table#exams.statistiques
-            caption R&eacute;sultats d&apos;examen
-            thead
-              tr
-                th
-                  span.header Examen
-                th
-                  span.header Domaine
-                th
-                  span.header Scor
-            tbody.examenList
+      table#exams.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr.examenList
+          th Examen
+          th Domaine
+          th Score
       div
         a.a2button(href='#popup1') D&eacute;tails
       div
@@ -110,16 +103,9 @@ block content
               tr
                 td.testScore
                 td.examScore
-            #table-wrapper
-              #table-scroll
-                table#exams.statistiques
-                  caption R&eacute;sultats d&apos;examen
-                  thead
-                    tr
-                      th
-                        span.header Examen
-                      th
-                        span.header Domaine
-                      th
-                        span.header Score
-                  tbody.examenList
+            table#exams.statistiques
+              caption R&eacute;sultats d&apos;examen
+              tr.examenList
+                th Examen
+                th Domaine
+                th Score

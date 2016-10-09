@@ -196,28 +196,6 @@ table.statistiques th {
     padding: 2px;
 }
 
-div#table-wrapper {
-    position:relative;
-}
-
-div#table-scroll {
-    height: 220px;
-    overflow: auto;
-}
-
-div#table-wrapper table {
-    width:100%;
-}
-
-div#table-wrapper table thead th .header {
-    position:absolute;
-    top:-25px;
-    z-index:2;
-    height:25px;
-    width:35%;
-    border:1px solid red;
-}
-
 #marquee {
     position: absolute;
     bottom: 0;
