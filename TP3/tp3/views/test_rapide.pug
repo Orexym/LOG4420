@@ -45,6 +45,10 @@ block content
 
         newQuestion();
       });
+      $("#abandon").submit(function( event ) {
+        localStorage.testScore = parseInt((localStorage.testScore || 0)) + parseInt(sessionStorage.score);
+        localStorage.testCount = parseInt((localStorage.testCount || 0)) + parseInt(sessionStorage.count) - 1;
+      })
 
       newQuestion();
     });
@@ -55,7 +59,7 @@ block content
         p#domain Domaine :
         h2#questionText #{title}
         input#next(type='submit', name='submit', value='Prochaine question')
-      form(method='get', action='./tableau')
+      form#abandon(method='get', action='./tableau')
         input(type='submit', value='Retour')
   section#tableaux
     h1 Statistiques

@@ -9,6 +9,25 @@ block content
 
         function refreshStats() {
           // insert stats in stats table
+          $(".examenElement").remove();
+
+          // get test scores
+          $(".testScore").html((localStorage.testScore || 0) + " / " + (localStorage.testCount || 0));
+
+          // get exam scores + average
+          var totalScore = 0;
+          var totalCount = 0;
+          var examens = (localStorage.examens != undefined) ? JSON.parse(localStorage.examens) : [];
+          for(var i = examens.length-1; i >= 0; i--) {
+            $(".examenList").html($(".examenList").html() + "<tr class='examenElement'><td>Examen" + examens[i].id + "</td>" +
+            "<td>(" + examens[i].domain.toUpperCase() + ")</td>"+
+            "<td>" + (Math.round(parseInt(examens[i].score) / parseInt(examens[i].total) * 100) || 0) + "%</td></tr>");
+
+            totalScore += parseInt(examens[i].score);
+            totalCount += parseInt(examens[i].total);
+          }
+          $(".examScore").html((Math.round(totalScore / totalCount * 100) || 0) + "%");
+
         }
 
         $( "#test" ).submit(function( event ) {
@@ -59,19 +78,21 @@ block content
           th Nb tests reussis / effectues
           th Moyenne examens
         tr
-          td 1 / 99
-          td 71%
-      table#exams.statistiques
-        caption R&eacute;sultats d&apos;examen
-        tr
-          th Date de l&apos;examen
-          th Score
-        tr
-          td 52 janvier 1056
-          td 2%
-        tr
-          td 1 janvier 0001
-          td 140%
+          td.testScore
+          td.examScore
+      #table-wrapper
+        #table-scroll
+          table#exams.statistiques
+            caption R&eacute;sultats d&apos;examen
+            thead
+              tr
+                th
+                  span.header Examen
+                th
+                  span.header Domaine
+                th
+                  span.header Scor
+            tbody.examenList
       div
         a.a2button(href='#popup1') D&eacute;tails
       div
@@ -87,16 +108,18 @@ block content
                 th Nb tests reussis / effectues
                 th Moyenne examens
               tr
-                td 1 / 99
-                td 71%
-            table#exams.statistiques
-              caption R&eacute;sultats d&apos;examen
-              tr
-                th Date de l&apos;examen
-                th Score
-              tr
-                td 52 janvier 1056
-                td 2%
-              tr
-                td 1 janvier 0001
-                td 140
+                td.testScore
+                td.examScore
+            #table-wrapper
+              #table-scroll
+                table#exams.statistiques
+                  caption R&eacute;sultats d&apos;examen
+                  thead
+                    tr
+                      th
+                        span.header Examen
+                      th
+                        span.header Domaine
+                      th
+                        span.header Score
+                  tbody.examenList

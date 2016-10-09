@@ -41,17 +41,15 @@ block content
       }
 
       $("#examen").submit(function( event ) {
-        if(examenFini == false) {
-          event.preventDefault();
-        }
-
         var correctAnswer = JSON.parse(sessionStorage.question).trueAnswer;
         var attemptedAnswer = $('input[name=q'+sessionStorage.count+']:checked', '#examen').val();
         if(correctAnswer == attemptedAnswer) {
           sessionStorage.score = parseInt(sessionStorage.score) + 1;
         }
-
-        newQuestion();
+        if(examenFini == false) {
+          event.preventDefault();
+          newQuestion();
+        }
 
       });
       $("#abandon").submit(function( event ) {

@@ -29,7 +29,8 @@ block content
       var newExam = {
         "id" : localStorage.nbExamens,
         "score" : sessionStorage.score,
-        "total" : sessionStorage.count
+        "total" : sessionStorage.count,
+        "domain" : sessionStorage.domain
       }
       examens.push(newExam);
       localStorage.examens = JSON.stringify(examens);
