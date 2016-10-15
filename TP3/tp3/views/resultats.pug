@@ -3,38 +3,7 @@ extends layout
 block content
   script.
     $(document).ready(function() {
-
-      var messages = [
-        'Score final inacceptable.',
-        'Score final &agrave; am&eacute;liorer.',
-        'Score final passable.',
-        'Score final excellent.',
-        'Score final parfait.'
-        ];
-      var step = 25;
-      var palier = -1;
-
-      // calcul du score + du message
-      var finalScore = Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100);
-      var temp = finalScore;
-      while(temp >= 0) { temp -= step; palier += 1; }
-
-      // update view
-      $("#finalScore").html(finalScore);
-      $("#message").html(messages[palier]);
-
-      // update stats
-      localStorage.nbExamens = parseInt((localStorage.nbExamens || 0)) + 1;
-      var examens = (localStorage.examens != undefined) ? JSON.parse(localStorage.examens) : [];
-      var newExam = {
-        "id" : localStorage.nbExamens,
-        "score" : sessionStorage.score,
-        "total" : sessionStorage.count,
-        "domain" : sessionStorage.domain
-      }
-      examens.push(newExam);
-      localStorage.examens = JSON.stringify(examens);
-
+      resultatsFinaux();
     });
   section
     h1 R&eacute;sultats

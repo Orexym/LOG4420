@@ -5,59 +5,23 @@ block content
     h1 Tableau de bord
     script.
       $(document).ready(function() {
-        sessionStorage.clear();
+        sessionStorage.removeItem("score");
+        sessionStorage.removeItem("count");
+        sessionStorage.removeItem("domain");
+        sessionStorage.removeItem("question");
+        sessionStorage.removeItem("totalQuestions");
 
-        function refreshStats() {
-          // insert stats in stats table
-          $(".examenElement").remove();
-
-          // get test scores
-          $(".testScore").html((localStorage.testScore || 0) + " / " + (localStorage.testCount || 0));
-
-          // get exam scores + average
-          var totalScore = 0;
-          var totalCount = 0;
-          var examens = (localStorage.examens != undefined) ? JSON.parse(localStorage.examens) : [];
-          for(var i = examens.length-1; i >= 0; i--) {
-            $(".examenList").after("<tr class='examenElement'><td>Examen" + examens[i].id + "</td>" +
-            "<td>(" + examens[i].domain.toUpperCase() + ")</td>"+
-            "<td>" + (Math.round(parseInt(examens[i].score) / parseInt(examens[i].total) * 100) || 0) + "%</td></tr>");
-
-            totalScore += parseInt(examens[i].score);
-            totalCount += parseInt(examens[i].total);
-          }
-          $(".examScore").html((Math.round(totalScore / totalCount * 100) || 0) + "%");
-
-        }
-
-        $( "#test" ).submit(function( event ) {
-          sessionStorage.count = 0;
-          sessionStorage.score = 0;
-        });
-        $( "#examen" ).submit(function( event ) {
-          var domain = $("#domaine option:selected").val();
-          var nbQuestions = $("#questions").val();
-          sessionStorage.totalQuestions = nbQuestions;
-          sessionStorage.domain = domain;
-          sessionStorage.count = 0;
-          sessionStorage.score = 0;
-        });
-        $( "#reset" ).click(function( event ) {
-          localStorage.clear();
-          refreshStats();
-        });
-
-        refreshStats();
+        refreshScore();
 
       });
     div
       #testRapide
         h2 Mode de test rapide
-        form(id='test', method='post', action='./test')
+        form#startTest(method='post', action='./test')
           input(type='submit', name='submit', value='Commencer !')
       #examen
         h2 Mode d&apos;examen
-        form(id='examen', method='post', action='./examen')
+        form#startExamen(method='post', action='./examen')
           p
             label(for='domaine') Domaine :
             span.styled-select
@@ -66,21 +30,21 @@ block content
                 option(value='css') CSS3
                 option(value='js') JavaScript
           p
-            label(for='totalQuestions') Nombre de questions :
+            label(for='questions') Nombre de questions :
             input#questions(type='number', name='totalQuestions', value='5', step='1', min='1', max='10')
           input(type='submit', name='submit', value='Commencer !')
   section#tableaux
     h1 Statistiques
     div
-      table#generalstats.statistiques
+      table.statistiques
         caption Statistiques g&eacute;n&eacute;rales
         tr
-          th Nb tests reussis / effectues
+          th Nb tests r&eacute;ussis / effectu&eacute;s
           th Moyenne examens
         tr
           td.testScore
           td.examScore
-      table#exams.statistiques
+      table.statistiques
         caption R&eacute;sultats d&apos;examen
         tr.examenList
           th Examen
@@ -95,15 +59,15 @@ block content
         .popup
           h2 Statistiques
           .content
-            table#generalstats.statistiques
+            table.statistiques
               caption Statistiques g&eacute;n&eacute;rales
               tr
-                th Nb tests reussis / effectues
+                th Nb tests r&eacute;ussis / effectu&eacute;s
                 th Moyenne examens
               tr
                 td.testScore
                 td.examScore
-            table#exams.statistiques
+            table.statistiques
               caption R&eacute;sultats d&apos;examen
               tr.examenList
                 th Examen

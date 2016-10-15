@@ -3,74 +3,32 @@ extends layout
 block content
   script.
     $(document).ready(function() {
-
-      // get new question
-      function newQuestion() {
-
-        // update score
-        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100) || 0) + "%");
-
-        $.get('/ajax/test', {}, function(result) {
-
-          // reset view
-          $("#questionTitle").html("#{title}");
-          $(".answerElement").remove();
-
-          // save data to sessionStorage
-          sessionStorage.question = JSON.stringify(result);
-          sessionStorage.count = parseInt(sessionStorage.count) + 1;
-          sessionStorage.domain = result.domain;
-
-          // update view
-          $("#questionText").html(result.question);
-          $("#domain").html("Domaine : " + sessionStorage.domain.toUpperCase());
-
-          var i;
-          for(i = 0; i < result.ans.length; i++) {
-            $("#next").before("<span class='answerElement'><input id='ans"+i+"' type='radio' name='q"+sessionStorage.count+"' value='"+result.ans[i].value+"' />" +
-            "<label for='ans"+i+"'>" + result.ans[i].text + "</label><br></span>");
-          }
-
-        });
-      }
-
-      $("#test").submit(function( event ) {
-        event.preventDefault();
-
-        var correctAnswer = JSON.parse(sessionStorage.question).trueAnswer;
-        var attemptedAnswer = $('input[name=q'+sessionStorage.count+']:checked', '#test').val();
-        if(correctAnswer == attemptedAnswer) {
-          sessionStorage.score = parseInt(sessionStorage.score) + 1;
-        }
-
-        newQuestion();
-      });
-      $("#abandon").submit(function( event ) {
-        localStorage.testScore = parseInt((localStorage.testScore || 0)) + parseInt(sessionStorage.score);
-        localStorage.testCount = parseInt((localStorage.testCount || 0)) + parseInt(sessionStorage.count) - 1;
-      })
-
-      newQuestion();
+      refreshScore();
+      newTestQuestion();
     });
   section#question.leftSideBlock
     h1#questionTitle #{title}
     div
-      form#test(method='post', action='')
-        p#domain Domaine :
+      form#testForm(method='post', action='')
+        p#questionDomain Domaine :
         h2#questionText #{title}
-        input#next(type='submit', name='submit', value='Prochaine question')
-      form#abandon(method='get', action='./tableau')
-        input(type='submit', value='Retour')
+        ul#answerList
+        input.next(type='submit', name='submit', value='Prochaine question')
+      .dropzone
+        span.unaffectedText
+          | D&eacute;poser ici
+      form#abandonTest(method='get', action='./tableau')
+        input(type='submit', value='Compiler résultats')
   section#tableaux
     h1 Statistiques
-    div
-      table#generalstats.statistiques
+    .content
+      table.statistiques
         caption Statistiques g&eacute;n&eacute;rales
         tr
-            th Nb tests reussis / effectues
-            th Moyenne examens
+          th Nb tests reussis / effectues
+          th Moyenne examens
         tr
-            td 1 / 99
-            td 71%
-    #statistics
-      p#scoreCourant Score courant :&nbsp;
+          td.testScore
+          td.examScore
+      #statistics
+        p#scoreCourant
