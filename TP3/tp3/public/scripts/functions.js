@@ -40,6 +40,10 @@ $(document).ready(function(){
         localStorage.testCount = parseInt((localStorage.testCount || 0)) + parseInt(sessionStorage.count) - 1;
     });
     
+    $("#questions").keypress(function (evt) {
+        evt.preventDefault();
+    });
+    
     
 });
 
