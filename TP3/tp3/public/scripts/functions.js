@@ -40,6 +40,7 @@ $(document).ready(function(){
         localStorage.testCount = parseInt((localStorage.testCount || 0)) + parseInt(sessionStorage.count) - 1;
     });
     
+    
 });
 
 // get new question
@@ -214,7 +215,6 @@ function addDnDListeners(dragSelector, dropSelector) {
     $(document).on("drop",function(e){
         // remove dragenter class
         $(e.target).removeClass("dragenter");
-        console.log("Drop");
         
         // validate answer (replace form submit)
         var attemptedAnswer = e.originalEvent.dataTransfer.getData("answer");
