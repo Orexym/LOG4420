@@ -1,5 +1,5 @@
+var examenFini = false;
 $(document).ready(function(){
-    var examenFini = false;
         
     // Tableau de bord events
     $( "#startTest" ).submit(function( event ) {
