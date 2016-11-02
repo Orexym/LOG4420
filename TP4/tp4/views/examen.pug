@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  script.
+    $(document).ready(function() {
+      refreshScore();
+      newExamQuestion();
+    });
+  section#question.leftSideBlock
+    h1#questionTitle #{title}
+    div
+      form#examenForm(method='post', action='')
+        p#questionDomain Domaine :
+        h2#questionText #{title}
+        ul#answerList
+        input.next(type='submit', name='submit', value='Prochaine question')
+      .dropzone
+        span.unaffectedText
+          | D&eacute;poser ici
+      form#abandonExam(method='post', action='./resultats')
+        input(type='submit', value='Abandon')
+  section#tableaux
+    h1 Statistiques
+    .content
+      table.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr.examenList
+          th Examen
+          th Domaine
+          th Score
+      #statistics
+        p#scoreCourant

@@ -1,0 +1,75 @@
+extends layout
+
+block content
+  section#modes.leftSideBlock
+    h1 Tableau de bord
+    script.
+      $(document).ready(function() {
+        sessionStorage.removeItem("score");
+        sessionStorage.removeItem("count");
+        sessionStorage.removeItem("domain");
+        sessionStorage.removeItem("question");
+        sessionStorage.removeItem("totalQuestions");
+
+        refreshScore();
+
+      });
+    div
+      #testRapide
+        h2 Mode de test rapide
+        form#startTest(method='post', action='./test')
+          input(type='submit', name='submit', value='Commencer !')
+      #examen
+        h2 Mode d&apos;examen
+        form#startExamen(method='post', action='./examen')
+          p
+            label(for='domaine') Domaine :
+            span.styled-select
+              select#domaine(name='domain')
+                option(value='html') HTML5
+                option(value='css') CSS3
+                option(value='js') JavaScript
+          p
+            label(for='questions') Nombre de questions :
+            input#questions(type='number', name='totalQuestions', value='5', step='1', min='1', max='10')
+          input(type='submit', name='submit', value='Commencer !')
+  section#tableaux
+    h1 Statistiques
+    div
+      table.statistiques
+        caption Statistiques g&eacute;n&eacute;rales
+        tr
+          th Nb tests r&eacute;ussis / effectu&eacute;s
+          th Moyenne examens
+        tr
+          td.testScore
+          td.examScore
+      table.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr.examenList
+          th Examen
+          th Domaine
+          th Score
+      div
+        a.a2button(href='#popup1') D&eacute;tails
+      div
+        input#reset(type='button', value='Remise à zéro')
+      #popup1.overlay.clickable
+        a(href='#')
+        .popup
+          h2 Statistiques
+          .content
+            table.statistiques
+              caption Statistiques g&eacute;n&eacute;rales
+              tr
+                th Nb tests r&eacute;ussis / effectu&eacute;s
+                th Moyenne examens
+              tr
+                td.testScore
+                td.examScore
+            table.statistiques
+              caption R&eacute;sultats d&apos;examen
+              tr.examenList
+                th Examen
+                th Domaine
+                th Score

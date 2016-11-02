@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  script.
+    $(document).ready(function () {
+      var initialDelay = 5000;
+      setTimeout(function () {
+        window.location.href = "index";
+      }, initialDelay);
+      setInterval(function() {
+        initialDelay -= 1000;
+        $("#secondes").html((initialDelay / 1000));
+      }, 1000);
+    });
+  section
+    h1 Invalide
+    div
+      p Vous ne devriez pas être ici. Vous allez être redirigé dans&nbsp;
+        span#secondes 5
+        | &nbsp;secondes.

@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  script.
+    $(document).ready(function() {
+      refreshScore();
+      newTestQuestion();
+    });
+  section#question.leftSideBlock
+    h1#questionTitle #{title}
+    div
+      form#testForm(method='post', action='')
+        p#questionDomain Domaine :
+        h2#questionText #{title}
+        ul#answerList
+        input.next(type='submit', name='submit', value='Prochaine question')
+      .dropzone
+        span.unaffectedText
+          | D&eacute;poser ici
+      form#abandonTest(method='get', action='./tableau')
+        input(type='submit', value='Compiler résultats')
+  section#tableaux
+    h1 Statistiques
+    .content
+      table.statistiques
+        caption Statistiques g&eacute;n&eacute;rales
+        tr
+          th Nb tests reussis / effectues
+          th Moyenne examens
+        tr
+          td.testScore
+          td.examScore
+      #statistics
+        p#scoreCourant
