@@ -14,6 +14,9 @@ router.get('/instructions', function(req, res, next) {
 router.get('/tableau', function(req, res, next) {
     res.render('tableau', { title: 'Tableau de bord' });
 });
+router.get('/admin', function(req, res, next) {
+    res.render('admin', { title: 'Page d\'administration' });
+});
 
 /* Unreachable pages */
 router.post('/examen', function(req, res, next) {

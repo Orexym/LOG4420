@@ -30,9 +30,13 @@ block content
                 option(value='css') CSS3
                 option(value='js') JavaScript
           p
-            label(for='questions') Nombre de questions :
-            input#questions(type='number', name='totalQuestions', value='5', step='1', min='1', max='10')
+            label(for='nbquestions') Nombre de questions :
+            input#nbquestions(type='number', name='totalQuestions', value='5', step='1', min='1', max='10')
           input(type='submit', name='submit', value='Commencer !')
+      #admin
+        h2 Administration
+        form#configure(method='get', action='./admin')
+          input(type='submit', value='Configurer les questions')
   section#tableaux
     h1 Statistiques
     div

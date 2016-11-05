@@ -87,14 +87,19 @@ section.leftSideBlock div p {
 
 section.leftSideBlock div p * {
     margin: 0px 10px;
-    box-sizing: border-box;
 }
 
-section.leftSideBlock div p label {
+section.leftSideBlock div p > label {
     float: left;
     display: block;
     width: 45%;
     text-align: right;
+}
+
+section.leftSideBlock#administration div p > label {
+    width: 20%;
+    text-align: left;
+    line-height: 30px;
 }
 
 section > div {
@@ -126,7 +131,7 @@ section#instructions > div p {
     flex-grow: 1;
 }
 
-section#question > div {
+section#questionSection > div {
     justify-content: space-between;
 }
 
@@ -137,6 +142,15 @@ section#modes > div div {
     box-sizing: content-box;
     flex-grow: 1;
     padding: 5px;
+}
+
+section#modes > div div#admin {
+    page-break-before: always;
+    flex-grow: 1;
+}
+
+section#administration > div div {
+    flex-grow: 1;
 }
 
 div.fixed {
@@ -163,11 +177,6 @@ div.fixed div {
     flex-basis: 0;
 }
 
-div.fixed div a {
-    color: #eeeeee;
-    font-size: 20px;
-}
-
 nav div.fixed div:hover {
     background-color: #666666;
 }
@@ -178,6 +187,11 @@ nav div.fixed div.active {
 
 nav div.fixed div.active:hover {
     background-color: #0688fa;
+}
+
+div.fixed div a {
+    color: #eeeeee;
+    font-size: 20px;
 }
 
 table.statistiques {
@@ -201,7 +215,7 @@ table.statistiques th {
     padding: 2px;
 }
 
-input[type=submit], input[type=number], input[type=button] {
+input {
     box-shadow:inset 0 -3px 7px 0 #29bbff;
     background-color:#2dabf9;
     border-radius:3px;
@@ -214,10 +228,20 @@ input[type=submit], input[type=number], input[type=button] {
     padding:5px 11px;
     text-decoration:none;
     text-shadow:0px 1px 0px #263666;
-    width: 165px;
+    min-height: 30px;
+    box-sizing: border-box;
+    vertical-align: middle;
 }
 
-input[type=submit]:hover, input[type=button]:hover {
+input[type=submit], input[type=button], input[type=number] {
+    min-width: 165px;
+}
+
+input[type=text] {
+    min-width: 300px;
+}
+
+input:hover {
     background-color: #0688fa;
 }
 
@@ -239,6 +263,7 @@ input:active {
 
 .styled-select {
     background: url("../images/select-icon.png") #2dabf9 no-repeat 96% 0;
+    border: 1px solid #0b0e07;
     height: 29px;
     overflow: hidden;
     width: 165px;
@@ -397,4 +422,42 @@ input:active {
 .special {
     color: #ff0000;
     font-style: italic;
+}
+
+.hidden {
+    display: none;
+}
+
+.answerSlate {
+    line-height: 40px;
+}
+
+input[type=button]#addAnswer {
+    min-width: initial;
+    width: initial;
+}
+
+
+/* Special admin colours */
+
+section.admin h1 {
+    background-color: #ff9c22;
+}
+
+.admin input[type=button], .admin input[type=text], .admin input[type=submit], .admin input[type=number], .admin .a2button {
+    background-color: #ff9c22;
+    box-shadow:inset 0 -3px 7px 0 #ff971e;
+}
+
+.admin input[type=button]:hover, .admin input[type=text]:hover, .admin input[type=submit]:hover, .admin input[type=number]:hover, .admin .a2button:hover {
+    background-color: #ff8c00;
+}
+
+.admin .styled-select {
+    background: url("../images/select-icon.png") #ff9c22 no-repeat 96% 0;
+    box-shadow:inset 0 -3px 7px 0 #ff971e;
+}
+
+.admin .styled-select select {
+    text-shadow:0 1px 0 #97752c;
 }
