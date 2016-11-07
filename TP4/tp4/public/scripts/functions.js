@@ -1,25 +1,26 @@
 var examenFini = false;
+var executedOnce = false;
 $(document).ready(function(){
-      
-    $("#nbquestions").keypress(function (evt) {
-        evt.preventDefault();
-    });
     
     // Kill link drags
     $("a").on('dragstart', function(e) {
        e.preventDefault();
     });
     
+    // Check for current session
+    if(sessionStorage.id == undefined) {
+        loadProfile();
+    }
     
 });
 
 // refresh current score and fill score table
-function refreshScore() {
+function refreshScore(user) {
     // insert stats in stats table
     $(".examenList").empty();
     
     // get test scores
-    $(".testScore").html((localStorage.testScore || 0) + " / " + (localStorage.testCount || 0));
+    $(".testScore").html((user.test.score || 0) + " / " + (user.test.total || 0));
     
     // get exam scores + average
     var totalScore = 0;
@@ -46,12 +47,11 @@ function resultatsFinaux() {
         'Score final parfait.'
     ];
     var step = 25;
-    var palier = -1;
     
     // calcul du score + du message
     var finalScore = Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100);
-    var temp = finalScore;
-    while(temp >= 0) { temp -= step; palier += 1; }
+    var palier = Math.floor(finalScore / step);
+    
     
     // update view
     $("#finalScore").html(finalScore);
@@ -114,15 +114,10 @@ function addDnDListeners(dragSelector, dropSelector) {
         
         // validate answer (replace form submit)
         var attemptedAnswer = e.originalEvent.dataTransfer.getData("answer");
-        var correctAnswer = JSON.parse(sessionStorage.question).trueAnswer;
-
-        if(correctAnswer == attemptedAnswer) {
-            sessionStorage.score = parseInt(sessionStorage.score) + 1;
-            dropSelector.addClass("valid");
-            $(".unaffectedText").html("&#x2713;");
+        if(sessionStorage.exam_flag == 1) {
+            validateExamQuestion({ "attemptedAnswer" : attemptedAnswer }, dropSelector);
         } else {
-            dropSelector.addClass("invalid");
-            $(".unaffectedText").html("&#x2717;");
+            validateTestQuestion({ "attemptedAnswer" : attemptedAnswer }, dropSelector);
         }
         
         // remove draggability
@@ -136,17 +131,32 @@ function addAnswer() {
     var list = $("#answerinputlist");
     var inputs = $("div.hidden div").clone();
     var newSize = list.children().length;
-    if(newSize >= 6) return; // On veut pas pouvoir spam le +
+    if(newSize >= 6) { // On veut pas pouvoir spam le +
+        return;
+    }
     
     inputs.children("input[type=radio]").val(newSize).prop('id', newSize);
     inputs.children("label").prop('for', newSize).append("Réponse "+ (newSize+1));
     list.append(inputs);
+    newSize = list.children().length;
+    if(newSize >= 6) {
+        $("#addAnswer").prop("disabled", true);
+    }
 }
 
 function reset() {
+    
+    //admin page
+    $("#addAnswer").prop("disabled", false);
     $("#answerinputlist").empty();
     $("input[type=text]").val("");
     $("input[type=radio]").removeProp('checked');
+    
+    // quiz page
+    $(".next").prop("disabled", true);
+    $(".unaffectedText").html("D&eacute;poser ici");
+    $(".dropzone").removeClass("valid").removeClass("invalid");
+    $("#answerList").empty();
 }
 
 function validateStringInput(stringInput) {
@@ -158,7 +168,7 @@ function validateStringInput(stringInput) {
         "'": '&#039;'
     };
     
-    return stringInput.replace(/[&<>"']/g, function(m) { return map[m]; });
+    return validateInput(stringInput.replace(/[&<>"']/g, function(m) { return map[m]; }));
 }
 
 function validateInput(input) {

@@ -1,42 +1,41 @@
 $(document).ready(function() {
     // Exam events
-    $("#examenForm").submit(function( event ) {// DEPRECATED
+    $("#examenForm").submit(function( event ) {
         if(examenFini == false) {
             event.preventDefault();
+            event.stopImmediatePropagation();
             newExamQuestion();
         }
         
     });
-    $("#abandonExam").submit(function( event ) {// DEPRECATED
-        sessionStorage.score = 0;
+    $("#abandonExam").submit(function( event ) {
+        finishExam();
     });
     
     
     // Test events
-    $("#testForm").submit(function( event ) {// DEPRECATED
+    $("#testForm").submit(function( event ) {
         event.preventDefault();
+        event.stopImmediatePropagation();
         newTestQuestion();
     });
-    $("#abandonTest").submit(function( event ) {// DEPRECATED
-        localStorage.testScore = parseInt((localStorage.testScore || 0)) + parseInt(sessionStorage.score);
-        localStorage.testCount = parseInt((localStorage.testCount || 0)) + parseInt(sessionStorage.count) - 1;
+    $("#abandonTest").submit(function( event ) {
+        finishTest();
     });
     
     
     // Tableau de bord events
-    $( "#startTest" ).submit(function( event ) {// DEPRECATED
-        sessionStorage.count = 0;
-        sessionStorage.score = 0;
+    $("#nbquestions").keypress(function ( event ) {
+        event.preventDefault();
     });
-    $( "#startExamen" ).submit(function( event ) {// DEPRECATED
-        sessionStorage.totalQuestions = $("#nbquestions").val();
-        sessionStorage.domain = $("#domaine option:selected").val();
-        sessionStorage.count = 0;
-        sessionStorage.score = 0;
+    $( "#startExamen" ).submit(function( event ) {
+        if(!executedOnce) {
+            event.preventDefault();
+            configureExam($("#domaine option:selected").val(), $("#nbquestions").val());
+        }
     });
     $( "#reset" ).click(function( event ) { // DEPRECATED
-        localStorage.clear();
-        refreshScore();
+        //resetScores();
     });
     $("#domaine").on('change', function(event) {
         var valueSelected = this.value;
@@ -47,6 +46,7 @@ $(document).ready(function() {
     // Admin events
     $("#addQuestion").submit(function(event) {
         event.preventDefault();
+        event.stopImmediatePropagation();
         // validate the data entered
         var question = validateStringInput($("#questioninput").val());
         var domain = validateStringInput($("#domaine option:selected").val());
@@ -71,6 +71,6 @@ $(document).ready(function() {
         addAnswer();
     });
     $("#vider").click( function() {
-        emptyDatabase();
+        emptyQuestionDatabase();
     });
 });

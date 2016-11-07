@@ -30,7 +30,7 @@ app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    res.redirect('/invalid');
+    res.render('invalid');
 });
 
 // error handlers

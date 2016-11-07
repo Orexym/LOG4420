@@ -1,34 +1,25 @@
 // get new question
 function newTestQuestion() {
     
-    // update score
-    $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100) || 0) + "%");
-    
-    // reset view
-    $(".next").prop("disabled", true);
-    $(".unaffectedText").html("D&eacute;poser ici");
-    $(".dropzone").removeClass("valid").removeClass("invalid");
-    var list = $("#answerList");
-    list.empty();
-    
-    $.get('/api/test', {}, function(result) {
+    $.get('/api/test/questions', {}, function(result) {
         
-        // save data to sessionStorage
-        sessionStorage.question = JSON.stringify(result);
-        sessionStorage.count = parseInt(sessionStorage.count) + 1;
-        sessionStorage.domain = result.domain;
+        // reset view
+        reset();
+        
+        var q = result.q;
+        var u = result.u;
         
         // update view
-        $("#questionText").html(result.question);
-        $("#questionTitle").html("Question " + sessionStorage.count);
-        $("#questionDomain").html("Domaine : " + sessionStorage.domain.toUpperCase());
+        $("#questionText").html(q.question);
+        $("#questionTitle").html("Question " + (u.test.currenttest.total+1));
+        $("#questionDomain").html("Domaine : " + q.domain.toUpperCase());
         
         // build answers
         var answerElements = [];
-        $.each(result.ans, function(i, item) {
+        $.each(q.ans, function(i, item) {
             answerElements.push("<li class='answerElement' draggable='true' id='"+item.value+"'><span>"+item.text+"</span></li>");
         });
-        list.append(answerElements.join(''));
+        $("#answerList").append(answerElements.join(''));
         $(document).off("drop");
         addDnDListeners($(".answerElement"), $(".dropzone"));
     });
@@ -37,38 +28,30 @@ function newTestQuestion() {
 // get new question
 function newExamQuestion() {
     
-    // update score
-    $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(sessionStorage.score) / parseInt(sessionStorage.count) * 100) || 0) + "%");
+    $.get('/api/exam/questions', {}, function(result) {
     
-    // reset view
-    $(".next").prop("disabled", true);
-    $(".unaffectedText").html("D&eacute;poser ici");
-    $(".dropzone").removeClass("valid").removeClass("invalid");
-    var list = $("#answerList");
-    list.empty();
+        // reset view
+        reset();
     
-    $.get('/api/domain/'+sessionStorage.domain, {}, function(result) {
-        
-        // save data to sessionStorage
-        sessionStorage.question = JSON.stringify(result);
-        sessionStorage.count = parseInt(sessionStorage.count) + 1;
+        var q = result.q;
+        var u = result.u;
         
         // update view
-        $('#questionText').html(result.question);
-        $("#questionTitle").html("Question " + sessionStorage.count + " / " + sessionStorage.totalQuestions);
-        $("#questionDomain").html("Domaine : " + sessionStorage.domain.toUpperCase());
-        if(sessionStorage.count == sessionStorage.totalQuestions) {
+        $('#questionText').html(q.question);
+        $("#questionTitle").html("Question " + (u.examen.currentexam.questionIndex+1) + " / " + u.examen.currentexam.totalQuestions);
+        $("#questionDomain").html("Domaine : " + q.domain.toUpperCase());
+        if(u.examen.currentexam.questionIndex+1 == u.examen.currentexam.totalQuestions) {
             $(".next").val("Terminer");
-            $("#examenForm").attr('action', './resultats');
+            $("#examenForm").prop('action', './resultats');
             examenFini = true;
         }
         
         // build answers
         var answerElements = [];
-        $.each(result.ans, function(i, item) {
+        $.each(q.ans, function(i, item) {
             answerElements.push("<li class='answerElement' draggable='true' id='"+item.value+"'><span>"+item.text+"</span></li>");
         });
-        list.append(answerElements.join(''));
+        $("#answerList").append(answerElements.join(''));
         $(document).off("drop");
         addDnDListeners($(".answerElement"), $(".dropzone"));
     });
@@ -76,7 +59,7 @@ function newExamQuestion() {
 
 // post new question
 function addQuestion(data) {
-    $.post('/api/addQuestion', data, function(result, status) {
+    $.post('/api/questions', data, function(result, status) {
         reset();
         addAnswer();
         addAnswer();
@@ -87,8 +70,9 @@ function addQuestion(data) {
 }
 
 // empty database
-function emptyDatabase() {
-    $.post('/api/emptyDatabase', {}, function(result, status) {
+function emptyQuestionDatabase() {
+    $.delete('/api/emptyQuestionDatabase', {}, function(result, status) {
+        // SEND FEEDBACK
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -98,13 +82,107 @@ function emptyDatabase() {
 function getQuestionCount(data) {
     $.get('/api/questionCount/'+data, {}, function(result, status) {
         var input = $("#nbquestions");
-        input.prop('max', result);
-        if(result <= input.val()) {
-            input.val(result);
+        input.prop('max', result.count);
+        if(result.count <= input.val()) {
+            input.val(result.count);
         }
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
 }
 
-// request (validate + update score) -> reply (new question + updated score)
+// validate question
+function validateTestQuestion(attemptedAnswer, dropSelector) {
+    $.post('/api/validation', attemptedAnswer, function(result, status) {
+        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(result.u.test.currenttest.score) / parseInt(result.u.test.currenttest.total) * 100) || 0) + "%");
+        if(parseInt(result.goodAnswer) == 1) {
+            dropSelector.addClass("valid");
+            $(".unaffectedText").html("&#x2713;");
+        } else {
+            dropSelector.addClass("invalid");
+            $(".unaffectedText").html("&#x2717;");
+        }
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// validate question
+function validateExamQuestion(trueAnswer, dropSelector) {
+    $.post('/api/validation', trueAnswer, function(result, status) {
+        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(result.u.examen.currentexam.score) / parseInt(result.u.examen.currentexam.questionIndex) * 100) || 0) + "%");
+        if(parseInt(result.goodAnswer) == 1) {
+            dropSelector.addClass("valid");
+            $(".unaffectedText").html("&#x2713;");
+        } else {
+            dropSelector.addClass("invalid");
+            $(".unaffectedText").html("&#x2717;");
+        }
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// configure exam
+function configureExam(domain, totalQuestions) {
+    $.put('/api/configureExam/', { domain: domain, totalQuestions: totalQuestions }, function(result, status) {
+        executedOnce = true;
+        $( "#startExamen" ).trigger("submit");
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// finish exam == abandon exam
+function finishExam() {
+    $.put('/api/exam/finish', {id: sessionStorage.id}, function(result, status) {
+        // SEND FEEDBACK
+        sessionStorage.exam_flag = 0;
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// finish test == abandon test
+function finishTest() {
+    $.put('/api/test/finish', {id: sessionStorage.id}, function(result, status) {
+        // SEND FEEDBACK
+        refreshScore()
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// load profile
+function loadProfile() {
+    $.get('/api/load', {}, function(result, status) {
+        var user = result;
+        sessionStorage.id = user._id;
+        sessionStorage.exam_flag = user.exam_flag;
+        
+        // Ajouter alerte pour reprendre un exam en cours
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+/*
+    EXTENDED SUPPORT FOR PUT/DELETE
+ */
+jQuery.each( [ "put", "delete" ], function( i, method ) {
+    jQuery[ method ] = function( url, data, callback, type ) {
+        if ( jQuery.isFunction( data ) ) {
+            type = type || callback;
+            callback = data;
+            data = undefined;
+        }
+        
+        return jQuery.ajax({
+            url: url,
+            type: method,
+            dataType: type,
+            data: data,
+            success: callback
+        });
+    };
+});

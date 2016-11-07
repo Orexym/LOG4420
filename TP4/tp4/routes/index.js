@@ -39,8 +39,8 @@ router.get('/examen', function(req, res, next) {
 router.get('/test', function(req, res, next) {
     res.render('invalid', { title: 'Invalid' });
 });
-router.get('/invalid', function(req, res, next) {
+/*router.get('/invalid', function(req, res, next) {
     res.render('invalid', { title: 'Invalid' });
-});
+});*/
 
 module.exports = router;

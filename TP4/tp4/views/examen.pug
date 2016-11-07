@@ -3,7 +3,6 @@ extends layout
 block content
   script.
     $(document).ready(function() {
-      refreshScore();
       newExamQuestion();
     });
   section#question.leftSideBlock
@@ -13,7 +12,7 @@ block content
         p#questionDomain Domaine :
         h2#questionText #{title}
         ul#answerList
-        input.next(type='submit', name='submit', value='Prochaine question')
+        input.next(type='submit', value='Prochaine question')
       .dropzone
         span.unaffectedText
           | D&eacute;poser ici

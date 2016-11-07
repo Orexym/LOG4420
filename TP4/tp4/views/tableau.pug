@@ -5,20 +5,15 @@ block content
     h1 Tableau de bord
     script.
       $(document).ready(function() {
-        sessionStorage.removeItem("score");
-        sessionStorage.removeItem("count");
-        sessionStorage.removeItem("domain");
-        sessionStorage.removeItem("question");
-        sessionStorage.removeItem("totalQuestions");
-
-        refreshScore();
-
+        var valueSelected = $("#domaine option:selected").val();
+        getQuestionCount(valueSelected);
+        finishTest();
       });
     div
       #testRapide
         h2 Mode de test rapide
         form#startTest(method='post', action='./test')
-          input(type='submit', name='submit', value='Commencer !')
+          input(type='submit', value='Commencer !')
       #examen
         h2 Mode d&apos;examen
         form#startExamen(method='post', action='./examen')
@@ -32,7 +27,7 @@ block content
           p
             label(for='nbquestions') Nombre de questions :
             input#nbquestions(type='number', name='totalQuestions', value='5', step='1', min='1', max='10')
-          input(type='submit', name='submit', value='Commencer !')
+          input(type='submit', value='Commencer !')
       #admin
         h2 Administration
         form#configure(method='get', action='./admin')
