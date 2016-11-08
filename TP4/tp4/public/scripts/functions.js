@@ -27,7 +27,7 @@ function refreshScore(result) {
     // get exam scores + average
     var examens = (user.examen.previousexam.length > 0) ? user.examen.previousexam : [];
     for (var i = examens.length - 1; i >= 0; i--) {
-        $(".examenList").after("<tr class='examenElement'><td>Examen" + examens[i].date + "</td>" +
+        $(".examenList").after("<tr class='examenElement'><td>" + examens[i].date + "</td>" +
             "<td>(" + examens[i].domain.toUpperCase() + ")</td>" +
             "<td>" + (Math.round(parseInt(examens[i].score) / parseInt(examens[i].total) * 100) || 0) + "%</td></tr>");
     }

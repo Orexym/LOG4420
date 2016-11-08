@@ -38,9 +38,7 @@ var User = new Schema({
                 score: Number,
                 total: Number,
                 domain: String,
-                date: {
-                    $date: Date
-                }
+                date: String
             }
         ],
         score: Number,

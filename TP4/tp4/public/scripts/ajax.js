@@ -11,7 +11,7 @@ function newTestQuestion() {
         
         // update view
         $("#questionText").html(q.question);
-        $("#questionTitle").html("Question " + (n.test.currenttest.total+1));
+        $("#questionTitle").html("Question " + n.test.currenttest.total);
         $("#questionDomain").html("Domaine : " + q.domain.toUpperCase());
         
         // build answers

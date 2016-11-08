@@ -224,13 +224,14 @@ router.post('/exam/finish', function(req, res, next) {
             res.sendStatus(500);
         } else {
     
+            var date = new Date().toLocaleDateString();
             User.findByIdAndUpdate(user._id, {
                 $push: {
                     'examen.previousexam': {
                         'score': user.examen.currentexam.score,
                         'total': user.examen.currentexam.totalQuestions,
                         'domain': user.examen.currentexam.questionDomain,
-                        'date': ""+(new Date().toISOString())
+                        'date': ""+date
                     }
                 },
                 $inc: {
