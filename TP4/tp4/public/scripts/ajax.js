@@ -1,17 +1,17 @@
 // get new question
 function newTestQuestion() {
     
-    $.get('/api/test/questions', {}, function(result) {
+    $.get('/api/test/question', {}, function(result) {
         
         // reset view
         reset();
         
         var q = result.q;
-        var u = result.u;
+        var n = result.n;
         
         // update view
         $("#questionText").html(q.question);
-        $("#questionTitle").html("Question " + (u.test.currenttest.total+1));
+        $("#questionTitle").html("Question " + (n.test.currenttest.total+1));
         $("#questionDomain").html("Domaine : " + q.domain.toUpperCase());
         
         // build answers
@@ -28,19 +28,19 @@ function newTestQuestion() {
 // get new question
 function newExamQuestion() {
     
-    $.get('/api/exam/questions', {}, function(result) {
+    $.get('/api/exam/question', {}, function(result) {
     
         // reset view
         reset();
     
         var q = result.q;
-        var u = result.u;
+        var n = result.n;
         
         // update view
         $('#questionText').html(q.question);
-        $("#questionTitle").html("Question " + (u.examen.currentexam.questionIndex+1) + " / " + u.examen.currentexam.totalQuestions);
+        $("#questionTitle").html("Question " + (n.examen.currentexam.questionIndex) + " / " + n.examen.currentexam.totalQuestions);
         $("#questionDomain").html("Domaine : " + q.domain.toUpperCase());
-        if(u.examen.currentexam.questionIndex+1 == u.examen.currentexam.totalQuestions) {
+        if(n.examen.currentexam.questionIndex == n.examen.currentexam.totalQuestions) {
             $(".next").val("Terminer");
             $("#examenForm").prop('action', './resultats');
             examenFini = true;
@@ -59,7 +59,7 @@ function newExamQuestion() {
 
 // post new question
 function addQuestion(data) {
-    $.post('/api/questions', data, function(result, status) {
+    $.post('/api/question', data, function(result, status) {
         reset();
         addAnswer();
         addAnswer();
@@ -92,14 +92,15 @@ function getQuestionCount(data) {
 }
 
 // validate question
-function validateTestQuestion(attemptedAnswer, dropSelector) {
+function validateTestQuestion(attemptedAnswer) {
     $.post('/api/validation', attemptedAnswer, function(result, status) {
-        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(result.u.test.currenttest.score) / parseInt(result.u.test.currenttest.total) * 100) || 0) + "%");
+        $("#scoreCourant").html("Score courant : " +
+            (Math.round(parseInt(result.n.test.currenttest.score) / parseInt(result.n.test.currenttest.total) * 100) || 0) + "%");
         if(parseInt(result.goodAnswer) == 1) {
-            dropSelector.addClass("valid");
+            $(".dropzone").addClass("valid");
             $(".unaffectedText").html("&#x2713;");
         } else {
-            dropSelector.addClass("invalid");
+            $(".dropzone").addClass("invalid");
             $(".unaffectedText").html("&#x2717;");
         }
         console.log("Result: " + result);
@@ -108,14 +109,15 @@ function validateTestQuestion(attemptedAnswer, dropSelector) {
 }
 
 // validate question
-function validateExamQuestion(trueAnswer, dropSelector) {
+function validateExamQuestion(trueAnswer) {
     $.post('/api/validation', trueAnswer, function(result, status) {
-        $("#scoreCourant").html("Score courant : " + (Math.round(parseInt(result.u.examen.currentexam.score) / parseInt(result.u.examen.currentexam.questionIndex) * 100) || 0) + "%");
+        $("#scoreCourant").html("Score courant : " +
+            (Math.round(parseInt(result.n.examen.currentexam.score) / parseInt(result.n.examen.currentexam.questionIndex) * 100) || 0) + "%");
         if(parseInt(result.goodAnswer) == 1) {
-            dropSelector.addClass("valid");
+            $(".dropzone").addClass("valid");
             $(".unaffectedText").html("&#x2713;");
         } else {
-            dropSelector.addClass("invalid");
+            $(".dropzone").addClass("invalid");
             $(".unaffectedText").html("&#x2717;");
         }
         console.log("Result: " + result);
@@ -125,8 +127,8 @@ function validateExamQuestion(trueAnswer, dropSelector) {
 
 // configure exam
 function configureExam(domain, totalQuestions) {
-    $.put('/api/configureExam/', { domain: domain, totalQuestions: totalQuestions }, function(result, status) {
-        executedOnce = true;
+    $.put('/api/configureExam', { domain: domain, totalQuestions: totalQuestions }, function(result, status) {
+        startExamExecutedOnce = true;
         $( "#startExamen" ).trigger("submit");
         console.log("Result: " + result);
         console.log("Status: " + status);
@@ -135,9 +137,13 @@ function configureExam(domain, totalQuestions) {
 
 // finish exam == abandon exam
 function finishExam() {
-    $.put('/api/exam/finish', {id: sessionStorage.id}, function(result, status) {
+    $.post('/api/exam/finish', {}, function(result, status) {
         // SEND FEEDBACK
+        endExamExecutedOnce = true;
         sessionStorage.exam_flag = 0;
+        refreshScore(result.n);
+        $( "#examenForm" ).trigger("submit");
+        
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -145,9 +151,38 @@ function finishExam() {
 
 // finish test == abandon test
 function finishTest() {
-    $.put('/api/test/finish', {id: sessionStorage.id}, function(result, status) {
+    $.post('/api/test/finish', {}, function(result, status) {
         // SEND FEEDBACK
-        refreshScore()
+        refreshScore(result.n);
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// resultats finaux
+function resultatsFinaux() {
+    $.get('/api/resultatsFinaux', {}, function(result, status) {
+        
+        var user = result.n;
+        
+        var messages = [
+            'Score final inacceptable.',
+            'Score final &agrave; am&eacute;liorer.',
+            'Score final passable.',
+            'Score final excellent.',
+            'Score final parfait.'
+        ];
+        var step = 25;
+        
+        // calcul du score + du message
+        var finalScore = Math.round(parseInt(user.examen.currentexam.score) / parseInt(user.examen.currentexam.totalQuestions) * 100);
+        var palier = Math.floor(finalScore / step);
+        
+        
+        // update view
+        $("#finalScore").html(finalScore);
+        $("#message").html(messages[palier]);
+    
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -156,7 +191,8 @@ function finishTest() {
 // load profile
 function loadProfile() {
     $.get('/api/load', {}, function(result, status) {
-        var user = result;
+        var user = result.n;
+        refreshScore(user);
         sessionStorage.id = user._id;
         sessionStorage.exam_flag = user.exam_flag;
         
@@ -165,6 +201,18 @@ function loadProfile() {
         console.log("Status: " + status);
     });
 }
+
+// reset scores
+function resetScores() {
+    $.delete('/api/resetScores', {}, function(result, status) {
+        // SEND FEEDBACK
+        refreshScore(result.n);
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+
 
 /*
     EXTENDED SUPPORT FOR PUT/DELETE

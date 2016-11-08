@@ -5,8 +5,13 @@ $(document).ready(function() {
             event.preventDefault();
             event.stopImmediatePropagation();
             newExamQuestion();
+        } else {
+            if(endExamExecutedOnce == false) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                finishExam();
+            }
         }
-        
     });
     $("#abandonExam").submit(function( event ) {
         finishExam();
@@ -29,13 +34,14 @@ $(document).ready(function() {
         event.preventDefault();
     });
     $( "#startExamen" ).submit(function( event ) {
-        if(!executedOnce) {
+        if(!startExamExecutedOnce) {
             event.preventDefault();
+            event.stopImmediatePropagation();
             configureExam($("#domaine option:selected").val(), $("#nbquestions").val());
         }
     });
-    $( "#reset" ).click(function( event ) { // DEPRECATED
-        //resetScores();
+    $( "#reset" ).click(function( event ) {
+        resetScores();
     });
     $("#domaine").on('change', function(event) {
         var valueSelected = this.value;
@@ -55,7 +61,6 @@ $(document).ready(function() {
         $("#answerinputlist").children().each(function() {
             answers.push(validateStringInput($(this).children('input[type=text]').val()));
         });
-        console.log(question, domain, trueAnswer, answers);
         
         // send to server
         addQuestion(

@@ -102,7 +102,7 @@ router.post('/validation', function(req, res, next) {
                                 res.sendStatus(500);
                             }
         
-                            res.status(200).json( { u: newUser, goodAnswer: score } );
+                            res.status(200).json( { n: newUser, goodAnswer: score } );
                         });
                     } else {
                         User.findByIdAndUpdate( user._id, {
@@ -118,7 +118,7 @@ router.post('/validation', function(req, res, next) {
                                 res.sendStatus(500);
                             }
         
-                            res.status(200).json( { u: newUser, goodAnswer: score } );
+                            res.status(200).json( { n: newUser, goodAnswer: score } );
                         });
                     }
                     
@@ -130,7 +130,7 @@ router.post('/validation', function(req, res, next) {
 });
 
 // new exam question
-router.get('/exam/questions', function(req, res, next) {
+router.get('/exam/question', function(req, res, next) {
     
     User.findOne({}, function(err, user) {
         if(err) {
@@ -147,7 +147,7 @@ router.get('/exam/questions', function(req, res, next) {
                     res.sendStatus(500);
                 } else {
                     
-                    User.update( {_id : user._id }, {
+                    User.findByIdAndUpdate( user._id, {
                         $set : {
                             'examen.currentexam.questionDomain' : domaine,
                             'examen.currentexam.questionID' : newQuestion._id
@@ -155,14 +155,16 @@ router.get('/exam/questions', function(req, res, next) {
                         $inc : {
                             'examen.currentexam.questionIndex' : 1
                         }
-                    }, function(err) {
+                    },{
+                        new: true
+                    }, function(err, newUser) {
                         if(err) {
                             console.log("Could not update user in exam/questions");
                             console.log("Error " + err);
                             res.sendStatus(500);
                         }
                         
-                        res.status(200).json( { q: newQuestion, u: user } );
+                        res.status(200).json( { q: newQuestion, n: newUser } );
                     });
                 }
             });
@@ -172,7 +174,7 @@ router.get('/exam/questions', function(req, res, next) {
 });
 
 // new test question
-router.get('/test/questions', function(req, res, next) {
+router.get('/test/question', function(req, res, next) {
     
     User.findOne({}, function(err, user) {
         if(err) {
@@ -188,21 +190,23 @@ router.get('/test/questions', function(req, res, next) {
                     res.sendStatus(500);
                 } else {
                     
-                    User.update( {_id : user._id }, {
+                    User.findByIdAndUpdate( user._id, {
                         $set : {
                             'test.currenttest.questionID' : newQuestion._id
                         },
                         $inc : {
                             'test.currenttest.total' : 1
                         }
-                    }, function(err) {
+                    },{
+                        new: true
+                    }, function(err, newUser) {
                         if(err) {
                             console.log("Could not update user in test/questions");
                             console.log("Error " + err);
                             res.sendStatus(500);
                         }
                         
-                        res.status(200).json( { q: newQuestion, u: user } );
+                        res.status(200).json( { q: newQuestion, n: newUser } );
                     });
                 }
             });
@@ -211,7 +215,7 @@ router.get('/test/questions', function(req, res, next) {
 });
 
 // finish exam
-router.put('/exam/finish', function(req, res, next) {
+router.post('/exam/finish', function(req, res, next) {
     
     User.findOne({}, function(err, user) {
         if (err) {
@@ -219,42 +223,38 @@ router.put('/exam/finish', function(req, res, next) {
             console.log("Error " + err);
             res.sendStatus(500);
         } else {
-            
-            User.update({_id: user._id}, {
-                    $push: {
-                        'examen.previousexam': {
-                            'score': user.examen.currentexam.score,
-                            'total': user.examen.currentexam.total,
-                            'date': {
-                                "$date": Date.now()
-                            }
-                        }
-                    },
-                    $inc: {
-                        'examen.score': user.examen.currentexam.score,
-                        'examen.total': user.examen.currentexam.total
-                    },
-                    $set: {
-                        'exam_flag': 0,
-                        'examen.currentexam.questionIndex': 0,
-                        'examen.currentexam.score': 0,
-                        'examen.currentexam.totalQuestions': 0
+    
+            User.findByIdAndUpdate(user._id, {
+                $push: {
+                    'examen.previousexam': {
+                        'score': user.examen.currentexam.score,
+                        'total': user.examen.currentexam.totalQuestions,
+                        'domain': user.examen.currentexam.questionDomain,
+                        'date': ""+(new Date().toISOString())
                     }
                 },
-                function (err) {
-                    if (err) {
-                        console.log("Could not update user in exam/finish");
-                        console.log("Error " + err);
-                        res.sendStatus(500);
-                    }
-                    res.sendStatus(200);
-                });
+                $inc: {
+                    'examen.score': user.examen.currentexam.score,
+                    'examen.total': user.examen.currentexam.totalQuestions
+                },
+                $set: {
+                    'exam_flag': 0
+                }
+            },{
+                new: true
+            }, function (err, newUser) {
+                if (err) {
+                    console.log("Could not push previous in exam/finish");
+                    console.log("Error " + err);
+                }
+                res.status(200).json( { n: newUser } );
+            });
         }
     });
 });
 
 // finish test
-router.put('/test/finish', function(req, res, next) {
+router.post('/test/finish', function(req, res, next) {
     User.findOne({}, function(err, user) {
         if (err) {
             console.log("Could not find user in test/finish");
@@ -262,7 +262,7 @@ router.put('/test/finish', function(req, res, next) {
             res.sendStatus(500);
         } else {
     
-            User.update({_id: user._id}, {
+            User.findByIdAndUpdate(user._id, {
                 $inc : {
                     'test.score' : user.test.currenttest.score,
                     'test.total' : user.test.currenttest.total
@@ -271,13 +271,15 @@ router.put('/test/finish', function(req, res, next) {
                     'test.currenttest.score' : 0,
                     'test.currenttest.total' : 0
                 }
-            }, function (err, user) {
+            },{
+                new: true
+            }, function (err, newUser) {
                 if (err) {
                     console.log("Could not update user in test/finish");
                     console.log("Error " + err);
                     res.sendStatus(500);
                 }
-                res.sendStatus(200);
+                res.status(200).json( { n: newUser } );
         
             });
         }
@@ -285,10 +287,13 @@ router.put('/test/finish', function(req, res, next) {
 });
 
 // add question
-router.post('/questions', function(req, res, next) {
+router.post('/question', function(req, res, next) {
     
     // some validation
-    if(!server_functions.validateInput(req.body.question) && !server_functions.validateInput(req.body.domain) && !server_functions.validateInput(req.body.trueAnswer) && !server_functions.validateInput(req.body.ans)) {
+    if(!server_functions.validateInput(req.body.question)
+        && !server_functions.validateInput(req.body.domain)
+        && !server_functions.validateInput(req.body.trueAnswer)
+        && !server_functions.validateInput(req.body.ans)) {
         res.status(400).send("Fail validation"); // Gros fail
     }
 
@@ -317,9 +322,21 @@ router.post('/questions', function(req, res, next) {
             console.log("Error " + err);
             res.sendStatus(500);
         }
-        res.status(200).send("Success");// Réponse validée
+        res.status(200).send("1");// Réponse validée
     });
     
+});
+
+// resultats finaux
+router.get('/resultatsFinaux', function(req, res, next) {
+    User.findOne({}, function(err, user) {
+        if (err) {
+            console.log("Could not load profile");
+            console.log("Error " + err);
+            res.sendStatus(500);
+        }
+        res.status(200).json( {n:user} );
+    });
 });
 
 // empty database
@@ -330,8 +347,37 @@ router.delete('/emptyQuestionDatabase', function(req, res, next) {
             console.log("Error " + err);
             res.sendStatus(500);
         } else {
-            res.status(200).send("Success");
+            res.status(200).send("1");
         }
+    });
+});
+
+// reset scores
+router.delete('/resetScores', function(req, res, next) {
+    User.findOne({}, function(err, user) {
+        if (err) {
+            console.log("Could not load profile");
+            console.log("Error " + err);
+            res.sendStatus(500);
+        }
+        User.findByIdAndUpdate(user._id,{
+            $set : {
+                'test.score' : 0,
+                'test.total' : 0,
+                'examen.score' : 0,
+                'examen.total' : 0,
+                'examen.previousexam' : []
+            }
+        },{
+            new: true
+        }, function(err, newUser) {
+            if (err) {
+                console.log("Could not load profile");
+                console.log("Error " + err);
+                res.sendStatus(500);
+            }
+            res.status(200).json( {n:newUser} );
+        });
     });
 });
 
@@ -343,20 +389,22 @@ router.get('/load', function(req, res, next) {
            console.log("Error " + err);
            res.sendStatus(500);
        }
-       User.update({_id: user._id}, {
+       User.findByIdAndUpdate(user._id, {
            $set : {
                'test.currenttest.score' : 0,
                'test.currenttest.total' : 0,
                'test.currenttest.questionID' : ""
            }
-       }, function(err) {
+       },{
+           new: true
+       }, function(err, newUser) {
            if(err) {
                console.log("Could not update profile");
                console.log("Error " + err);
                res.sendStatus(500);
            }
+           res.status(200).json( {n : newUser} );
        });
-       res.status(200).json(user);
    });
 });
 

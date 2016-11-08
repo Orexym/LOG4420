@@ -21,7 +21,7 @@
 }
 
 [draggable] {
-    user-select: none;
+    -moz-user-select: none;
 }
 
 body {
