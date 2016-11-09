@@ -34,6 +34,9 @@ $(document).ready(function() {
         event.preventDefault();
     });
     $( "#startExamen" ).submit(function( event ) {
+        if(showConfirm && !confirm("Un examen est déjà en cours. Voulez-vous abandonner et en débuter un nouveau?")) {
+            showConfirm = false;return;
+        }
         if(!startExamExecutedOnce) {
             event.preventDefault();
             event.stopImmediatePropagation();

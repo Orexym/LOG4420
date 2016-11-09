@@ -1,6 +1,7 @@
 var examenFini = false;
 var startExamExecutedOnce = false;
 var endExamExecutedOnce = false;
+var showConfirm = false;
 
 $(document).ready(function(){
     
@@ -133,10 +134,9 @@ function reset() {
 
 // afficher le bouton continuer
 function showContinueExamButton(show) {
-    console.log("Here first?");
     if(show) {
         $("#continueExamen").removeClass("hidden");
-        console.log("Here");
+        showCOnfirm = true;
     }
 }
 

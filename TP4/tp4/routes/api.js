@@ -10,7 +10,7 @@ var User = mongoose.model('user');
 
 // Get nb questions
 router.get('/question/count/:domain', function(req, res) {
-
+    
     Question.find({domain : req.params.domain.toUpperCase()}, function(err) {
         if(err) {
             console.log("Could not find questions in questionCount");
@@ -30,29 +30,61 @@ router.get('/question/count/:domain', function(req, res) {
 
 // configure exam
 router.put('/examen/configure', function(req, res) {
-
+    
     User.findOne({}, function(err, user) {
         if(err) {
             console.log("Could not find user in configureExam");
             console.log("Error " + err);
             res.sendStatus(500);
         } else {
-            User.update( {_id : user._id }, {
-                $set : {
-                    'exam_flag' : 1,
-                    'examen.currentexam.score' : 0,
-                    'examen.currentexam.questionIndex' : 0,
-                    'examen.currentexam.questionDomain' : req.body.domain.toUpperCase(),
-                    'examen.currentexam.totalQuestions' : parseInt(req.body.totalQuestions)
-                }
-            }, function(err) {
-                if(err) {
-                    console.log("Could not update user in configureExam");
-                    console.log("Error " + err);
-                    res.sendStatus(500);
-                }
-                res.sendStatus(200);
-            });
+            
+            if(user.exam_flag == 1) {
+                var date = new Date().toLocaleDateString();
+                User.update( {_id : user._id }, {
+                    $push: {
+                        'examen.previousexam': {
+                            'score': user.examen.currentexam.score,
+                            'total': user.examen.currentexam.totalQuestions,
+                            'domain': user.examen.currentexam.questionDomain,
+                            'date': ""+date
+                        }
+                    },
+                    $inc: {
+                        'examen.score': user.examen.currentexam.score,
+                        'examen.total': user.examen.currentexam.totalQuestions
+                    },
+                    $set : {
+                        'examen.currentexam.score' : 0,
+                        'examen.currentexam.questionIndex' : 0,
+                        'examen.currentexam.questionDomain' : req.body.domain.toUpperCase(),
+                        'examen.currentexam.totalQuestions' : parseInt(req.body.totalQuestions)
+                    }
+                }, function(err) {
+                    if(err) {
+                        console.log("Could not update user in configureExam");
+                        console.log("Error " + err);
+                        res.sendStatus(500);
+                    }
+                    res.sendStatus(200);
+                });
+            } else {
+                User.update( {_id : user._id }, {
+                    $set : {
+                        'exam_flag' : 1,
+                        'examen.currentexam.score' : 0,
+                        'examen.currentexam.questionIndex' : 0,
+                        'examen.currentexam.questionDomain' : req.body.domain.toUpperCase(),
+                        'examen.currentexam.totalQuestions' : parseInt(req.body.totalQuestions)
+                    }
+                }, function(err) {
+                    if(err) {
+                        console.log("Could not update user in configureExam");
+                        console.log("Error " + err);
+                        res.sendStatus(500);
+                    }
+                    res.sendStatus(200);
+                });
+            }
             
             
         }
@@ -68,7 +100,7 @@ router.post('/question/validate', function(req, res) {
             console.log("Error " + err);
             res.sendStatus(500);
         } else {
-    
+            
             var qid;
             if(user.exam_flag == 1) {
                 qid = user.examen.currentexam.questionID;
@@ -87,7 +119,7 @@ router.post('/question/validate', function(req, res) {
                     if(oldQuestion.trueAnswer == req.body.attemptedAnswer) {
                         score = 1;
                     }
-    
+                    
                     if(user.exam_flag == 1) {
                         var domaine = user.examen.currentexam.questionDomain.toUpperCase();
                         Question.findOneRandom({domain: domaine}, function(err, newQuestion) {
@@ -96,7 +128,7 @@ router.post('/question/validate', function(req, res) {
                                 console.log("Error " + err);
                                 res.sendStatus(500);
                             } else {
-    
+                                
                                 User.findByIdAndUpdate( user._id, {
                                     $set : {
                                         'examen.currentexam.questionDomain' : domaine,
@@ -113,7 +145,7 @@ router.post('/question/validate', function(req, res) {
                                         console.log("Error " + err);
                                         res.sendStatus(500);
                                     }
-        
+                                    
                                     res.status(200).json( { n: newUser, goodAnswer: score } );
                                 });
                             }
@@ -140,7 +172,7 @@ router.post('/question/validate', function(req, res) {
                                         console.log("Error " + err);
                                         res.sendStatus(500);
                                     }
-            
+                                    
                                     res.status(200).json({n: newUser, goodAnswer: score});
                                 });
                             }
@@ -238,7 +270,7 @@ router.post('/examen/finish', function(req, res) {
             console.log("Error " + err);
             res.sendStatus(500);
         } else {
-    
+            
             var date = new Date().toLocaleDateString();
             User.findByIdAndUpdate(user._id, {
                 $push: {
@@ -277,7 +309,7 @@ router.post('/test/finish', function(req, res) {
             console.log("Error " + err);
             res.sendStatus(500);
         } else {
-    
+            
             User.findByIdAndUpdate(user._id, {
                 $inc : {
                     'test.score' : user.test.currenttest.score,
@@ -296,7 +328,7 @@ router.post('/test/finish', function(req, res) {
                     res.sendStatus(500);
                 }
                 res.status(200).json( { n: newUser } );
-        
+                
             });
         }
     });
@@ -312,7 +344,7 @@ router.post('/question/add', function(req, res) {
         && !server_functions.validateInput(req.body.ans)) {
         res.status(400).send("Fail validation"); // Gros fail
     }
-
+    
     var question = server_functions.validateStringInput(req.body.question);
     var domain = server_functions.validateStringInput(req.body.domain).toUpperCase();
     var trueAnswer = server_functions.validateStringInput(req.body.trueAnswer);
@@ -399,29 +431,29 @@ router.delete('/user/resetScores', function(req, res) {
 
 // load profile
 router.get('/user/load', function(req, res) {
-   User.findOne({}, function(err, user) {
-       if(err) {
-           console.log("Could not load profile");
-           console.log("Error " + err);
-           res.sendStatus(500);
-       }
-       User.findByIdAndUpdate(user._id, {
-           $set : {
-               'test.currenttest.score' : 0,
-               'test.currenttest.total' : 0,
-               'test.currenttest.questionID' : ""
-           }
-       },{
-           new: true
-       }, function(err, newUser) {
-           if(err) {
-               console.log("Could not update profile");
-               console.log("Error " + err);
-               res.sendStatus(500);
-           }
-           res.status(200).json( {n : newUser} );
-       });
-   });
+    User.findOne({}, function(err, user) {
+        if(err) {
+            console.log("Could not load profile");
+            console.log("Error " + err);
+            res.sendStatus(500);
+        }
+        User.findByIdAndUpdate(user._id, {
+            $set : {
+                'test.currenttest.score' : 0,
+                'test.currenttest.total' : 0,
+                'test.currenttest.questionID' : ""
+            }
+        },{
+            new: true
+        }, function(err, newUser) {
+            if(err) {
+                console.log("Could not update profile");
+                console.log("Error " + err);
+                res.sendStatus(500);
+            }
+            res.status(200).json( {n : newUser} );
+        });
+    });
 });
 
 module.exports = router;
