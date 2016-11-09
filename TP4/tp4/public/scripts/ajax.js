@@ -28,7 +28,7 @@ function newTestQuestion() {
 // get new question
 function newExamQuestion() {
     
-    $.get('/api/exam/question', {}, function(result) {
+    $.get('/api/examen/question', {}, function(result) {
     
         // reset view
         reset();
@@ -59,7 +59,7 @@ function newExamQuestion() {
 
 // post new question
 function addQuestion(data) {
-    $.post('/api/question', data, function(result, status) {
+    $.post('/api/question/add', data, function(result, status) {
         reset();
         addAnswer();
         addAnswer();
@@ -71,7 +71,7 @@ function addQuestion(data) {
 
 // empty database
 function emptyQuestionDatabase() {
-    $.delete('/api/emptyQuestionDatabase', {}, function(result, status) {
+    $.delete('/api/question/emptyDB', {}, function(result, status) {
         // SEND FEEDBACK
         console.log("Result: " + result);
         console.log("Status: " + status);
@@ -93,7 +93,7 @@ function getQuestionCount(data) {
 
 // validate question
 function validateTestQuestion(attemptedAnswer) {
-    $.post('/api/validation', attemptedAnswer, function(result, status) {
+    $.post('/api/question/validate', attemptedAnswer, function(result, status) {
         $("#scoreCourant").html("Score courant : " +
             (Math.round(parseInt(result.n.test.currenttest.score) / parseInt(result.n.test.currenttest.total) * 100) || 0) + "%");
         if(parseInt(result.goodAnswer) == 1) {
@@ -110,7 +110,7 @@ function validateTestQuestion(attemptedAnswer) {
 
 // validate question
 function validateExamQuestion(trueAnswer) {
-    $.post('/api/validation', trueAnswer, function(result, status) {
+    $.post('/api/question/validate', trueAnswer, function(result, status) {
         $("#scoreCourant").html("Score courant : " +
             (Math.round(parseInt(result.n.examen.currentexam.score) / parseInt(result.n.examen.currentexam.questionIndex) * 100) || 0) + "%");
         if(parseInt(result.goodAnswer) == 1) {
@@ -127,7 +127,7 @@ function validateExamQuestion(trueAnswer) {
 
 // configure exam
 function configureExam(domain, totalQuestions) {
-    $.put('/api/configureExam', { domain: domain, totalQuestions: totalQuestions }, function(result, status) {
+    $.put('/api/examen/configure', { domain: domain, totalQuestions: totalQuestions }, function(result, status) {
         startExamExecutedOnce = true;
         $( "#startExamen" ).trigger("submit");
         console.log("Result: " + result);
@@ -137,7 +137,7 @@ function configureExam(domain, totalQuestions) {
 
 // finish exam == abandon exam
 function finishExam() {
-    $.post('/api/exam/finish', {}, function(result, status) {
+    $.post('/api/examen/finish', {}, function(result, status) {
         // SEND FEEDBACK
         endExamExecutedOnce = true;
         sessionStorage.exam_flag = 0;
@@ -161,7 +161,7 @@ function finishTest() {
 
 // resultats finaux
 function resultatsFinaux() {
-    $.get('/api/resultatsFinaux', {}, function(result, status) {
+    $.get('/api/user/finalResults', {}, function(result, status) {
         
         var user = result.n;
         
@@ -190,7 +190,7 @@ function resultatsFinaux() {
 
 // load profile
 function loadProfile() {
-    $.get('/api/load', {}, function(result, status) {
+    $.get('/api/user/load', {}, function(result, status) {
         var user = result.n;
         refreshScore(user);
         sessionStorage.id = user._id;
@@ -204,7 +204,7 @@ function loadProfile() {
 
 // reset scores
 function resetScores() {
-    $.delete('/api/resetScores', {}, function(result, status) {
+    $.delete('/api/user/resetScores', {}, function(result, status) {
         // SEND FEEDBACK
         refreshScore(result.n);
         console.log("Result: " + result);

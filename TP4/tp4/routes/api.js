@@ -9,7 +9,7 @@ var Question = mongoose.model('question');
 var User = mongoose.model('user');
 
 // Get nb questions
-router.get('/questionCount/:domain', function(req, res, next) {
+router.get('/question/count/:domain', function(req, res) {
 
     Question.find({domain : req.params.domain.toUpperCase()}, function(err) {
         if(err) {
@@ -29,7 +29,7 @@ router.get('/questionCount/:domain', function(req, res, next) {
 });
 
 // configure exam
-router.put('/configureExam', function(req, res, next) {
+router.put('/examen/configure', function(req, res) {
 
     User.findOne({}, function(err, user) {
         if(err) {
@@ -60,7 +60,7 @@ router.put('/configureExam', function(req, res, next) {
 });
 
 // validate question
-router.post('/validation', function(req, res, next) {
+router.post('/question/validate', function(req, res) {
     
     User.findOne({}, function(err, user) {
         if(err) {
@@ -130,7 +130,7 @@ router.post('/validation', function(req, res, next) {
 });
 
 // new exam question
-router.get('/exam/question', function(req, res, next) {
+router.get('/examen/question', function(req, res) {
     
     User.findOne({}, function(err, user) {
         if(err) {
@@ -174,7 +174,7 @@ router.get('/exam/question', function(req, res, next) {
 });
 
 // new test question
-router.get('/test/question', function(req, res, next) {
+router.get('/test/question', function(req, res) {
     
     User.findOne({}, function(err, user) {
         if(err) {
@@ -215,7 +215,7 @@ router.get('/test/question', function(req, res, next) {
 });
 
 // finish exam
-router.post('/exam/finish', function(req, res, next) {
+router.post('/examen/finish', function(req, res) {
     
     User.findOne({}, function(err, user) {
         if (err) {
@@ -255,7 +255,7 @@ router.post('/exam/finish', function(req, res, next) {
 });
 
 // finish test
-router.post('/test/finish', function(req, res, next) {
+router.post('/test/finish', function(req, res) {
     User.findOne({}, function(err, user) {
         if (err) {
             console.log("Could not find user in test/finish");
@@ -288,7 +288,7 @@ router.post('/test/finish', function(req, res, next) {
 });
 
 // add question
-router.post('/question', function(req, res, next) {
+router.post('/question/add', function(req, res) {
     
     // some validation
     if(!server_functions.validateInput(req.body.question)
@@ -302,7 +302,7 @@ router.post('/question', function(req, res, next) {
     var domain = server_functions.validateStringInput(req.body.domain).toUpperCase();
     var trueAnswer = server_functions.validateStringInput(req.body.trueAnswer);
     var answers = [];
-    JSON.parse(req.body.ans).forEach(function(item, index) {
+    JSON.parse(req.body.ans).forEach(function(item) {
         answers.push(
             {
                 text : server_functions.validateStringInput(item),
@@ -329,7 +329,7 @@ router.post('/question', function(req, res, next) {
 });
 
 // resultats finaux
-router.get('/resultatsFinaux', function(req, res, next) {
+router.get('/user/finalResults', function(req, res) {
     User.findOne({}, function(err, user) {
         if (err) {
             console.log("Could not load profile");
@@ -341,7 +341,7 @@ router.get('/resultatsFinaux', function(req, res, next) {
 });
 
 // empty database
-router.delete('/emptyQuestionDatabase', function(req, res, next) {
+router.delete('/question/emptyDB', function(req, res) {
     Question.remove({}, function(err) {
         if(err) {
             console.log("Could not empty DB");
@@ -354,7 +354,7 @@ router.delete('/emptyQuestionDatabase', function(req, res, next) {
 });
 
 // reset scores
-router.delete('/resetScores', function(req, res, next) {
+router.delete('/user/resetScores', function(req, res) {
     User.findOne({}, function(err, user) {
         if (err) {
             console.log("Could not load profile");
@@ -383,7 +383,7 @@ router.delete('/resetScores', function(req, res, next) {
 });
 
 // load profile
-router.get('/load', function(req, res, next) {
+router.get('/user/load', function(req, res) {
    User.findOne({}, function(err, user) {
        if(err) {
            console.log("Could not load profile");
