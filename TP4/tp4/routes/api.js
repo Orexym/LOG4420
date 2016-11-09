@@ -89,40 +89,63 @@ router.post('/question/validate', function(req, res) {
                     }
     
                     if(user.exam_flag == 1) {
-                        User.findByIdAndUpdate( user._id, {
-                            $inc : {
-                                'examen.currentexam.score' : score
-                            }
-                        },{
-                            new: true
-                        }, function(err, newUser) {
+                        var domaine = user.examen.currentexam.questionDomain.toUpperCase();
+                        Question.findOneRandom({domain: domaine}, function(err, newQuestion) {
                             if(err) {
-                                console.log("Could not update user in validation");
+                                console.log("Could not find new question in exam/questions");
                                 console.log("Error " + err);
                                 res.sendStatus(500);
-                            }
+                            } else {
+    
+                                User.findByIdAndUpdate( user._id, {
+                                    $set : {
+                                        'examen.currentexam.questionDomain' : domaine,
+                                        'examen.currentexam.questionID' : newQuestion._id
+                                    },
+                                    $inc : {
+                                        'examen.currentexam.score' : score
+                                    }
+                                },{
+                                    new: true
+                                }, function(err, newUser) {
+                                    if(err) {
+                                        console.log("Could not update user in validation");
+                                        console.log("Error " + err);
+                                        res.sendStatus(500);
+                                    }
         
-                            res.status(200).json( { n: newUser, goodAnswer: score } );
+                                    res.status(200).json( { n: newUser, goodAnswer: score } );
+                                });
+                            }
                         });
                     } else {
-                        User.findByIdAndUpdate( user._id, {
-                            $inc : {
-                                'test.currenttest.score' : score
-                            }
-                        },{
-                            new: true
-                        }, function(err, newUser) {
-                            if(err) {
-                                console.log("Could not update user in test/validation");
+                        Question.findOneRandom(function(err, newQuestion) {
+                            if (err) {
+                                console.log("Could not find new question in test/questions");
                                 console.log("Error " + err);
                                 res.sendStatus(500);
+                            } else {
+                                User.findByIdAndUpdate(user._id, {
+                                    $set : {
+                                        'test.currenttest.questionID' : newQuestion._id
+                                    },
+                                    $inc: {
+                                        'test.currenttest.score': score
+                                    }
+                                }, {
+                                    new: true
+                                }, function (err, newUser) {
+                                    if (err) {
+                                        console.log("Could not update user in test/validation");
+                                        console.log("Error " + err);
+                                        res.sendStatus(500);
+                                    }
+            
+                                    res.status(200).json({n: newUser, goodAnswer: score});
+                                });
                             }
-        
-                            res.status(200).json( { n: newUser, goodAnswer: score } );
                         });
                     }
-                    
-                    
                 }
             });
         }
@@ -139,8 +162,7 @@ router.get('/examen/question', function(req, res) {
             res.sendStatus(500);
         } else {
             
-            var domaine = user.examen.currentexam.questionDomain.toUpperCase();
-            Question.findOneRandom({domain: domaine}, function(err, newQuestion) {
+            Question.findById(user.examen.currentexam.questionID, function(err, newQuestion) {
                 if(err) {
                     console.log("Could not find new question in exam/questions");
                     console.log("Error " + err);
@@ -148,10 +170,6 @@ router.get('/examen/question', function(req, res) {
                 } else {
                     
                     User.findByIdAndUpdate( user._id, {
-                        $set : {
-                            'examen.currentexam.questionDomain' : domaine,
-                            'examen.currentexam.questionID' : newQuestion._id
-                        },
                         $inc : {
                             'examen.currentexam.questionIndex' : 1
                         }
@@ -183,7 +201,7 @@ router.get('/test/question', function(req, res) {
             res.sendStatus(500);
         } else {
             
-            Question.findOneRandom(function(err, newQuestion) {
+            Question.findById(user.test.currenttest.questionID, function(err, newQuestion) {
                 if(err) {
                     console.log("Could not find new question in test/questions");
                     console.log("Error " + err);
@@ -191,9 +209,6 @@ router.get('/test/question', function(req, res) {
                 } else {
                     
                     User.findByIdAndUpdate( user._id, {
-                        $set : {
-                            'test.currenttest.questionID' : newQuestion._id
-                        },
                         $inc : {
                             'test.currenttest.total' : 1
                         }

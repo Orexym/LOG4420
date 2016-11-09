@@ -141,12 +141,19 @@ section#modes > div div {
     text-align: center;
     box-sizing: content-box;
     flex-grow: 1;
-    padding: 5px;
 }
 
 section#modes > div div#admin {
     page-break-before: always;
     flex-grow: 1;
+}
+section#modes > div div form {
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+section#modes > div div form ~ form {
+    border-top: 2px solid #eeeeee;
 }
 
 section#administration > div div {
@@ -437,6 +444,26 @@ input[type=button]#addAnswer {
     width: initial;
 }
 
+#continueExamen p {
+    text-align: center;
+}
+
+#banner {
+    position: absolute;
+    width: 250px;
+    height: 70px;
+    top: 20px;
+    right: -270px;
+    z-index: 1;
+    background-color: #05245d;
+    border: 2px solid #196aff;
+    border-radius: 10px;
+    line-height: 35px;
+    color: #eeeeee;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
 
 /* Special admin colours */
 

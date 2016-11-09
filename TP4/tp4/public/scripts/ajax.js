@@ -63,7 +63,15 @@ function addQuestion(data) {
         reset();
         addAnswer();
         addAnswer();
-        // SHOW FEEDBACK
+    
+        $("#banner").html("Question ajoutée avec succès");
+        $("#banner").animate({
+            right: '20px'
+        },400)
+            .delay(2000)
+            .animate({
+                right: '-270px'
+            },400);
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -72,15 +80,23 @@ function addQuestion(data) {
 // empty database
 function emptyQuestionDatabase() {
     $.delete('/api/question/emptyDB', {}, function(result, status) {
-        // SEND FEEDBACK
+    
+        $("#banner").html("DB de questions vidée avec succès");
+        $("#banner").animate({
+            right: '20px'
+        },400)
+            .delay(2000)
+            .animate({
+                right: '-270px'
+            },400);
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
 }
 
 // Get nb questions
-function getQuestionCount(data) {
-    $.get('/api/questionCount/'+data, {}, function(result, status) {
+function getQuestionCount(domain) {
+    $.get('/api/question/count/'+domain, {}, function(result, status) {
         var input = $("#nbquestions");
         input.prop('max', result.count);
         if(result.count <= input.val()) {
@@ -92,10 +108,12 @@ function getQuestionCount(data) {
 }
 
 // validate question
-function validateTestQuestion(attemptedAnswer) {
+function validateQuestion(attemptedAnswer) {
     $.post('/api/question/validate', attemptedAnswer, function(result, status) {
-        $("#scoreCourant").html("Score courant : " +
-            (Math.round(parseInt(result.n.test.currenttest.score) / parseInt(result.n.test.currenttest.total) * 100) || 0) + "%");
+        
+        var user = result.n;
+        refreshScore(user);
+        
         if(parseInt(result.goodAnswer) == 1) {
             $(".dropzone").addClass("valid");
             $(".unaffectedText").html("&#x2713;");
@@ -103,23 +121,7 @@ function validateTestQuestion(attemptedAnswer) {
             $(".dropzone").addClass("invalid");
             $(".unaffectedText").html("&#x2717;");
         }
-        console.log("Result: " + result);
-        console.log("Status: " + status);
-    });
-}
-
-// validate question
-function validateExamQuestion(trueAnswer) {
-    $.post('/api/question/validate', trueAnswer, function(result, status) {
-        $("#scoreCourant").html("Score courant : " +
-            (Math.round(parseInt(result.n.examen.currentexam.score) / parseInt(result.n.examen.currentexam.questionIndex) * 100) || 0) + "%");
-        if(parseInt(result.goodAnswer) == 1) {
-            $(".dropzone").addClass("valid");
-            $(".unaffectedText").html("&#x2713;");
-        } else {
-            $(".dropzone").addClass("invalid");
-            $(".unaffectedText").html("&#x2717;");
-        }
+        
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -138,9 +140,7 @@ function configureExam(domain, totalQuestions) {
 // finish exam == abandon exam
 function finishExam() {
     $.post('/api/examen/finish', {}, function(result, status) {
-        // SEND FEEDBACK
         endExamExecutedOnce = true;
-        sessionStorage.exam_flag = 0;
         refreshScore(result.n);
         $( "#examenForm" ).trigger("submit");
         
@@ -152,7 +152,7 @@ function finishExam() {
 // finish test == abandon test
 function finishTest() {
     $.post('/api/test/finish', {}, function(result, status) {
-        // SEND FEEDBACK
+        
         refreshScore(result.n);
         console.log("Result: " + result);
         console.log("Status: " + status);
@@ -178,7 +178,6 @@ function resultatsFinaux() {
         var finalScore = Math.round(parseInt(user.examen.currentexam.score) / parseInt(user.examen.currentexam.totalQuestions) * 100);
         var palier = Math.floor(finalScore / step);
         
-        
         // update view
         $("#finalScore").html(finalScore);
         $("#message").html(messages[palier]);
@@ -193,10 +192,8 @@ function loadProfile() {
     $.get('/api/user/load', {}, function(result, status) {
         var user = result.n;
         refreshScore(user);
-        sessionStorage.id = user._id;
-        sessionStorage.exam_flag = user.exam_flag;
         
-        // Ajouter alerte pour reprendre un exam en cours
+        showContinueExamButton(user.exam_flag == 1);
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -205,7 +202,15 @@ function loadProfile() {
 // reset scores
 function resetScores() {
     $.delete('/api/user/resetScores', {}, function(result, status) {
-        // SEND FEEDBACK
+    
+        $("#banner").html("Résultats précédents vidés avec succès");
+        $("#banner").animate({
+                right: '20px'
+            },400)
+            .delay(2000)
+            .animate({
+                right: '-270px'
+            },400);
         refreshScore(result.n);
         console.log("Result: " + result);
         console.log("Status: " + status);

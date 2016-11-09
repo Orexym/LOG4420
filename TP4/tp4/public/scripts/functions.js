@@ -1,6 +1,7 @@
 var examenFini = false;
 var startExamExecutedOnce = false;
 var endExamExecutedOnce = false;
+
 $(document).ready(function(){
     
     // Kill link drags
@@ -20,6 +21,14 @@ function refreshScore(result) {
     
     // get user
     var user = result;
+    
+    if(parseInt(user.exam_flag) == 1) {
+        $("#scoreCourant").html("Score courant : " +
+            (Math.round(parseInt(user.examen.currentexam.score) / parseInt(user.examen.currentexam.questionIndex) * 100) || 0) + "%");
+    } else {
+        $("#scoreCourant").html("Score courant : " +
+            (Math.round(parseInt(user.test.currenttest.score) / parseInt(user.test.currenttest.total) * 100) || 0) + "%");
+    }
     
     // get test scores
     $(".testScore").html((user.test.score || 0) + " / " + (user.test.total || 0));
@@ -79,11 +88,7 @@ function addDnDListeners(dragSelector, dropSelector) {
         
         // validate answer (replace form submit)
         var attemptedAnswer = e.originalEvent.dataTransfer.getData("answer");
-        if(sessionStorage.exam_flag == 1) {
-            validateExamQuestion({ "attemptedAnswer" : attemptedAnswer });
-        } else {
-            validateTestQuestion({ "attemptedAnswer" : attemptedAnswer });
-        }
+        validateQuestion({ "attemptedAnswer" : attemptedAnswer });
         
         // remove draggability
         $(dragSelector).prop("draggable", false);
@@ -92,6 +97,7 @@ function addDnDListeners(dragSelector, dropSelector) {
     
 }
 
+// ajouter un champ de réponse
 function addAnswer() {
     var list = $("#answerinputlist");
     var inputs = $("div.hidden div").clone();
@@ -109,6 +115,7 @@ function addAnswer() {
     }
 }
 
+// reset les vues
 function reset() {
     
     //admin page
@@ -124,6 +131,16 @@ function reset() {
     $("#answerList").empty();
 }
 
+// afficher le bouton continuer
+function showContinueExamButton(show) {
+    console.log("Here first?");
+    if(show) {
+        $("#continueExamen").removeClass("hidden");
+        console.log("Here");
+    }
+}
+
+// validation de string
 function validateStringInput(stringInput) {
     var map = {
         '&': '&amp;',
@@ -136,6 +153,7 @@ function validateStringInput(stringInput) {
     return validateInput(stringInput.replace(/[&<>"']/g, function(m) { return map[m]; }));
 }
 
+// validation d'objet
 function validateInput(input) {
     return input || 0;
 }
