@@ -136,7 +136,7 @@ function reset() {
 function showContinueExamButton(show) {
     if(show) {
         $("#continueExamen").removeClass("hidden");
-        showCOnfirm = true;
+        showConfirm = true;
     }
 }
 
