@@ -5,6 +5,9 @@ block content
     h1 Tableau de bord
     script.
       $(document).ready(function() {
+
+        getQuestionCountTotal();
+
         var valueSelected = $("#domaine option:selected").val();
         getQuestionCount(valueSelected);
       });

@@ -1,5 +1,5 @@
 // get new question
-function newTestQuestion() {
+function getNextTestQuestion() {
     
     $.get('/api/test/question', {}, function(result) {
         
@@ -26,7 +26,7 @@ function newTestQuestion() {
 }
 
 // get new question
-function newExamQuestion() {
+function getNextExamQuestion() {
     
     $.get('/api/examen/question', {}, function(result) {
     
@@ -40,7 +40,7 @@ function newExamQuestion() {
         $('#questionText').html(q.question);
         $("#questionTitle").html("Question " + (n.examen.currentexam.questionIndex) + " / " + n.examen.currentexam.totalQuestions);
         $("#questionDomain").html("Domaine : " + q.domain.toUpperCase());
-        if(n.examen.currentexam.questionIndex == n.examen.currentexam.totalQuestions) {
+        if(n.examen.currentexam.questionIndex >= n.examen.currentexam.totalQuestions) {
             $(".next").val("Terminer");
             $("#examenForm").prop('action', './resultats');
             examenFini = true;
@@ -102,6 +102,20 @@ function getQuestionCount(domain) {
         if(result.count <= input.val()) {
             input.val(result.count);
         }
+        
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    });
+}
+
+// get nb questions total
+function getQuestionCountTotal() {
+    $.get('api/question/count', {}, function(result, status) {
+        console.log("Somme: " + result.count);
+        if(result.count == 0) {
+            $("#startExamen input[type=submit]").prop('disabled', true);
+            $("#startTest input[type=submit]").prop('disabled', true);
+        }
         console.log("Result: " + result);
         console.log("Status: " + status);
     });
@@ -137,11 +151,20 @@ function configureExam(domain, totalQuestions) {
     });
 }
 
+// configure test
+function configureTest() {
+    $.put('/api/test/configure', {}, function(result, status) {
+        startTestExecutedOnce = true;
+        $( "#startTest" ).trigger("submit");
+        console.log("Result: " + result);
+        console.log("Status: " + status);
+    })
+}
+
 // finish exam == abandon exam
 function finishExam() {
     $.post('/api/examen/finish', {}, function(result, status) {
         endExamExecutedOnce = true;
-        refreshScore(result.n);
         $( "#examenForm" ).trigger("submit");
         
         console.log("Result: " + result);
@@ -153,7 +176,6 @@ function finishExam() {
 function finishTest() {
     $.post('/api/test/finish', {}, function(result, status) {
         
-        refreshScore(result.n);
         console.log("Result: " + result);
         console.log("Status: " + status);
     });

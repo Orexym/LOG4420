@@ -4,7 +4,7 @@ $(document).ready(function() {
         if(examenFini == false) {
             event.preventDefault();
             event.stopImmediatePropagation();
-            newExamQuestion();
+            getNextExamQuestion();
         } else {
             if(endExamExecutedOnce == false) {
                 event.preventDefault();
@@ -22,7 +22,7 @@ $(document).ready(function() {
     $("#testForm").submit(function( event ) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        newTestQuestion();
+        getNextTestQuestion();
     });
     $("#abandonTest").submit(function( event ) {
         finishTest();
@@ -32,6 +32,13 @@ $(document).ready(function() {
     // Tableau de bord events
     $("#nbquestions").keypress(function ( event ) {
         event.preventDefault();
+    });
+    $( "#startTest" ).submit(function( event ) {
+        if (!startTestExecutedOnce) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            configureTest();
+        }
     });
     $( "#startExamen" ).submit(function( event ) {
         if(showConfirm) {

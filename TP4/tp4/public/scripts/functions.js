@@ -1,7 +1,9 @@
 var examenFini = false;
 var startExamExecutedOnce = false;
+var startTestExecutedOnce = false;
 var endExamExecutedOnce = false;
 var showConfirm = false;
+var sum = 0;
 
 $(document).ready(function(){
     
@@ -32,7 +34,7 @@ function refreshScore(result) {
     }
     
     // get test scores
-    $(".testScore").html((user.test.score || 0) + " / " + (user.test.total || 0));
+    $(".testScore").html((user.test.score+user.test.currenttest.score || 0) + " / " + (user.test.total+user.test.currenttest.total || 0));
     
     // get exam scores + average
     var examens = (user.examen.previousexam.length > 0) ? user.examen.previousexam : [];
