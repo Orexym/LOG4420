@@ -1,0 +1,19 @@
+Voici les instructions pour lancer l'application:
+
+1- Sur la racine du projet, télécharger les dépendances du côté serveur.
+> npm install
+
+2- Sur le dossier de l'application client, télécharger les dépendances.
+> cd client/
+> npm install
+
+3- Lancer l'application sur la racine du projet.
+> npm start
+
+Les fichiers typescript (.ts) du dossier (.js) seront traduits en javascript (.js).
+Le serveur va se redémarrer si vous changer un fichier (.ts) pour les fichiers côté serveur.
+Si vous ajoutez de nouveaux fichiers, il faut relancer la commande 'npm start'.
+
+4- Pour supprimer les dossiers node_modules et les fichiers .js du dossier client/:
+> npm run clean
+
