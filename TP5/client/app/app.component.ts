@@ -20,12 +20,13 @@ const HEROES: Hero[] = [
     <h1>{{title}}</h1>
     <h2>My heroes</h2>
     <ul class="heroes">
-        <li *ngFor="let hero of heroes" 
-        [class.selected]="hero === selectedHero"
-        (click)="onSelect(hero)">
-            <span class="badge">{{hero.id}}</span> {{hero.name}}
+        <li *ngFor="let item of heroes" 
+        [class.selected]="item === selectedHero"
+        (click)="onSelect(item)">
+            <span class="badge">{{item.id}}</span> {{item.name}}
         </li>
     </ul>
+    <my-hero-detail [hero]="selectedHero"></my-hero-detail>
     `
 })
 
@@ -34,7 +35,7 @@ export class AppComponent {
   heroes: Hero[] = HEROES;
   selectedHero: Hero;
 
-  onSelect(hero: Hero) : void {
-    this.selectedHero = hero;
+  onSelect(param: Hero) : void {
+    this.selectedHero = param;
   }
 }

@@ -26,13 +26,13 @@ var AppComponent = (function () {
         this.title = "Tour of heroes";
         this.heroes = HEROES;
     }
-    AppComponent.prototype.onSelect = function (hero) {
-        this.selectedHero = hero;
+    AppComponent.prototype.onSelect = function (param) {
+        this.selectedHero = param;
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'mon-app',
-            template: "\n    <h1>{{title}}</h1>\n    <h2>My heroes</h2>\n    <ul class=\"heroes\">\n        <li *ngFor=\"let hero of heroes\" \n        [class.selected]=\"hero === selectedHero\"\n        (click)=\"onSelect(hero)\">\n            <span class=\"badge\">{{hero.id}}</span> {{hero.name}}\n        </li>\n    </ul>\n    "
+            template: "\n    <h1>{{title}}</h1>\n    <h2>My heroes</h2>\n    <ul class=\"heroes\">\n        <li *ngFor=\"let item of heroes\" \n        [class.selected]=\"item === selectedHero\"\n        (click)=\"onSelect(item)\">\n            <span class=\"badge\">{{item.id}}</span> {{item.name}}\n        </li>\n    </ul>\n    <my-hero-detail [hero]=\"selectedHero\"></my-hero-detail>\n    "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
