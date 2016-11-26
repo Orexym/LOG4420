@@ -1,0 +1,79 @@
+extends ../layout
+
+block content
+  section#modes.leftSideBlock
+    h1 Tableau de bord
+    script.
+      $(document).ready(function() {
+
+        getQuestionCountTotal();
+
+        var valueSelected = $("#domaine option:selected").val();
+        getQuestionCount(valueSelected);
+      });
+    div
+      #testRapide
+        h2 Mode de test rapide
+        form#startTest(method='post', action='./test')
+          input(type='submit', value='Commencer !')
+      #examen
+        h2 Mode d&apos;examen
+        form#startExamen(method='post', action='./examen')
+          p
+            label(for='domaine') Domaine :
+            span.styled-select
+              select#domaine(name='domain')
+                option(value='html') HTML5
+                option(value='css') CSS3
+                option(value='js') JavaScript
+          p
+            label(for='nbquestions') Nombre de questions :
+            input#nbquestions(type='number', name='totalQuestions', value='3', step='1', min='1', max='10')
+          input(type='submit', value='Commencer !')
+        form#continueExamen.hidden(method='post', action='./examen')
+          p Continuer l'examen précédent
+          input(type='submit', value='Continuer !')
+      #admin
+        h2 Administration
+        form#configure(method='get', action='./admin')
+          input(type='submit', value='Configurer les questions')
+  section#tableaux
+    h1 Statistiques
+    div
+      table.statistiques
+        caption Statistiques g&eacute;n&eacute;rales
+        tr
+          th Nb tests r&eacute;ussis / effectu&eacute;s
+          th Moyenne examens
+        tr
+          td.testScore
+          td.examScore
+      table.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr.examenList
+          th Examen
+          th Domaine
+          th Score
+      div
+        a.a2button(href='#popup1') D&eacute;tails
+      div
+        input#reset(type='button', value='Remise à zéro')
+      #popup1.overlay.clickable
+        a(href='#')
+        .popup
+          h2 Statistiques
+          .content
+            table.statistiques
+              caption Statistiques g&eacute;n&eacute;rales
+              tr
+                th Nb tests r&eacute;ussis / effectu&eacute;s
+                th Moyenne examens
+              tr
+                td.testScore
+                td.examScore
+            table.statistiques
+              caption R&eacute;sultats d&apos;examen
+              tr.examenList
+                th Examen
+                th Domaine
+                th Score
