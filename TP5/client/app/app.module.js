@@ -11,8 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
-var app_component_1 = require('./app.component');
 var app_routing_module_1 = require("./app-routing.module");
+var app_component_1 = require('./app.component');
+var index_component_1 = require('./index.component');
+var dashboard_component_1 = require('./dashboard.component');
+var instructions_component_1 = require('./instructions.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -23,7 +26,7 @@ var AppModule = (function () {
                 forms_1.FormsModule,
                 app_routing_module_1.AppRoutingModule
             ],
-            declarations: [app_component_1.AppComponent, app_routing_module_1.AppRoutingModule],
+            declarations: [app_component_1.AppComponent, index_component_1.IndexComponent, dashboard_component_1.DashboardComponent, instructions_component_1.InstructionsComponent],
             providers: [],
             bootstrap: [app_component_1.AppComponent]
         }), 

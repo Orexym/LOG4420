@@ -16,26 +16,33 @@ html
   body
     header
       #banner
+      -var menu = { 'Accueil': '/index', 'Tableau de bord': '/dashboard', 'Instructions': '/instructions' };
       nav
         .fixed
           div
             img#logo(src='./images/logo.png', alt='logo', title='Tux')
-          if title == 'Accueil'
+          each val, key in menu
+            div(routerLinkActive="active")
+              a(routerLink=val)=key
+
+
+
+          ///if title == 'Accueil'
             .active
               a(href='./index') Accueil
-          else
+          ///else
             div
               a(href='./index') Accueil
-          if title == 'Tableau de bord'
+          ///if title == 'Tableau de bord'
             .active
               a(href='./tableau') Tableau de bord
-          else
+          ///else
             div
               a(href='./tableau') Tableau de bord
-          if title == 'Instructions'
+          ///if title == 'Instructions'
             .active
               a(href='./instructions') Instructions
-          else
+          ///else
             div
               a(href='./instructions') Instructions
     main
