@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
     templateUrl: 'templates/instructions'
 })
 
-export class InstructionsComponent { }
+export class InstructionsComponent { 
+	title = "Instructions"
+}

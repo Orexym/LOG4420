@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
     templateUrl: 'templates/index'
 })
 
-export class IndexComponent { }
+export class IndexComponent {
+	title = 'Accueil'
+}

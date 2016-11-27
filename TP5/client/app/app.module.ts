@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { IndexComponent } from './index.component';
 import { DashboardComponent } from './dashboard.component';
 import { InstructionsComponent }  from './instructions.component';
+import { StatsDetailsComponent }  from './stats-details.component';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { InstructionsComponent }  from './instructions.component';
         FormsModule,
         AppRoutingModule
     ],
-    declarations: [ AppComponent, IndexComponent, DashboardComponent, InstructionsComponent ],
+    declarations: [ AppComponent, IndexComponent, DashboardComponent, InstructionsComponent, StatsDetailsComponent ],
     providers: [ ],
     bootstrap: [ AppComponent ]
 })

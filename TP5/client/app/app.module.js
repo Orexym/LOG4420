@@ -16,6 +16,7 @@ var app_component_1 = require('./app.component');
 var index_component_1 = require('./index.component');
 var dashboard_component_1 = require('./dashboard.component');
 var instructions_component_1 = require('./instructions.component');
+var stats_details_component_1 = require('./stats-details.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,7 +27,7 @@ var AppModule = (function () {
                 forms_1.FormsModule,
                 app_routing_module_1.AppRoutingModule
             ],
-            declarations: [app_component_1.AppComponent, index_component_1.IndexComponent, dashboard_component_1.DashboardComponent, instructions_component_1.InstructionsComponent],
+            declarations: [app_component_1.AppComponent, index_component_1.IndexComponent, dashboard_component_1.DashboardComponent, instructions_component_1.InstructionsComponent, stats_details_component_1.StatsDetailsComponent],
             providers: [],
             bootstrap: [app_component_1.AppComponent]
         }), 

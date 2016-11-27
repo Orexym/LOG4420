@@ -1,55 +1,20 @@
-doctype html
-html
-  head
-    base(href='/')
-    title FaceQuiz - #{title}
-    meta(charset="UTF-8")
-    link(rel='stylesheet', href='/stylesheets/style.css')
+header
+  #banner
+  -var menu = { 'Accueil': '/index', 'Tableau de bord': '/dashboard', 'Instructions': '/instructions' };
+  nav
+    .fixed
+      div
+        img#logo(src='./images/logo.png', alt='logo', title='Tux')
+      each val, key in menu
+        div(routerLinkActive="active")
+          a(routerLink=val)=key
 
-    script(src="node_modules/core-js/client/shim.min.js")
-    script(src="node_modules/zone.js/dist/zone.js")
-    script(src="node_modules/reflect-metadata/Reflect.js")
-    script(src="node_modules/systemjs/dist/system.src.js")
-
-    script(src="systemjs.config.js")
-    script System.import('app').catch(function(err){ console.error(err); });
-  body
-    header
-      #banner
-      -var menu = { 'Accueil': '/index', 'Tableau de bord': '/dashboard', 'Instructions': '/instructions' };
-      nav
-        .fixed
-          div
-            img#logo(src='./images/logo.png', alt='logo', title='Tux')
-          each val, key in menu
-            div(routerLinkActive="active")
-              a(routerLink=val)=key
-
-
-
-          ///if title == 'Accueil'
-            .active
-              a(href='./index') Accueil
-          ///else
-            div
-              a(href='./index') Accueil
-          ///if title == 'Tableau de bord'
-            .active
-              a(href='./tableau') Tableau de bord
-          ///else
-            div
-              a(href='./tableau') Tableau de bord
-          ///if title == 'Instructions'
-            .active
-              a(href='./instructions') Instructions
-          ///else
-            div
-              a(href='./instructions') Instructions
-    main
-      block content
-    footer
-      .fixed
-        div D&eacute;veloppeurs
-        div Gabriel Drolet (1686216)
-        div Guillaume Lavoie-Harvey (1688951)
+main
+  block content
+  router-outlet
+footer
+  .fixed
+    div D&eacute;veloppeurs
+    div Gabriel Drolet (1686216)
+    div Guillaume Lavoie-Harvey (1688951)
 

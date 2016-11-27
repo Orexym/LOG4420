@@ -1,16 +1,19 @@
-head
-  base(href='/')
-  title FaceQuiz - #{title}
-  meta(charset="UTF-8")
-  link(rel='stylesheet', href='/stylesheets/style.css')
+doctype html
+html
+  head
+    base(href='/')
+    title FaceQuiz
+    meta(charset="UTF-8")
+    link(rel='stylesheet', href='/stylesheets/style.css')
 
-  script(src="node_modules/core-js/client/shim.min.js")
-  script(src="node_modules/zone.js/dist/zone.js")
-  script(src="node_modules/reflect-metadata/Reflect.js")
-  script(src="node_modules/systemjs/dist/system.src.js")
-  script(src="systemjs.config.js")
-  script System.import('app').catch(function(err){ console.error(err); });
+    script(src="node_modules/core-js/client/shim.min.js")
+    script(src="node_modules/zone.js/dist/zone.js")
+    script(src="node_modules/reflect-metadata/Reflect.js")
+    script(src="node_modules/systemjs/dist/system.src.js")
+    script(src="systemjs.config.js")
+    script System.import('app').catch(function(err){ console.error(err); });
 
-block content
-  mon-app Loading
+  body
+    block content
+      mon-app Loading
 
