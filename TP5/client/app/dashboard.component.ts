@@ -6,12 +6,19 @@ import { StatsDetailsComponent } from './stats-details.component';
     templateUrl: 'templates/dashboard'
 })
 
-export class DashboardComponent { 
-	
+export class DashboardComponent {
+
 	@ViewChild(StatsDetailsComponent)
 	public readonly modal: StatsDetailsComponent;
 
 	showStatsWindow() {
 		console.log("show stats");
 	}
+
+	submitted = false;
+
+    onSubmit() {
+        this.submitted = true;
+    }
+
 }

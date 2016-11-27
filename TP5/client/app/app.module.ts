@@ -8,7 +8,10 @@ import { AppComponent } from './app.component';
 import { IndexComponent } from './index.component';
 import { DashboardComponent } from './dashboard.component';
 import { InstructionsComponent }  from './instructions.component';
+import {StatsDetailsComponent} from "./stats-details.component";
 import { StatsDetailsComponent }  from './stats-details.component';
+
+import { QuestionComponent } from './question.component';
 
 
 @NgModule({
@@ -17,7 +20,7 @@ import { StatsDetailsComponent }  from './stats-details.component';
         FormsModule,
         AppRoutingModule
     ],
-    declarations: [ AppComponent, IndexComponent, DashboardComponent, InstructionsComponent, StatsDetailsComponent ],
+    declarations: [ AppComponent, IndexComponent, DashboardComponent, InstructionsComponent, QuestionComponent, StatsDetailsComponent ],
     providers: [ ],
     bootstrap: [ AppComponent ]
 })
