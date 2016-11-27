@@ -12,23 +12,23 @@ export class QuestionService {
     getNextQuestion(mode: String): Promise<Question> {
         return this.http.get('api/'+mode+'/question').toPromise().then(response => {
                 let question = new Question();
-                question.question = response.json().data.q.question;
-                question.ans = response.json().data.q.ans;
-                question.domain = response.json().data.q.domain;
-                question.trueAnswer = response.json().data.q.trueAnswer;
+                question.question = response.json().q.question;
+                question.ans = response.json().q.ans;
+                question.domain = response.json().q.domain;
+                question.trueAnswer = response.json().q.trueAnswer;
                 return question;
         }).catch(this.handleError);
     }
 
     getQuestionCountTotal(): Promise<Number> {
         return this.http.get('api/question/count').toPromise().then(response => {
-            return response.json().data.count;
+            return response.json().count;
         }).catch(this.handleError);
     }
 
-    getQuestionCountByDomain(domain): Promise<Number> {
+    getQuestionCount(domain): Promise<Number> {
         return this.http.get('api/question/count/'+domain).toPromise().then(response => {
-            return response.json().data.count;
+            return response.json().count;
         }).catch(this.handleError);
     }
 

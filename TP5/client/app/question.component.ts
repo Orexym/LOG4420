@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Question } from './question';
-import { User } from './user';
 import { QuestionService } from './question.service';
+import { User } from './user';
 import { UserService } from './user.service';
 
 @Component({
@@ -19,9 +20,13 @@ export class QuestionComponent implements OnInit {
 
     constructor(
         private questionService: QuestionService,
-        private userService: UserService
+        private userService: UserService,
+        private router: Router
     ) {
         this.question = new Question();
+        this.user = new User();
+        this.mode = "";
+
     }
 
     initialise() : void {

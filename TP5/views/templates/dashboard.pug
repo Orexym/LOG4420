@@ -14,11 +14,13 @@ block content
     div
       #testRapide
         h2 Mode de test rapide
-        form#startTest(method='post', action='./test')
+        test-rapide-form
+        ///form#startTest(method='post', action='./test')
           input(type='submit', value='Commencer !')
       #examen
         h2 Mode d&apos;examen
-        form#startExamen(method='post', action='./examen')
+        examen-form
+        ///form#startExamen(method='post', action='./examen')
           p
             label(for='domaine') Domaine :
             span.styled-select
