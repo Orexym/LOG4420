@@ -9,7 +9,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
     `
 })
 
-export class TestRapide {
+export class TestRapideComponent {
 
     submitted = false;
     data: String;

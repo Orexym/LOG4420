@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { IndexComponent } from './index.component';
-import { DashboardComponent } from './dashboard.component';
-import { InstructionsComponent }  from './instructions.component';
+import { IndexComponent } from '../components/index.component';
+import { DashboardComponent } from '../components/dashboard.component';
+import { InstructionsComponent }  from '../components/instructions.component';
 
-import { QuestionComponent } from './question.component';
+import { QuestionComponent } from '../components/question.component';
 
 
 const routes: Routes = [
