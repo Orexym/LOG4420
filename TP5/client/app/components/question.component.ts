@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Question } from '../objects/question';
 import { QuestionService } from '../services/question.service';
@@ -15,40 +14,31 @@ export class QuestionComponent implements OnInit {
 
     question: Question;
     user: User;
-    mode: String;
-
 
     constructor(
         private questionService: QuestionService,
         private userService: UserService,
-        private router: Router
     ) {
         this.question = new Question();
         this.user = new User();
-        this.mode = "";
-
     }
 
     initialise() : void {
         this.userService.getUser().then(data => {
             this.user = data;
-            this.mode = this.user.mode;
             this.getNextQuestion();
         });
     }
 
     getNextQuestion() : void {
-        this.questionService.getNextQuestion(this.mode).then(data => {
+        this.questionService.getNextQuestion(this.user.mode).then(data => {
             this.question = data;
         });
     }
 
+    validateQuestion() : void {
 
-
-
-
-
-
+    }
 
     ngOnInit() : void {
         this.initialise();

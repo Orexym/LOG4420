@@ -1,34 +1,34 @@
 export class User {
-    username: String;
-    password: String;
+    username: string;
+    password: string;
     test: {
         currenttest: {
-            questionID: String,
-            score: Number,
-            total: Number
+            questionID: string,
+            score: number,
+            total: number
         },
-        score: Number,
-        total: Number
+        score: number,
+        total: number
     };
     examen: {
         currentexam: {
-            questionIndex: Number,
-            questionID: String,
-            questionDomain: String,
-            score: Number,
-            totalQuestions: Number
+            questionIndex: number,
+            questionID: string,
+            questionDomain: string,
+            score: number,
+            totalQuestions: number
         },
         previousexam: [
             {
-                score: Number,
-                total: Number,
-                domain: String,
-                date: String
+                score: number,
+                total: number,
+                domain: string,
+                date: string
             }
             ],
-        score: Number,
-        total: Number
+        score: number,
+        total: number
     };
-    mode: String;
-    exam_flag: Number;
+    mode: string;
+    exam_flag: number;
 }

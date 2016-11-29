@@ -1,9 +1,9 @@
 export class Question {
-    domain: String;
-    question: String;
+    domain: string;
+    question: string;
     ans: [{
-        text : String,
-        value : String
+        text : string,
+        value : string
     }];
-    trueAnswer: String;
+    trueAnswer: string;
 }

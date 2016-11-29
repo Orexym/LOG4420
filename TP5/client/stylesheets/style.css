@@ -136,8 +136,11 @@ section#questionSection > div {
     justify-content: space-between;
 }
 
-section#modes > div div {
+section#modes > div > div {
     border: 2px solid #eeeeee;
+}
+
+section#modes > div div {
     border-radius: 25px;
     text-align: center;
     box-sizing: content-box;
@@ -153,7 +156,7 @@ section#modes > div div form {
     padding: 5px;
 }
 
-section#modes > div div form ~ form {
+section#modes > div div div * ~ * form {
     border-top: 2px solid #eeeeee;
 }
 

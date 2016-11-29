@@ -1,9 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { QuestionService } from '../services/question.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'test-rapide-form',
     template: `
-        <form id="startTest" method='post' action='/question'>
+        <form 
+        (ngSubmit)="onSubmit()"
+        id="startTest" method='post' action='/question'>
           <input type='submit'  value='Commencer !'/>
         </form>
     `
@@ -12,12 +16,18 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class TestRapideComponent {
 
     submitted = false;
-    data: String;
 
-    onSubmit(data) {
+    constructor(
+        private questionService: QuestionService,
+        private router: Router
+    ) {}
+
+    onSubmit() : void {
         this.submitted = true;
-        this.data = JSON.stringify(data, null, 2);
-        console.log(this.data);
+        this.questionService.configureTest().then(res => {
+            console.log(res);
+            this.router.navigateByUrl('question');
+        });
     }
 
 

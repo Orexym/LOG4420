@@ -6,9 +6,11 @@ block content
     h1#questionTitle #{title}
     div
       form#examenForm(method='post', action='')
-        p#questionDomain Domaine :
-        h2#questionText #{title}
+        p#questionDomain(ngModel="question.domain") Domaine : {{question.domain}}
+        h2#questionText(ngModel="question.question") {{question.question}}
         ul#answerList
+          li.answerElement(*ngFor="let answer of question.ans", draggable='true', id='{{answer.value}}')
+            span(ng-bind-html="thing")
         input.next(type='submit', value='Prochaine question')
       .dropzone
         span.unaffectedText

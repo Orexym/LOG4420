@@ -12,12 +12,14 @@ import { UserService } from '../services/user.service';
 import { IndexComponent } from '../components/index.component';
 import { DashboardComponent } from '../components/dashboard.component';
 import { InstructionsComponent }  from '../components/instructions.component';
+import { AdminComponent } from '../components/admin.component';
 
 import { StatsDetailsComponent }  from '../components/stats-details.component';
 import { QuestionComponent } from '../components/question.component';
 
 import { TestRapideComponent } from '../forms/test-rapide-form.component';
 import { ExamenComponent } from '../forms/examen-form.component';
+import { ContinuerExamenComponent } from "../forms/continuer-exam-form";
 
 @NgModule({
     imports: [
@@ -34,7 +36,9 @@ import { ExamenComponent } from '../forms/examen-form.component';
         QuestionComponent,
         StatsDetailsComponent,
         TestRapideComponent,
-        ExamenComponent
+        ExamenComponent,
+        AdminComponent,
+        ContinuerExamenComponent
     ],
     providers: [
         QuestionService,

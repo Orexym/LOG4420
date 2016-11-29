@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { QuestionService } from '../services/question.service';
+import { Router } from '@angular/router';
 
+import { Examen } from '../objects/examen';
 
 @Component({
     selector: 'examen-form',
     template: `
         <form 
-        (submit)="onSubmit()"
+        (ngSubmit)="onSubmit()"
         id="startExamen" method="post" action="/question">
           <p>
             <label for="domaine">Domaine :</label><span class="styled-select">
@@ -21,9 +23,9 @@ import { QuestionService } from '../services/question.service';
           <p>
             <label for="nbquestions">Nombre de questions :</label>
             <input 
-            #totalQuestions
-            (change)="inputOnChange(totalQuestions.value)"
-            id="nbquestions" type="number" name="totalQuestions" value="3" step="1" min="1" max="10" />
+            [(ngModel)]="formModel.totalQuestion"
+            (keypress)="cancel()"
+            id="nbquestions" type="number" name="totalQuestions" value="3" step="1" min="1" max="{{tempTotal}}" />
           </p>
           <input type="submit" value="Commencer !"/>
         </form>
@@ -33,40 +35,51 @@ import { QuestionService } from '../services/question.service';
 export class ExamenComponent implements OnInit {
 
     submitted = false;
-    data: String;
+    @Input()
+    exam_flag: number;
+    tempTotal:number;
 
-    domain: String;
-    questionCount: Number = 0;
-
-    formModel
+    formModel:Examen;
 
     constructor(
-        private questionService: QuestionService
+        private questionService: QuestionService,
+        private router: Router
     ) {
-        this.questionCount = 0;
+        this.formModel = new Examen("html", 0);
+        this.tempTotal = 0;
     }
 
     initialise() : void {
-        this.questionService.getQuestionCountTotal().then(data => {
-            this.questionCount = data;
+        this.questionService.getQuestionCount(this.formModel.domain).then(data => {
+            this.formModel.totalQuestion = data;
+            this.tempTotal = data;
         });
     }
 
-    onSubmit(data) : void {
+    onSubmit() : void {
+
+        if(this.exam_flag && !confirm("Un examen est déjà en cours. Voulez-vous abandonner et en débuter un nouveau?")) {
+            return;
+        }
         this.submitted = true;
-        this.data = JSON.stringify(data, null, 2);
-        console.log(this.data);
+        this.questionService.configureExamen(this.formModel.domain, this.formModel.totalQuestion).then(res => {
+            this.router.navigateByUrl('question');
+        });
     }
 
 
     selectOnChange(value: string) : void {
+        this.formModel.domain = value;
         this.questionService.getQuestionCount(value).then(data => {
-            this.questionCount = data;
+            this.tempTotal = data;
+            if(data <= this.formModel.totalQuestion) {
+                this.formModel.totalQuestion = data;
+            }
         });
     }
 
-    inputOnChange(value: string) : void {
-        console.log(value);
+    cancel() {
+        return false;
     }
 
 
