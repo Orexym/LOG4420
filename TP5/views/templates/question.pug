@@ -9,7 +9,7 @@ block content
     div
       form#examenForm(method='post', action='', (ngSubmit)="onSubmit()")
         p#questionDomain Domaine : {{question.domain}}
-        h2#questionText {{question.question}}
+        h2#questionText([innerHtml]="question.question")
         ul#answerList
           li.answerElement(*ngFor="let answer of question?.ans", id="{{answer.value}}", draggable='{{draggable}}', [ngClass]="{'drag': addDragClass}", (dragstart)="onDragStart($event)", (dragend)="onDragEnd()", (mousedown)="onMouseDown()", (mouseup)="onMouseUp()")
             span([innerHtml]="answer.text")
