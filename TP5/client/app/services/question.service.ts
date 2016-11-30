@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
 import { Question } from '../objects/question';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class QuestionService {
     constructor(private http: Http) {}
 
+    refresh : Subject<boolean> = new Subject<boolean>();
+
     getNextQuestion(mode: string): Promise<Question> {
         return this.http.get('api/'+mode+'/question').toPromise().then(response => {
-                let question = new Question();
-                question.question = response.json().q.question;
-                question.ans = response.json().q.ans;
-                question.domain = response.json().q.domain;
-                question.trueAnswer = response.json().q.trueAnswer;
-                return question;
+            return response.json().q;
         }).catch(this.handleError);
     }
 
@@ -50,6 +48,12 @@ export class QuestionService {
         }).catch(this.handleError);
     }
 
+    validateQuestion(attemptedAnswer: string) : Promise<number> {
+        return this.http.post('/api/question/validate', attemptedAnswer).toPromise().then(res => {
+            this.refresh.next(true);
+            return res.json().goodAnswer;
+        }).catch(this.handleError);
+    }
 
     private handleError(error: any) : Promise<any> {
         console.error('An error occured', error); // for demo

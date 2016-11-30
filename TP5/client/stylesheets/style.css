@@ -103,7 +103,7 @@ section.leftSideBlock#administration div p > label {
     line-height: 30px;
 }
 
-section > div {
+section > div, section#tableaux div.content > my-stats {
     width: inherit;
     padding: 10px;
     display: flex;
@@ -111,7 +111,7 @@ section > div {
     flex-wrap: wrap;
 }
 
-section#description > div, section#tableaux > div {
+section#description > div, section#tableaux > div, section#tableaux div.content > my-stats {
     flex-direction: column;
 }
 
@@ -120,7 +120,7 @@ section#tableaux {
     float: right;
 }
 
-section#instructions > div, section#tableaux > div {
+section#instructions > div, section#tableaux > div, section#tableaux div.content > my-stats {
     align-items: center;
 }
 
@@ -215,14 +215,12 @@ table.statistiques {
 
 table.statistiques td {
     border: 1px solid #eeeeee;
-    width: 50%;
     padding: 2px;
 }
 
 table.statistiques th {
     border: 1px solid #eeeeee;
     border-bottom: 3px double #eeeeee;
-    width: 50%;
     padding: 2px;
 }
 

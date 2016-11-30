@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { StatsDetailsComponent } from './stats-details.component';
-import {User} from "../objects/user";
-import {UserService} from "../services/user.service";
+import { StatsDetailsPopupComponent } from './stats-details-popup.component';
+import { User } from "../objects/user";
+import { UserService } from "../services/user.service";
 
 @Component({
     selector: 'my-dashboard',
@@ -18,8 +18,8 @@ export class DashboardComponent implements OnInit {
         this.user = new User();
     }
 
-	@ViewChild(StatsDetailsComponent)
-	public readonly modal: StatsDetailsComponent;
+	@ViewChild(StatsDetailsPopupComponent)
+	public readonly modal: StatsDetailsPopupComponent;
 
 	showStatsWindow() {
 		console.log("show stats");

@@ -14,12 +14,14 @@ import { DashboardComponent } from '../components/dashboard.component';
 import { InstructionsComponent }  from '../components/instructions.component';
 import { AdminComponent } from '../components/admin.component';
 
-import { StatsDetailsComponent }  from '../components/stats-details.component';
+import { StatsDetailsPopupComponent }  from '../components/stats-details-popup.component';
 import { QuestionComponent } from '../components/question.component';
+import { StatistiquesComponent } from "../components/statistiques.component";
 
 import { TestRapideComponent } from '../forms/test-rapide-form.component';
 import { ExamenComponent } from '../forms/examen-form.component';
-import { ContinuerExamenComponent } from "../forms/continuer-exam-form";
+import { ContinuerExamenComponent } from "../forms/continuer-exam-form.component";
+import { ReversePipe } from "../pipes/reverse.pipe";
 
 @NgModule({
     imports: [
@@ -34,11 +36,13 @@ import { ContinuerExamenComponent } from "../forms/continuer-exam-form";
         DashboardComponent,
         InstructionsComponent,
         QuestionComponent,
-        StatsDetailsComponent,
+        StatsDetailsPopupComponent,
         TestRapideComponent,
         ExamenComponent,
         AdminComponent,
-        ContinuerExamenComponent
+        ContinuerExamenComponent,
+        StatistiquesComponent,
+        ReversePipe
     ],
     providers: [
         QuestionService,

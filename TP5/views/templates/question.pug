@@ -1,30 +1,32 @@
 extends ../layout
 
 block content
+  script.
+    var text;
   #banner
   section#question.leftSideBlock
-    h1#questionTitle #{title}
+    h1#questionTitle {{title}} {{index}}{{examenSeparator}}{{totalQuestions}}
     div
-      form#examenForm(method='post', action='')
-        p#questionDomain(ngModel="question.domain") Domaine : {{question.domain}}
-        h2#questionText(ngModel="question.question") {{question.question}}
+      form#examenForm(method='post', action='', (ngSubmit)="onSubmit()")
+        p#questionDomain Domaine : {{question.domain}}
+        h2#questionText {{question.question}}
         ul#answerList
-          li.answerElement(*ngFor="let answer of question.ans", draggable='true', id='{{answer.value}}')
-            span(ng-bind-html="thing")
-        input.next(type='submit', value='Prochaine question')
-      .dropzone
-        span.unaffectedText
-          | D&eacute;poser ici
+          li.answerElement(*ngFor="let answer of question?.ans", id="{{answer.value}}", draggable='{{draggable}}', [ngClass]="{'drag': addDragClass}", (dragstart)="onDragStart($event)", (dragend)="onDragEnd()", (mousedown)="onMouseDown()", (mouseup)="onMouseUp()")
+            span([innerHtml]="answer.text")
+        input.next(type='submit', value='{{nextButton}}', [disabled]='disable')
+      .dropzone([ngClass]="{'dragenter': addDragEnterClass, 'valid': isValid, 'invalid': isInvalid}", (drop)="onDrop($event)", (dragenter)="onDragEnter()", (dragleave)="onDragLeave()", (dragover)="onDragOver($event)")
+        span.unaffectedText([innerHtml]="validityTest")
       form#abandonExam(method='post', action='./resultats')
         input(type='submit', value='Abandon')
   section#tableaux
     h1 Statistiques
     .content
-      table.statistiques
+      my-stats([showScoreCourant]="true", [showExamens]="user.mode == 'examen'", [showGeneralStats]="user.mode == 'test'")
+      ///table.statistiques
         caption R&eacute;sultats d&apos;examen
         tr.examenList
           th Examen
           th Domaine
           th Score
-      #statistics
+      ///#statistics
         p#scoreCourant Score courant : 0%

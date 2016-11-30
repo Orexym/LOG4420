@@ -25,7 +25,6 @@ export class TestRapideComponent {
     onSubmit() : void {
         this.submitted = true;
         this.questionService.configureTest().then(res => {
-            console.log(res);
             this.router.navigateByUrl('question');
         });
     }

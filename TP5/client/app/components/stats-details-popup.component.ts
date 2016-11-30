@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'templates/stats-details'
 })
 
-export class StatsDetailsComponent {
+export class StatsDetailsPopupComponent {
 	  
   public visible = false;
   private visibleAnimate = false;

@@ -54,7 +54,11 @@ function addDnDListeners(dragSelector, dropSelector) {
         // add drag class
         $(dragSelector).addClass("drag");
     });
-    $(document).on("mouseup",function(e){
+    /*$(document).on("mouseup",function(e){
+        // remove drag class
+        $(dragSelector).removeClass("drag");
+    });*/
+    $(dragSelector).on("blur",function(e){
         // remove drag class
         $(dragSelector).removeClass("drag");
     });

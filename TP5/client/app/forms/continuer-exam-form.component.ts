@@ -1,5 +1,4 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
-import { QuestionService } from '../services/question.service';
+import {Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,32 +14,24 @@ import { Router } from '@angular/router';
     `
 })
 
-export class ContinuerExamenComponent implements OnInit, OnChanges {
+export class ContinuerExamenComponent implements OnInit {
 
     submitted = false;
     @Input()
     exam_flag: number;
 
     constructor(
-        private questionService: QuestionService,
         private router: Router
     ) {
     }
 
     onSubmit() : void {
         this.submitted = true;
-        this.questionService.configureTest().then(res => {
-            console.log(res);
-            this.router.navigateByUrl('question');
-        });
+        this.router.navigateByUrl('question');
     }
 
     initialise() : void {
 
-    }
-
-
-    ngOnChanges(changes : SimpleChanges) : void {
     }
 
     ngOnInit() : void {

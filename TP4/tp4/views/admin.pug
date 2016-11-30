@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  section#administration.admin.leftSideBlock
+    h1 Administration
+    script.
+      $(document).ready(function() {
+        // On ajoute 2 champs de réponse par défaut
+        addAnswer();
+        addAnswer();
+      });
+    div
+      div
+        h2 Ajouter une question
+        form#addQuestion(method='post', action='', autocomplete='off')
+          p
+            label(for='domaine') Domaine :
+            span.styled-select.admin
+              select#domaine(name='domain')
+                option(value='html') HTML5
+                option(value='css') CSS3
+                option(value='js') JavaScript
+          p
+            label(for='questioninput') Question :
+            input#questioninput(type='text', name='question', required='required', value='')
+          p
+            label R&eacute;ponses possibles
+            input#addAnswer(type='button', value='+')
+            | (Cocher la bonne réponse)
+          p#answerinputlist
+
+          input(type='submit', name='submit', value='Ajouter !')
+  section#controls.admin
+    h1 Contrôles
+    div
+      div
+        input#vider(type='button', value='Vider DB')
+  div.hidden
+    div.answerSlate
+      label
+      input(type='radio', name='trueAnswer', required='required')
+      input(type='text' name='ans[]', required='required', value='')

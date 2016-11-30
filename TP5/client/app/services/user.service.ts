@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
 import { User } from '../objects/user';
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class UserService {
 
     constructor(private http: Http) {}
 
+    newUser : Subject<User> = new Subject<User>();
+
     getUser(): Promise<User> {
         return this.http.get('api/user/load').toPromise().then(response => {
+            this.newUser.next(response.json().n);
             return response.json().n;
         }).catch(this.handleError);
     }
