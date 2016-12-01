@@ -7,17 +7,26 @@ import { Component, Input } from '@angular/core';
 
 export class StatsDetailsPopupComponent {
 	  
-  public visible = false;
+  constructor(
+		//private statsService: StatsService,
+	) {
+      this.hide();
+      
+  }
+  
+  private isHidden = true;
   private visibleAnimate = false;
 
   public show(): void {
   console.log("showing");
-    this.visible = true;
-    setTimeout(() => this.visibleAnimate = true);
+    this.isHidden = false;
   }
 
   public hide(): void {
-    this.visibleAnimate = false;
-    setTimeout(() => this.visible = false, 300);
+    this.isHidden = true;
+  }
+
+  public getVisibility() {
+      return this.isHidden ? "modalInVisible" : "modalVisible";
   }
 }

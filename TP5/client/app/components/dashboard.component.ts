@@ -19,10 +19,11 @@ export class DashboardComponent implements OnInit {
     }
 
 	@ViewChild(StatsDetailsPopupComponent)
-	public readonly modal: StatsDetailsPopupComponent;
+	public modal: StatsDetailsPopupComponent;
 
 	showStatsWindow() {
 		console.log("show stats");
+		this.modal.show();
 	}
 
     private initialise() {

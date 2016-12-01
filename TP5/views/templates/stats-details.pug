@@ -1,3 +1,19 @@
-div.modal-dialog
-    div.modal-content((click)="hide()" ng-style="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}")
-        p stats detailles
+#popup1.overlay.clickable
+  a(*ngIf="!isHidden", (click)="hide()")
+  .popup
+    h2 Statistiques
+    .content
+      table.statistiques
+        caption Statistiques g&eacute;n&eacute;rales
+        tr
+          th Nb tests r&eacute;ussis / effectu&eacute;s
+          th Moyenne examens
+        tr
+          td.testScore
+          td.examScore
+      table.statistiques
+        caption R&eacute;sultats d&apos;examen
+        tr.examenList
+          th Examen
+          th Domaine
+          th Score
