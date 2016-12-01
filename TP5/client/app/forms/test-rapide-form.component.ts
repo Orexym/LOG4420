@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { QuestionService } from '../services/question.service';
 import { Router } from '@angular/router';
+import {UserService} from "../services/user.service";
 
 @Component({
     selector: 'test-rapide-form',
@@ -18,13 +19,13 @@ export class TestRapideComponent {
     submitted = false;
 
     constructor(
-        private questionService: QuestionService,
+        private userService: UserService,
         private router: Router
     ) {}
 
     onSubmit() : void {
         this.submitted = true;
-        this.questionService.configureTest().then(res => {
+        this.userService.configureTest().then(res => {
             this.router.navigateByUrl('question');
         });
     }

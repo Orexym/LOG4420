@@ -20,6 +20,7 @@ export class StatsDetailsPopupComponent {
   public show(): void {
   console.log("showing");
     this.isHidden = false;
+    console.log(this.isHidden);
   }
 
   public hide(): void {

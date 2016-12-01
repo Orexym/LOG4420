@@ -15,14 +15,38 @@ export class UserService {
 
     getUser(): Promise<User> {
         return this.http.get('api/user/load').toPromise().then(response => {
-            this.newUser.next(response.json().n);
             return response.json().n;
         }).catch(this.handleError);
     }
 
-    resetScores() : Promise<boolean> {
-        return this.http.delete('/user/resetScores').toPromise().then(res => {
+    configureExamen(domain: string, totalQuestions: number): Promise<boolean> {
+        return this.http.put('api/examen/configure', { domain: domain, totalQuestions: totalQuestions }).toPromise().then(res => {
             return res.status === 200;
+        }).catch(this.handleError);
+    }
+
+    configureTest() : Promise<boolean> {
+        return this.http.put('api/test/configure', {}).toPromise().then(res => {
+            return res.status === 200;
+        }).catch(this.handleError);
+    }
+
+    finishExamen() : Promise<boolean> {
+        return this.http.post('api/examen/finish', {}).toPromise().then(res => {
+            return res.status === 200;
+        }).catch(this.handleError);
+    }
+
+    finishTest() : Promise<boolean> {
+        return this.http.post('api/test/finish', {}).toPromise().then(res => {
+            return res.status === 200;
+        }).catch(this.handleError);
+    }
+
+    resetScores() : Promise<boolean> {
+        return this.http.delete('api/user/resetScores').toPromise().then(response => {
+            this.newUser.next(response.json().n);
+            return response.status === 200;
         }).catch(this.handleError);
     }
 

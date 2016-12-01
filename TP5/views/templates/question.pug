@@ -1,13 +1,11 @@
 extends ../layout
 
 block content
-  script.
-    var text;
   #banner
   section#question.leftSideBlock
     h1#questionTitle {{title}} {{index}}{{examenSeparator}}{{totalQuestions}}
     div
-      form#examenForm(method='post', action='', (ngSubmit)="onSubmit()")
+      form#questionForm(method='post', action='', (ngSubmit)="onSubmit()")
         p#questionDomain Domaine : {{question.domain}}
         h2#questionText([innerHtml]="question.question")
         ul#answerList
@@ -16,7 +14,7 @@ block content
         input.next(type='submit', value='{{nextButton}}', [disabled]='disable')
       .dropzone([ngClass]="{'dragenter': addDragEnterClass, 'valid': isValid, 'invalid': isInvalid}", (drop)="onDrop($event)", (dragenter)="onDragEnter()", (dragleave)="onDragLeave()", (dragover)="onDragOver($event)")
         span.unaffectedText([innerHtml]="validityTest")
-      form#abandonExam(method='post', action='./resultats')
+      form#abandon(method='post', action='', (ngSubmit)='giveUp()')
         input(type='submit', value='Abandon')
   section#tableaux
     h1 Statistiques

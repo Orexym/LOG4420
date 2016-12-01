@@ -338,7 +338,7 @@ input:active {
     opacity: 0;
 }
 
-.overlay:target {
+.overlayvisible {
     visibility: visible;
     opacity: 1;
 }
@@ -424,7 +424,7 @@ input:active {
     pointer-events: none;
 }
 
-#testForm, #examenForm {
+#questionForm {
     flex-grow: 2;
 }
 

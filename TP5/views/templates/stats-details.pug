@@ -1,4 +1,4 @@
-#popup1.overlay.clickable
+#popup1.overlay.clickable([ngClass]="{'overlayvisible': !isHidden}")
   a(*ngIf="!isHidden", (click)="hide()")
   .popup
     h2 Statistiques
