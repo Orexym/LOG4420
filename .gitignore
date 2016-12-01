@@ -15,5 +15,4 @@ Thumbs.db
 # NPM files #
 #############
 node_modules/
-client/app/**/*.js
-*.js.map
+TP5/client/app/*.js*
