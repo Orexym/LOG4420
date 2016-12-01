@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input } from '@angular/core';
 import {User} from "../objects/user";
 import {UserService} from "../services/user.service";
 import {QuestionService} from "../services/question.service";
@@ -29,7 +29,7 @@ import {QuestionService} from "../services/question.service";
           <tr *ngFor="let exam of user?.examen?.previousexam | reverser | slice:0:10">
             <td>{{exam.date}}</td>
             <td>{{exam.domain | uppercase}}</td>
-            <td>{{print(exam.score, exam.total)}} %</td>
+            <td>{{calculatePercent(exam.score, exam.total)}} %</td>
           </tr>
         </table>
         <div id="statistics"
@@ -40,6 +40,9 @@ import {QuestionService} from "../services/question.service";
 })
 
 export class StatistiquesComponent implements OnInit {
+
+    static uIDgenerator: number = 0;
+    uID: number;
 
     user: User;
 
@@ -60,10 +63,16 @@ export class StatistiquesComponent implements OnInit {
         private userService: UserService,
         private questionService: QuestionService
     ) {
+        this.uID = StatistiquesComponent.uIDgenerator++;
         this.user = new User();
         questionService.refreshForStats.subscribe( (newUser) => {
             this.user = newUser;
-            console.log("Updated user by refreshForStats in Stats");
+            console.log("Updated user by refreshForStats in Stats by " + this.uID);
+            this.populateStatistics();
+        });
+        userService.newUser.subscribe( (newUser) => {
+            this.user = newUser;
+            console.log("Updated user by newUser in Stats");
             this.populateStatistics();
         });
     }
@@ -76,22 +85,22 @@ export class StatistiquesComponent implements OnInit {
         });
     }
 
-    print(score: number, total: number) : number {
-        return (Math.round(score / total * 100) || 0);
-    }
-
     populateStatistics() : void {
         if(this.user.mode == "examen") {
-            this.scoreCourant = "Score courant : " + this.print(this.user.examen.currentexam.score, this.user.examen.currentexam.questionIndex) + "%";
+            this.scoreCourant = "Score courant : " + this.calculatePercent(this.user.examen.currentexam.score, this.user.examen.currentexam.questionIndex) + "%";
         } else {
-            this.scoreCourant = "Score courant : " + this.print(this.user.test.currenttest.score, this.user.test.currenttest.total) + "%";
+            this.scoreCourant = "Score courant : " + this.calculatePercent(this.user.test.currenttest.score, this.user.test.currenttest.total) + "%";
         }
         this.testScore = (this.user.test.score+this.user.test.currenttest.score || 0) + " / " + (this.user.test.total+this.user.test.currenttest.total || 0);
-        this.examScore = this.print(this.user.examen.score, this.user.examen.total) + "%";
+        this.examScore = this.calculatePercent(this.user.examen.score, this.user.examen.total) + "%";
     }
 
     ngOnInit() : void {
         this.initialise();
+    }
+
+    calculatePercent(score: number, total: number) : number {
+        return (Math.round(score / total * 100) || 0);
     }
 
 }

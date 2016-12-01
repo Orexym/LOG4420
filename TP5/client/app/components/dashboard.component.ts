@@ -35,6 +35,16 @@ export class DashboardComponent implements OnInit {
 	    this.userService.resetScores().then(hasDeleted => {
 	        if(hasDeleted) {
 	            // show banner
+                /*
+                 $("#banner").html("Résultats précédents vidés avec succès");
+                 $("#banner").animate({
+                 right: '20px'
+                 },400)
+                 .delay(2000)
+                 .animate({
+                 right: '-270px'
+                 },400);
+                 */
             }
         })
     }

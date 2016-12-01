@@ -120,6 +120,8 @@ export class QuestionComponent implements OnInit {
     onDrop(event) : void {
         event.preventDefault();
 
+        console.log("Dropped ONCE");
+
         this.draggable = false;
         this.addDragEnterClass = false;
 
@@ -138,10 +140,24 @@ export class QuestionComponent implements OnInit {
 
     onSubmit() : void {
         if(this.isExamenOver) {
-            this.router.navigateByUrl('resultats');
+            this.userService.finishExamen().then(() => {
+                this.router.navigateByUrl('resultats');
+            });
         } else {
             this.reset();
             this.getNextQuestion();
+        }
+    }
+
+    giveUp() : void {
+        if(this.user.mode == "examen") {
+            this.userService.finishExamen().then( () => {
+                this.router.navigateByUrl('resultats');
+            });
+        } else if(this.user.mode == "test") {
+            this.userService.finishTest().then( () => {
+                this.router.navigateByUrl('dashboard');
+            });
         }
     }
 

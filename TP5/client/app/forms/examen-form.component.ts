@@ -3,6 +3,7 @@ import { QuestionService } from '../services/question.service';
 import { Router } from '@angular/router';
 
 import { Examen } from '../objects/examen';
+import {UserService} from "../services/user.service";
 
 @Component({
     selector: 'examen-form',
@@ -43,6 +44,7 @@ export class ExamenComponent implements OnInit {
 
     constructor(
         private questionService: QuestionService,
+        private userService: UserService,
         private router: Router
     ) {
         this.formModel = new Examen("html", 0);
@@ -62,7 +64,7 @@ export class ExamenComponent implements OnInit {
             return;
         }
         this.submitted = true;
-        this.questionService.configureExamen(this.formModel.domain, this.formModel.totalQuestion).then(res => {
+        this.userService.configureExamen(this.formModel.domain, this.formModel.totalQuestion).then(res => {
             this.router.navigateByUrl('question');
         });
     }

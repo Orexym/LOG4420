@@ -33,26 +33,14 @@ export class QuestionService {
         }).catch(this.handleError);
     }
 
-    configureExamen(domain: string, totalQuestions: number): Promise<boolean> {
-        return this.http.put('api/examen/configure', { domain: domain, totalQuestions: totalQuestions }).toPromise().then(res => {
-            return res.status === 200;
-        }).catch(this.handleError);
-    }
-
-    configureTest() : Promise<boolean> {
-        return this.http.put('api/test/configure', {}).toPromise().then(res => {
-            return res.status === 200;
-        }).catch(this.handleError);
-    }
-
     emptyQuestionDatabase() : Promise<boolean> {
-        return this.http.delete('/api/question/emptyDB').toPromise().then(res => {
+        return this.http.delete('api/question/emptyDB').toPromise().then(res => {
             return res.status === 200;
         }).catch(this.handleError);
     }
 
     validateQuestion(attemptedAnswer: string) : Promise<number> {
-        return this.http.post('/api/question/validate', attemptedAnswer).toPromise().then(res => {
+        return this.http.post('api/question/validate', attemptedAnswer).toPromise().then(res => {
             this.refreshForStats.next(res.json().n);
             return res.json().goodAnswer;
         }).catch(this.handleError);

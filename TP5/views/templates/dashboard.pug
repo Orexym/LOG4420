@@ -23,7 +23,7 @@ block content
       div
         a.a2button((click)="showStatsWindow()") D&eacute;tails
       div
-        input#reset(type='button', value='Remise à zéro', (click)="")
+        input#reset(type='button', value='Remise à zéro', (click)="resetStats()")
       #popup1.overlay.clickable
         a(routerLink='/dashboard')
         .popup

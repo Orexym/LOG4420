@@ -3,12 +3,6 @@ extends ../layout
 block content
   section#administration.admin.leftSideBlock
     h1 Administration
-    script.
-      $(document).ready(function() {
-        // On ajoute 2 champs de réponse par défaut
-        addAnswer();
-        addAnswer();
-      });
     div
       div
         h2 Ajouter une question
@@ -34,7 +28,7 @@ block content
     h1 Contrôles
     div
       div
-        input#vider(type='button', value='Vider DB')
+        input#vider(type='button', value='Vider DB', (click)="emptyDB()")
   div.hidden
     div.answerSlate
       label

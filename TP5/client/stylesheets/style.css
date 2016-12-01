@@ -424,7 +424,7 @@ input:active {
     pointer-events: none;
 }
 
-#testForm, #examenForm {
+#questionForm {
     flex-grow: 2;
 }
 
