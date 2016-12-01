@@ -19,10 +19,11 @@ export class DashboardComponent implements OnInit {
     }
 
 	@ViewChild(StatsDetailsPopupComponent)
-	public readonly modal: StatsDetailsPopupComponent;
+	public modal: StatsDetailsPopupComponent;
 
 	showStatsWindow() {
 		console.log("show stats");
+		this.modal.show();
 	}
 
     private initialise() {
@@ -35,16 +36,6 @@ export class DashboardComponent implements OnInit {
 	    this.userService.resetScores().then(hasDeleted => {
 	        if(hasDeleted) {
 	            // show banner
-                /*
-                 $("#banner").html("Résultats précédents vidés avec succès");
-                 $("#banner").animate({
-                 right: '20px'
-                 },400)
-                 .delay(2000)
-                 .animate({
-                 right: '-270px'
-                 },400);
-                 */
             }
         })
     }

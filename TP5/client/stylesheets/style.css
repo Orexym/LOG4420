@@ -338,7 +338,7 @@ input:active {
     opacity: 0;
 }
 
-.overlay:target {
+.overlayvisible {
     visibility: visible;
     opacity: 1;
 }
