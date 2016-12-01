@@ -31,6 +31,14 @@ export class DashboardComponent implements OnInit {
         });
     }
 
+    resetStats() : void {
+	    this.userService.resetScores().then(hasDeleted => {
+	        if(hasDeleted) {
+	            // show banner
+            }
+        })
+    }
+
     ngOnInit() : void {
         this.initialise();
     }

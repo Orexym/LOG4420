@@ -4,7 +4,7 @@ import { Question } from '../objects/question';
 import { QuestionService } from '../services/question.service';
 import { User } from '../objects/user';
 import { UserService } from '../services/user.service';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'my-question',
@@ -40,11 +40,19 @@ export class QuestionComponent implements OnInit {
     ) {
         this.question = new Question();
         this.user = new User();
+        questionService.refreshForQuestion.subscribe( (newUser) => {
+            this.user = newUser;
+            console.log("Updated user by refreshForStats in Question");
+            this.updateView();
+        });
     }
 
     initialise() : void {
-        this.userService.getUser().then(data => {
-            this.user = data;
+        console.log("Must open once");
+        this.userService.getUser().then(newUser => {
+            this.user = newUser;
+            console.log("Updated user by init in Question");
+            this.updateView();
             this.getNextQuestion();
         });
     }
@@ -52,27 +60,13 @@ export class QuestionComponent implements OnInit {
     getNextQuestion() : void {
         this.questionService.getNextQuestion(this.user.mode).then(data => {
             this.question = data;
-            if(this.user.mode == "examen") {
-                this.index = this.user.examen.currentexam.questionIndex;
-                this.examenSeparator = " / " + this.user.examen.currentexam.totalQuestions;
-
-                if(this.user.examen.currentexam.questionIndex >= this.user.examen.currentexam.totalQuestions) {
-                    this.nextButton = "Terminer";
-                    this.isExamenOver = true;
-                }
-
-            } else if(this.user.mode == "test") {
-                this.index = this.user.test.currenttest.total;
-                this.examenSeparator = "";
-            }
-
         });
     }
 
     validateQuestion(attemptedAnswer) : void {
+        console.log();
         this.questionService.validateQuestion(attemptedAnswer).then(data => {
             this.disable = false;
-            this.draggable = false;
             if(data == 1) {
                 this.isValid = true;
                 this.validityTest = "&#x2713;";
@@ -81,6 +75,22 @@ export class QuestionComponent implements OnInit {
                 this.validityTest = "&#x2717;";
             }
         })
+    }
+
+    updateView() : void {
+        if(this.user.mode == "examen") {
+            this.index = this.user.examen.currentexam.questionIndex;
+            this.examenSeparator = " / " + this.user.examen.currentexam.totalQuestions;
+
+            if(this.user.examen.currentexam.questionIndex >= this.user.examen.currentexam.totalQuestions) {
+                this.nextButton = "Terminer";
+                this.isExamenOver = true;
+            }
+
+        } else if(this.user.mode == "test") {
+            this.index = this.user.test.currenttest.total;
+            this.examenSeparator = "";
+        }
     }
 
     // drag events
@@ -136,6 +146,7 @@ export class QuestionComponent implements OnInit {
     }
 
     reset() : void {
+        this.draggable = true;
         this.disable = true;
         this.validityTest = "D&eacute;poser ici";
         this.isInvalid = false;

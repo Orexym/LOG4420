@@ -7,6 +7,7 @@ import { InstructionsComponent }  from '../components/instructions.component';
 import { AdminComponent } from '../components/admin.component';
 
 import { QuestionComponent } from '../components/question.component';
+import {ResultatsComponent} from "../components/resultats.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/index', pathMatch: 'full' },
@@ -14,7 +15,8 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'instructions', component: InstructionsComponent },
     { path: 'question', component: QuestionComponent },
-    { path: 'admin', component: AdminComponent }
+    { path: 'admin', component: AdminComponent },
+    { path: 'resultats', component: ResultatsComponent }
 
 ];
 

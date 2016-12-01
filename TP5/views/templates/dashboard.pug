@@ -3,40 +3,15 @@ extends ../layout
 block content
   section#modes.leftSideBlock
     h1 Tableau de bord
-    script.
-      $(document).ready(function() {
-
-        getQuestionCountTotal();
-
-        var valueSelected = $("#domaine option:selected").val();
-        getQuestionCount(valueSelected);
-      });
     div
       #testRapide
         h2 Mode de test rapide
         test-rapide-form
-        ///form#startTest(method='post', action='./test')
-          input(type='submit', value='Commencer !')
       #examen
         h2 Mode d&apos;examen
         div
           examen-form([exam_flag]="user.exam_flag")
-            ///form#startExamen(method='post', action='./examen')
-              p
-                label(for='domaine') Domaine :
-                span.styled-select
-                  select#domaine(name='domain')
-                    option(value='html') HTML5
-                    option(value='css') CSS3
-                    option(value='js') JavaScript
-              p
-                label(for='nbquestions') Nombre de questions :
-                input#nbquestions(type='number', name='totalQuestions', value='3', step='1', min='1', max='10')
-              input(type='submit', value='Commencer !')
           continuer-exam-form([exam_flag]="user.exam_flag")
-          ///form#continueExamen.hidden(method='post', action='./examen')
-            p Continuer l'examen précédent
-            input(type='submit', value='Continuer !')
       #admin
         h2 Administration
         form#configure(method='get', action='./admin')
@@ -45,24 +20,10 @@ block content
     h1 Statistiques
     div
       my-stats([showGeneralStats]="true", [showExamens]="true")
-      ///table.statistiques
-        caption Statistiques g&eacute;n&eacute;rales
-        tr
-          th Nb tests r&eacute;ussis / effectu&eacute;s
-          th Moyenne examens
-        tr
-          td.testScore
-          td.examScore
-      ///table.statistiques
-        caption R&eacute;sultats d&apos;examen
-        tr.examenList
-          th Examen
-          th Domaine
-          th Score
       div
         a.a2button((click)="showStatsWindow()") D&eacute;tails
       div
-        input#reset(type='button', value='Remise à zéro')
+        input#reset(type='button', value='Remise à zéro', (click)="")
       #popup1.overlay.clickable
         a(routerLink='/dashboard')
         .popup

@@ -13,6 +13,7 @@ import { IndexComponent } from '../components/index.component';
 import { DashboardComponent } from '../components/dashboard.component';
 import { InstructionsComponent }  from '../components/instructions.component';
 import { AdminComponent } from '../components/admin.component';
+import { ResultatsComponent } from "../components/resultats.component";
 
 import { StatsDetailsPopupComponent }  from '../components/stats-details-popup.component';
 import { QuestionComponent } from '../components/question.component';
@@ -42,6 +43,7 @@ import { ReversePipe } from "../pipes/reverse.pipe";
         AdminComponent,
         ContinuerExamenComponent,
         StatistiquesComponent,
+        ResultatsComponent,
         ReversePipe
     ],
     providers: [

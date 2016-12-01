@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+
+  section
+    h1 R&eacute;sultats
+    p Votre r&eacute;sultat final est&nbsp;
+      span#finalScore
+      | %.&nbsp;
+      span#message
+      br
+      | Cliquez&nbsp;
+      a(href='./tableau') ici
+      |  pour retourner au tableau de bord.
+

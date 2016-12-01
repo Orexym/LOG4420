@@ -11,7 +11,7 @@ block content
         p#questionDomain Domaine : {{question.domain}}
         h2#questionText([innerHtml]="question.question")
         ul#answerList
-          li.answerElement(*ngFor="let answer of question?.ans", id="{{answer.value}}", draggable='{{draggable}}', [ngClass]="{'drag': addDragClass}", (dragstart)="onDragStart($event)", (dragend)="onDragEnd()", (mousedown)="onMouseDown()", (mouseup)="onMouseUp()")
+          li.answerElement(*ngFor="let answer of question?.ans", id="{{answer.value}}", [draggable]='draggable', [ngClass]="{'drag': addDragClass}", (dragstart)="onDragStart($event)", (dragend)="onDragEnd()", (mousedown)="onMouseDown()", (mouseup)="onMouseUp()")
             span([innerHtml]="answer.text")
         input.next(type='submit', value='{{nextButton}}', [disabled]='disable')
       .dropzone([ngClass]="{'dragenter': addDragEnterClass, 'valid': isValid, 'invalid': isInvalid}", (drop)="onDrop($event)", (dragenter)="onDragEnter()", (dragleave)="onDragLeave()", (dragover)="onDragOver($event)")
@@ -22,11 +22,3 @@ block content
     h1 Statistiques
     .content
       my-stats([showScoreCourant]="true", [showExamens]="user.mode == 'examen'", [showGeneralStats]="user.mode == 'test'")
-      ///table.statistiques
-        caption R&eacute;sultats d&apos;examen
-        tr.examenList
-          th Examen
-          th Domaine
-          th Score
-      ///#statistics
-        p#scoreCourant Score courant : 0%

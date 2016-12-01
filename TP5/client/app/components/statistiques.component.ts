@@ -26,7 +26,7 @@ import {QuestionService} from "../services/question.service";
             <th>Domaine</th>
             <th>Score</th>
           </tr>
-          <tr *ngFor="let exam of user?.examen?.previousexam | reverser | slice:0:9">
+          <tr *ngFor="let exam of user?.examen?.previousexam | reverser | slice:0:10">
             <td>{{exam.date}}</td>
             <td>{{exam.domain | uppercase}}</td>
             <td>{{print(exam.score, exam.total)}} %</td>
@@ -61,20 +61,19 @@ export class StatistiquesComponent implements OnInit {
         private questionService: QuestionService
     ) {
         this.user = new User();
-        questionService.refresh.subscribe( () => {
-            this.userService.getUser().then(data => {
-                this.user = data;
-                this.populateStatistics();
-            });
-        });
-        userService.newUser.subscribe( (newUser) => {
+        questionService.refreshForStats.subscribe( (newUser) => {
             this.user = newUser;
+            console.log("Updated user by refreshForStats in Stats");
             this.populateStatistics();
         });
     }
 
     private initialise() {
-
+        this.userService.getUser().then(data => {
+            this.user = data;
+            console.log("Updated user by init in Stats");
+            this.populateStatistics();
+        });
     }
 
     print(score: number, total: number) : number {
@@ -83,9 +82,9 @@ export class StatistiquesComponent implements OnInit {
 
     populateStatistics() : void {
         if(this.user.mode == "examen") {
-            this.scoreCourant = "Score courant :" + this.print(this.user.examen.currentexam.score, this.user.examen.currentexam.questionIndex) + "%";
+            this.scoreCourant = "Score courant : " + this.print(this.user.examen.currentexam.score, this.user.examen.currentexam.questionIndex) + "%";
         } else {
-            this.scoreCourant = "Score courant :" + this.print(this.user.test.currenttest.score, this.user.test.currenttest.total) + "%";
+            this.scoreCourant = "Score courant : " + this.print(this.user.test.currenttest.score, this.user.test.currenttest.total) + "%";
         }
         this.testScore = (this.user.test.score+this.user.test.currenttest.score || 0) + " / " + (this.user.test.total+this.user.test.currenttest.total || 0);
         this.examScore = this.print(this.user.examen.score, this.user.examen.total) + "%";
