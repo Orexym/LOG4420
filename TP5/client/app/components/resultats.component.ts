@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from "../objects/user";
 import { UserService } from "../services/user.service";
 
-declare function calculatePercent(score: number, total: number): number;
 const messagesList: string[] = [
     'Score final inacceptable.',
     'Score final &agrave; am&eacute;liorer.',
@@ -36,7 +35,7 @@ export class ResultatsComponent implements OnInit {
              this.user = result;
 
 
-             this.finalScore = calculatePercent(this.user.examen.currentexam.score, this.user.examen.currentexam.totalQuestions);
+             this.finalScore = this.calculatePercent(this.user.examen.currentexam.score, this.user.examen.currentexam.totalQuestions);
              this.palier = Math.floor(this.finalScore / this.step);
              this.message = messagesList[this.palier];
 
@@ -48,4 +47,7 @@ export class ResultatsComponent implements OnInit {
     }
 
 
+    calculatePercent(score: number, total: number) : number {
+        return (Math.round(score / total * 100) || 0);
+    }
 }
