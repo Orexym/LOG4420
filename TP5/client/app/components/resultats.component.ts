@@ -3,7 +3,7 @@ import { User } from "../objects/user";
 import { UserService } from "../services/user.service";
 
 declare function calculatePercent(score: number, total: number): number;
-const messages: string[] = [
+const messagesList: string[] = [
     'Score final inacceptable.',
     'Score final &agrave; am&eacute;liorer.',
     'Score final passable.',
@@ -22,6 +22,7 @@ export class ResultatsComponent implements OnInit {
     step: number = 25;
     finalScore: number;
     palier: number;
+    message: string;
 
     constructor(
         private userService: UserService,
@@ -37,6 +38,7 @@ export class ResultatsComponent implements OnInit {
 
              this.finalScore = calculatePercent(this.user.examen.currentexam.score, this.user.examen.currentexam.totalQuestions);
              this.palier = Math.floor(this.finalScore / this.step);
+             this.message = messagesList[this.palier];
 
         })
     }
