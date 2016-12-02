@@ -35,7 +35,7 @@ export class QuestionService {
 
     emptyQuestionDatabase() : Promise<boolean> {
         return this.http.delete('api/question/emptyDB').toPromise().then(res => {
-            return res.status === 200;
+            return res.status == 200;
         }).catch(this.handleError);
     }
 
@@ -43,6 +43,12 @@ export class QuestionService {
         return this.http.post('api/question/validate', attemptedAnswer).toPromise().then(res => {
             this.refreshForStats.next(res.json().n);
             return res.json().goodAnswer;
+        }).catch(this.handleError);
+    }
+
+    addQuestion(question: any) : Promise<boolean> {
+        return this.http.post('api/question/add', question).toPromise().then(res => {
+            return res.status == 200;
         }).catch(this.handleError);
     }
 

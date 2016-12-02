@@ -446,7 +446,7 @@ router.post('/question/add', function(req, res) {
             console.error("Error " + err);
             res.sendStatus(500);
         }
-        res.status(200).send("1");// Réponse validée
+        res.sendStatus(200);// Réponse validée
     });
     
 });

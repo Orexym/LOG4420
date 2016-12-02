@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { StatsDetailsPopupComponent } from './stats-details-popup.component';
 import { User } from "../objects/user";
 import { UserService } from "../services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'my-dashboard',
@@ -14,6 +15,7 @@ export class DashboardComponent implements OnInit {
 
     constructor(
         private userService: UserService,
+        private router: Router
     ) {
         this.user = new User();
     }
@@ -35,7 +37,16 @@ export class DashboardComponent implements OnInit {
     resetStats() : void {
 	    this.userService.resetScores().then(hasDeleted => {
 	        if(hasDeleted) {
-	            // show banner
+	            /*
+                 $("#banner").html("Résultats précédents vidés avec succès");
+                 $("#banner").animate({
+                 right: '20px'
+                 },400)
+                 .delay(2000)
+                 .animate({
+                 right: '-270px'
+                 },400);
+	             */
             }
         })
     }
@@ -44,5 +55,8 @@ export class DashboardComponent implements OnInit {
         this.initialise();
     }
 
+    gotoAdmin() : void {
+        this.router.navigateByUrl('admin');
+    }
 
 }
