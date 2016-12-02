@@ -12,12 +12,17 @@ import {Router} from "@angular/router";
 export class DashboardComponent implements OnInit {
 
     user: User;
+    
+    bannerText: string;
+    
+    private bannerHidden = true;
 
     constructor(
         private userService: UserService,
         private router: Router
     ) {
         this.user = new User();
+        this.hideBanner();
     }
 
 	@ViewChild(StatsDetailsPopupComponent)
@@ -37,16 +42,9 @@ export class DashboardComponent implements OnInit {
     resetStats() : void {
 	    this.userService.resetScores().then(hasDeleted => {
 	        if(hasDeleted) {
-	            /*
-                 $("#banner").html("Résultats précédents vidés avec succès");
-                 $("#banner").animate({
-                 right: '20px'
-                 },400)
-                 .delay(2000)
-                 .animate({
-                 right: '-270px'
-                 },400);
-	             */
+				this.bannerText = "Scores effacés";
+				this.showBanner();
+				setTimeout(() => this.hideBanner(), 2000);
             }
         })
     }
@@ -57,6 +55,14 @@ export class DashboardComponent implements OnInit {
 
     gotoAdmin() : void {
         this.router.navigateByUrl('admin');
+    }
+    
+    hideBanner() : void {
+		this.bannerHidden = true;
+    }
+    
+    showBanner() : void {
+		this.bannerHidden = false;
     }
 
 }

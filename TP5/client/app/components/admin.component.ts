@@ -22,26 +22,22 @@ export class AdminComponent {
     question: string;
     domain: string;
     trueAnswer: string;
+    
+    bannerText: string;    
+    private bannerHidden = true;
 
     constructor(
        private userService: UserService,
        private questionService: QuestionService
     ) {
-
+        this.hideBanner();
     }
 
     emptyDB() : void {
         this.questionService.emptyQuestionDatabase().then(() => {
-            /*
-             $("#banner").html("DB de questions vidée avec succès");
-             $("#banner").animate({
-             right: '20px'
-             },400)
-             .delay(2000)
-             .animate({
-             right: '-270px'
-             },400);
-             */
+			this.bannerText = "DB de questions vidée avec succès";
+			this.showBanner();
+			setTimeout(() => this.hideBanner(), 2000);
         })
     }
 
@@ -98,4 +94,13 @@ export class AdminComponent {
     validateInput(input: any) : any {
         return input || 0;
     }
+    
+    hideBanner() : void {
+		this.bannerHidden = true;
+    }
+    
+    showBanner() : void {
+		this.bannerHidden = false;
+    }    
+
 }

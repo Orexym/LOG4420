@@ -1,5 +1,5 @@
 header
-  #banner
+  #banner([ngClass]="{'bannerVisible': !bannerHidden}") {{bannerText}}
   -var menu = { 'Accueil': '/index', 'Tableau de bord': '/dashboard', 'Instructions': '/instructions' };
   nav
     .fixed

@@ -491,6 +491,10 @@ input[type=button]#addAnswer {
     text-align: center;
 }
 
+#banner.bannerVisible {
+	right: 20px;
+}
+
 /* Special admin colours */
 
 section.admin h1 {
