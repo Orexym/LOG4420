@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { UserService } from "../services/user.service";
 import { QuestionService } from "../services/question.service";
 
 const map = {
@@ -27,7 +26,6 @@ export class AdminComponent {
     private bannerHidden = true;
 
     constructor(
-       private userService: UserService,
        private questionService: QuestionService
     ) {
         this.hideBanner();
@@ -52,29 +50,16 @@ export class AdminComponent {
     }
 
     addQuestion() : void {
-        console.log("Got here");
-        console.log(this.question);
-        console.log(this.trueAnswer);
-        console.log(this.answerSlates);
-        /*
-        // validate the data entered
-        var trueAnswer = validateStringInput($('input[name=trueAnswer]:checked', '#addQuestion').val());
-        var answers = [];
-        $("#answerinputlist").children().each(function() {
-            answers.push(validateStringInput($(this).children('input[type=text]').val()));
-        });
-
-        // send to server
         this.questionService.addQuestion(
             {
-                "domain": this.domain,
-                "question": this.question,
-                "ans": JSON.stringify(answers),
-                "trueAnswer": trueAnswer
+                "domain": this.validateStringInput(this.domain),
+                "question": this.validateStringInput(this.question),
+                "ans": JSON.stringify(this.validateStringInputByArray(this.answerSlates)),
+                "trueAnswer": this.validateStringInput(this.trueAnswer)
             }
         ).then(() => {
-
-        });*/
+            this.reset();
+        });
     }
 
     mapAnswers() {
@@ -83,11 +68,24 @@ export class AdminComponent {
 
     reset() : void {
          this.disable = false;
+         this.answerSlates = ["", ""];
+         this.trueAnswer = "";
+         this.domain = "";
+         this.question = "";
     }
 
     // validation de string
     validateStringInput(stringInput: string) : string {
         return this.validateInput(stringInput.replace(/[&<>"']/g, function(m) { return map[m]; }));
+    }
+
+    // validation de string
+    validateStringInputByArray(stringInputs: string[]) : string[] {
+        let sanitized: string[] = [];
+        stringInputs.forEach(s => {
+            sanitized.push(this.validateStringInput(s));
+        });
+        return sanitized;
     }
 
     // validation d'objet

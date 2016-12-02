@@ -30,6 +30,7 @@ body {
     background-color: #333333;
     min-width: 768px;
     overflow: hidden;
+    outline: none;
 }
 
 a, a:visited, a:hover, a:focus, a:active {
