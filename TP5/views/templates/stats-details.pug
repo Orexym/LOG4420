@@ -9,11 +9,17 @@
           th Nb tests r&eacute;ussis / effectu&eacute;s
           th Moyenne examens
         tr
-          td.testScore
-          td.examScore
-      table.statistiques
-        caption R&eacute;sultats d&apos;examen
-        tr.examenList
-          th Examen
-          th Domaine
-          th Score
+          td.testScore {{testScore}}
+          td.examScore {{examScore}}
+      .hidescrollbars
+        .scrollingtable
+          table.statistiques
+            caption R&eacute;sultats d&apos;examen
+            tr.examenList
+              th Examen
+              th Domaine
+              th Score
+            tr(*ngFor="let exam of user?.examen?.previousexam | reverser")
+              td {{exam.date}}
+              td {{exam.domain | uppercase}}
+              td {{calculatePercent(exam.score, exam.total)}} %
