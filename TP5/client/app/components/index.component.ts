@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 
 export class IndexComponent {
 	title = 'Accueil'
+	private bannerHidden = true;
 }

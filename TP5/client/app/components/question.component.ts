@@ -15,7 +15,8 @@ export class QuestionComponent implements OnInit {
 
     question: Question;
     user: User;
-
+ 	private bannerHidden = true;
+ 	
     // classes
     addDragClass: boolean = false;
     addDragEnterClass: boolean = false;

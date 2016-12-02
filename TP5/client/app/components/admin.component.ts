@@ -58,6 +58,9 @@ export class AdminComponent {
                 "trueAnswer": this.validateStringInput(this.trueAnswer)
             }
         ).then(() => {
+        	this.bannerText = "Question ajoutée avec succès";
+			this.showBanner();
+			setTimeout(() => this.hideBanner(), 2000);
             this.reset();
         });
     }

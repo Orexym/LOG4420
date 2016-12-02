@@ -22,7 +22,8 @@ export class ResultatsComponent implements OnInit {
     finalScore: number;
     palier: number;
     message: string;
-
+	private bannerHidden = true;
+	
     constructor(
         private userService: UserService,
     ) {
