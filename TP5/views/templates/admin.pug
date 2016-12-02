@@ -6,22 +6,26 @@ block content
     div
       div
         h2 Ajouter une question
-        form#addQuestion(method='post', action='', autocomplete='off')
+        form#addQuestion(method='post', action='', autocomplete='off', (submit)="addQuestion()")
           p
             label(for='domaine') Domaine :
             span.styled-select.admin
-              select#domaine(name='domain')
+              select#domaine(name='domain', [(ngModel)]="domain")
                 option(value='html') HTML5
                 option(value='css') CSS3
                 option(value='js') JavaScript
           p
             label(for='questioninput') Question :
-            input#questioninput(type='text', name='question', required='required', value='')
+            input#questioninput(type='text', name='question', required='required', value='', [(ngModel)]="question")
           p
             label R&eacute;ponses possibles
-            input#addAnswer(type='button', value='+')
+            input#addAnswer(type='button', value='+', [disabled]='disable', (click)="addAnswer()")
             | (Cocher la bonne réponse)
           p#answerinputlist
+            span(*ngFor="let answerSlate of answerSlates; let i = index; trackBy:mapAnswers")
+              label([htmlFor]="i")
+                input(type='radio', name='answersRadio[]', required='required', value="{{i}}", (change)="trueAnswer=$event.target.value")
+              input(type='text' name='ans[]', required='required', [value]="answerSlate", id='{{i}}', (input)="answerSlates[i]=$event.target.value")
 
           input(type='submit', name='submit', value='Ajouter !')
   section#controls.admin
@@ -29,8 +33,4 @@ block content
     div
       div
         input#vider(type='button', value='Vider DB', (click)="emptyDB()")
-  div.hidden
-    div.answerSlate
-      label
-      input(type='radio', name='trueAnswer', required='required')
-      input(type='text' name='ans[]', required='required', value='')
+

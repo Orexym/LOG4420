@@ -7,7 +7,7 @@ import { InstructionsComponent }  from '../components/instructions.component';
 import { AdminComponent } from '../components/admin.component';
 
 import { QuestionComponent } from '../components/question.component';
-import {ResultatsComponent} from "../components/resultats.component";
+import { ResultatsComponent } from "../components/resultats.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/index', pathMatch: 'full' },

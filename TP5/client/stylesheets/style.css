@@ -97,8 +97,12 @@ section.leftSideBlock div p > label {
     text-align: right;
 }
 
-section.leftSideBlock#administration div p > label {
-    width: 20%;
+section.leftSideBlock#administration div p > span  {
+    display: block;
+}
+
+section.leftSideBlock#administration div p label {
+    width: inherit;
     text-align: left;
     line-height: 30px;
 }

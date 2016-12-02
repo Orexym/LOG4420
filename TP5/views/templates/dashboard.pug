@@ -14,7 +14,7 @@ block content
           continuer-exam-form([exam_flag]="user.exam_flag")
       #admin
         h2 Administration
-        form#configure(method='get', action='./admin')
+        form#configure(method='get', action='', (submit)="gotoAdmin()")
           input(type='submit', value='Configurer les questions')
   section#tableaux
     h1 Statistiques

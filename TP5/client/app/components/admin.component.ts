@@ -17,6 +17,12 @@ const map = {
 
 export class AdminComponent {
 
+    disable: boolean = false;
+    answerSlates: string[] = ["", ""];
+    question: string;
+    domain: string;
+    trueAnswer: string;
+
     constructor(
        private userService: UserService,
        private questionService: QuestionService
@@ -24,7 +30,7 @@ export class AdminComponent {
 
     }
 
-    emptyDb() : void {
+    emptyDB() : void {
         this.questionService.emptyQuestionDatabase().then(() => {
             /*
              $("#banner").html("DB de questions vidée avec succès");
@@ -39,15 +45,48 @@ export class AdminComponent {
         })
     }
 
+    addAnswer() : void {
+        if(this.answerSlates.length >= 6) {
+            return;
+        }
+        this.answerSlates.push("");
+        if(this.answerSlates.length >= 6) {
+            this.disable = true;
+        }
+    }
 
+    addQuestion() : void {
+        console.log("Got here");
+        console.log(this.question);
+        console.log(this.trueAnswer);
+        console.log(this.answerSlates);
+        /*
+        // validate the data entered
+        var trueAnswer = validateStringInput($('input[name=trueAnswer]:checked', '#addQuestion').val());
+        var answers = [];
+        $("#answerinputlist").children().each(function() {
+            answers.push(validateStringInput($(this).children('input[type=text]').val()));
+        });
+
+        // send to server
+        this.questionService.addQuestion(
+            {
+                "domain": this.domain,
+                "question": this.question,
+                "ans": JSON.stringify(answers),
+                "trueAnswer": trueAnswer
+            }
+        ).then(() => {
+
+        });*/
+    }
+
+    mapAnswers() {
+        return this;
+    }
 
     reset() : void {
-        /*
-         $("#addAnswer").prop("disabled", false);
-         $("#answerinputlist").empty();
-         $("input[type=text]").val("");
-         $("input[type=radio]").removeProp('checked');
-         */
+         this.disable = false;
     }
 
     // validation de string
