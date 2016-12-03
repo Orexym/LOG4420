@@ -1,5 +1,6 @@
 import {Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {UserService} from "../services/user.service";
 
 @Component({
     selector: 'continuer-exam-form',
@@ -21,13 +22,18 @@ export class ContinuerExamenComponent implements OnInit {
     exam_flag: number;
 
     constructor(
+        private userService: UserService,
         private router: Router
     ) {
     }
 
     onSubmit() : void {
         this.submitted = true;
-        this.router.navigateByUrl('question');
+        this.userService.continueExamen().then((willContinue) => {
+            if(willContinue) {
+                this.router.navigateByUrl('question');
+            }
+        });
     }
 
     initialise() : void {

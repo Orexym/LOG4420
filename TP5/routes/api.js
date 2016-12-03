@@ -149,7 +149,8 @@ router.put('/examen/configure', function(req, res) {
                                 'examen.currentexam.questionIndex': 0,
                                 'examen.currentexam.questionID': newQuestion._id,
                                 'examen.currentexam.questionDomain': req.body.domain.toUpperCase(),
-                                'examen.currentexam.totalQuestions': parseInt(req.body.totalQuestions)
+                                'examen.currentexam.totalQuestions': parseInt(req.body.totalQuestions),
+                                'mode': 'examen'
                             }
                         }, function (err) {
                             if (err) {
@@ -168,6 +169,33 @@ router.put('/examen/configure', function(req, res) {
     });
 });
 
+// continue exam
+router.put('/examen/continue', function(req, res) {
+    
+    User.findOne({}, function(err, user) {
+        if(err) {
+            console.log("Could not find user in examen/continue");
+            console.error("Error " + err);
+            res.sendStatus(500);
+        } else {
+                
+            User.update( {_id : user._id }, {
+                $set : {
+                    'mode': "examen"
+                }
+            }, function(err) {
+                if(err) {
+                    console.log("Could not update user in examen/continue");
+                    console.error("Error " + err);
+                    res.sendStatus(500);
+                }
+                
+                res.sendStatus(200);
+            });
+        }
+    });
+});
+
 // validate question
 router.post('/question/validate', function(req, res) {
     
@@ -179,9 +207,9 @@ router.post('/question/validate', function(req, res) {
         } else {
             
             var qid;
-            if(user.exam_flag == 1) {
+            if(user.mode == "examen") {
                 qid = user.examen.currentexam.questionID;
-            } else {
+            } else if(user.mode == "test") {
                 qid = user.test.currenttest.questionID;
             }
             
@@ -197,7 +225,7 @@ router.post('/question/validate', function(req, res) {
                         score = 1;
                     }
                     
-                    if(user.exam_flag == 1 && user.mode == "examen") {
+                    if(user.mode == "examen") {
                         var domaine = user.examen.currentexam.questionDomain.toUpperCase();
                         Question.findOneRandom({domain: domaine}, function(err, newQuestion) {
                             if(err) {
@@ -476,6 +504,8 @@ router.delete('/user/resetScores', function(req, res) {
             $set : {
                 'test.score' : 0,
                 'test.total' : 0,
+                'test.currenttest.score' : 0,
+                'test.currenttest.total' : 0,
                 'examen.score' : 0,
                 'examen.total' : 0,
                 'examen.previousexam' : []

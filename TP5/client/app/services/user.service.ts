@@ -25,6 +25,12 @@ export class UserService {
         }).catch(this.handleError);
     }
 
+    continueExamen() : Promise<boolean> {
+        return this.http.put('api/examen/continue', {}).toPromise().then(res => {
+            return res.status == 200;
+        }).catch(this.handleError);
+    }
+
     configureTest() : Promise<boolean> {
         return this.http.put('api/test/configure', {}).toPromise().then(res => {
             return res.status == 200;

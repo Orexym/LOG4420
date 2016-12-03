@@ -43,6 +43,7 @@ export class QuestionComponent implements OnInit {
         this.user = new User();
         questionService.refreshForQuestion.subscribe( (newUser) => {
             this.user = newUser;
+            console.log(this.user.mode.toUpperCase());
             console.log("Updated user by refreshForStats in Question");
             this.updateView();
         });
@@ -52,6 +53,7 @@ export class QuestionComponent implements OnInit {
         console.log("Must open once");
         this.userService.getUser().then(newUser => {
             this.user = newUser;
+            console.log(this.user.mode.toUpperCase());
             console.log("Updated user by init in Question");
             this.updateView();
             this.getNextQuestion();
