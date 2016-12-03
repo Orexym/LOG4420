@@ -1,14 +1,6 @@
 import { Component } from '@angular/core';
 import { QuestionService } from "../services/question.service";
 
-const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-};
-
 @Component({
     selector: 'my-admin',
     templateUrl: 'templates/admin'
@@ -52,10 +44,10 @@ export class AdminComponent {
     addQuestion() : void {
         this.questionService.addQuestion(
             {
-                "domain": this.validateStringInput(this.domain),
-                "question": this.validateStringInput(this.question),
+                "domain": this.validateInput(this.domain),
+                "question": this.validateInput(this.question),
                 "ans": JSON.stringify(this.validateStringInputByArray(this.answerSlates)),
-                "trueAnswer": this.validateStringInput(this.trueAnswer)
+                "trueAnswer": this.validateInput(this.trueAnswer)
             }
         ).then(() => {
         	this.bannerText = "Question ajoutée avec succès";
@@ -78,21 +70,17 @@ export class AdminComponent {
     }
 
     // validation de string
-    validateStringInput(stringInput: string) : string {
-        return this.validateInput(stringInput.replace(/[&<>"']/g, function(m) { return map[m]; }));
-    }
-
-    // validation de string
     validateStringInputByArray(stringInputs: string[]) : string[] {
         let sanitized: string[] = [];
         stringInputs.forEach(s => {
-            sanitized.push(this.validateStringInput(s));
+            sanitized.push(this.validateInput(s));
         });
         return sanitized;
     }
 
     // validation d'objet
     validateInput(input: any) : any {
+        console.log(input);
         return input || 0;
     }
     

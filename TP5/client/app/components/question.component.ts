@@ -1,4 +1,4 @@
-import {Component, OnInit, SecurityContext} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 
 import { Question } from '../objects/question';
 import { QuestionService } from '../services/question.service';
@@ -15,8 +15,9 @@ export class QuestionComponent implements OnInit {
 
     question: Question;
     user: User;
- 	private bannerHidden = true;
- 	
+
+    private bannerHidden = true;
+
     // classes
     addDragClass: boolean = false;
     addDragEnterClass: boolean = false;

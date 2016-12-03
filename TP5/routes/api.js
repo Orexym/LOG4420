@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var md5 = require('md5');
+var html = require('html-entities');
 var server_functions = require('../lib/server_functions');
 
 var mongoose = require('mongoose');
@@ -99,42 +100,55 @@ router.put('/examen/configure', function(req, res) {
             res.sendStatus(500);
         } else {
             
+            var domaine = req.body.domain.toUpperCase();
             if(user.exam_flag == 1) { // is in mid-exam
-                
-                var date = new Date().toLocaleDateString();
-                User.update( {_id : user._id }, {
-                    $push: {
-                        'examen.previousexam': {
-                            'score': user.examen.currentexam.score,
-                            'total': user.examen.currentexam.totalQuestions,
-                            'domain': user.examen.currentexam.questionDomain,
-                            'date': ""+date
-                        }
-                    },
-                    $inc: {
-                        'examen.score': user.examen.currentexam.score,
-                        'examen.total': user.examen.currentexam.totalQuestions
-                    },
-                    $set : {
-                        'examen.currentexam.score' : 0,
-                        'examen.currentexam.questionIndex' : 0,
-                        'examen.currentexam.questionDomain' : req.body.domain.toUpperCase(),
-                        'examen.currentexam.totalQuestions' : parseInt(req.body.totalQuestions),
-                        'mode': "examen"
-                    }
-                }, function(err) {
-                    if(err) {
-                        console.log("Could not update user in examen/configure");
+    
+                Question.findOneRandom({domain: domaine}, function (err, newQuestion) {
+                    if (err) {
+                        console.log("Could not find new question in examen/configure");
                         console.error("Error " + err);
                         res.sendStatus(500);
+                    } else {
+    
+                        var date = new Date().toLocaleDateString();
+                        User.update( {_id : user._id }, {
+                            $push: {
+                                'examen.previousexam': {
+                                    'score': user.examen.currentexam.score,
+                                    'total': user.examen.currentexam.totalQuestions,
+                                    'domain': user.examen.currentexam.questionDomain,
+                                    'date': ""+date
+                                }
+                            },
+                            $inc: {
+                                'examen.score': user.examen.currentexam.score,
+                                'examen.total': user.examen.currentexam.totalQuestions
+                            },
+                            $set : {
+                                'examen.currentexam.score' : 0,
+                                'examen.currentexam.questionIndex' : 0,
+                                'examen.currentexam.questionID': newQuestion._id,
+                                'examen.currentexam.questionDomain' : req.body.domain.toUpperCase(),
+                                'examen.currentexam.totalQuestions' : parseInt(req.body.totalQuestions),
+                                'mode': "examen"
+                            }
+                        }, function(err) {
+                            if(err) {
+                                console.log("Could not update user in examen/configure");
+                                console.error("Error " + err);
+                                res.sendStatus(500);
+                            }
+        
+                            res.sendStatus(200);
+                        });
+            
                     }
-                    
-                    res.sendStatus(200);
                 });
+                
+                
                 
             } else { // exam was finished or never started
                 
-                var domaine = req.body.domain.toUpperCase();
                 Question.findOneRandom({domain: domaine}, function (err, newQuestion) {
                     if (err) {
                         console.log("Could not find new question in examen/configure");

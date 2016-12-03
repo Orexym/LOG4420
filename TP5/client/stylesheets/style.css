@@ -458,6 +458,10 @@ input:active {
     font-style: italic;
 }
 
+.mini {
+    font-size: 11px;
+}
+
 .hidden {
     display: none;
 }

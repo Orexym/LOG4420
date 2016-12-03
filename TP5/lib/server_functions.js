@@ -1,19 +1,18 @@
-function cleanString(stringInput) {
-    var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    
-    return isNull(stringInput.replace(/[&<>"']/g, function(m) { return map[m]; }));
+var Entities = require('html-entities').AllHtmlEntities;
+var html = new Entities();
+
+function cleanString(input) {
+    return isNull(emphasis(html.encode(input)));
+}
+
+function emphasis(input) {
+    return input.replace(/`([^`]+)`/g, '<span class="special">$1</span>');
 }
 
 function isNull(input) {
     return input || 0;
 }
 
-module.exports.validateStringInput = cleanString;
 module.exports.validateInput = isNull;
+module.exports.validateStringInput = cleanString;
 

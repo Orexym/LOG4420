@@ -17,6 +17,7 @@ block content
           p
             label(for='questioninput') Question :
             input#questioninput(type='text', name='question', required='required', value='', [(ngModel)]="question")
+            span.mini Pour accentuer du texte, le mettre entre `back-ticks`
           p
             label R&eacute;ponses possibles
             input#addAnswer(type='button', value='+', [disabled]='disable', (click)="addAnswer()")
